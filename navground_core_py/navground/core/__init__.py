@@ -33,10 +33,15 @@ from ._navground import (normalize_angle, orientation_of, rotate, to_absolute,
                          to_absolute_point, to_relative, to_relative_point,
                          unit, uses_doubles)
 from .types import FloatType
-from .property import PropertyField, PropertyFieldLike, register
+
+# isort: split
 
 Vector2: TypeAlias = Annotated[numpy.typing.NDArray[FloatType], '[2, 1]']
 Vector2Like: TypeAlias = Annotated[numpy.typing.ArrayLike, FloatType, '[2, 1]']
+
+# isort: split
+
+from .property import PropertyField, PropertyFieldLike, register
 
 
 def zeros2() -> Vector2:
@@ -58,8 +63,6 @@ Projection: TypeAlias = Callable[[Vector2Like, SupportsFloat, SupportsFloat],
 Cell: TypeAlias = Annotated[numpy.typing.NDArray[numpy.int32], '[2, 1]']
 CellLike: TypeAlias = Annotated[numpy.typing.ArrayLike, numpy.int32, '[2, 1]']
 Map: TypeAlias = Annotated[numpy.typing.NDArray[numpy.uint8], '[m, n]']
-
-# isort: split
 
 from . import behavior_modulations, behaviors, kinematics
 

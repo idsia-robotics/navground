@@ -1,14 +1,14 @@
 from __future__ import annotations
 
 from collections.abc import Callable, Collection, Sequence
-from typing import (Annotated, Any, Literal, SupportsFloat, SupportsInt,
-                    TypeAlias, TypeVar, cast, get_args, get_origin,
-                    get_type_hints)
+from typing import (Any, SupportsFloat, SupportsInt, TypeAlias, TypeVar, cast,
+                    get_args, get_origin, get_type_hints)
 
-import numpy
-from navground.core import Vector2, Vector2Like, uses_doubles
+from navground.core import Vector2, Vector2Like, FloatType
 from navground.core.schema import SchemaModifier
+import numpy
 
+Vector2_Simplified = numpy.ndarray[Any, numpy.dtype[FloatType]]
 ScalarPropertyField: TypeAlias = bool | int | float | str | Vector2
 ListPropertyField: TypeAlias = list[bool] | list[int] | list[float] | list[
     str] | list[Vector2]
@@ -38,7 +38,7 @@ def _get_type(getter: Callable[..., Any],
     type_: type[Any]
     item_type: type[Any] | None
     if type_hint:
-        if type_hint == Vector2:
+        if type_hint in (Vector2, Vector2_Simplified):
             type_ = Vector2
             item_type = None
         else:

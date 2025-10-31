@@ -121,7 +121,7 @@ def load_group(value: str) -> Scenario.Group | None:
     return AgentSampler.load(value)
 
 
-_copy_doc(load_group, Scenario.Group)
+_copy_doc(load_group, AgentSampler)
 
 
 def dump(obj: SUPPORT_YAML) -> str:

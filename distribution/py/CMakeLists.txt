@@ -34,3 +34,5 @@ set(CMAKE_CXX_STANDARD 17)
 add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/../../navground_core_py ${CMAKE_CURRENT_BINARY_DIR}/navground_core_py)
 add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/../../navground_sim_py ${CMAKE_CURRENT_BINARY_DIR}/navground_sim_py)
 
+set(CMAKE_C_STANDARD 99)
+set(CMAKE_CXX_STANDARD 17)

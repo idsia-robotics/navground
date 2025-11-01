@@ -183,6 +183,10 @@ def get_loaded_plugins(kinds: Iterable[str] = (
     return _get_loaded_core_plugins(kinds)
 
 
+def _has_python_method(obj: object) -> bool:
+    return any(hasattr(getattr(obj, name), '__code__') for name in dir(obj))
+
+
 @functools.singledispatch
 def uses_python(item: Any) -> bool:
     """
@@ -196,10 +200,9 @@ def uses_python(item: Any) -> bool:
 
 @uses_python.register
 def _(agent: Agent) -> bool:
-    return any((isinstance(agent.behavior, navground.core.Behavior),
-                isinstance(agent.kinematics, navground.core.Kinematics),
-                isinstance(agent.state_estimation,
-                           StateEstimation), isinstance(agent.task, Task)))
+    return any(obj and _has_python_method(obj)
+               for obj in (agent.behavior, agent.kinematics,
+                           agent.state_estimation, agent.task))
 
 
 @uses_python.register

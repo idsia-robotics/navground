@@ -23,7 +23,7 @@ def world2enki(cs: core.Vector2Like) -> tuple[float, float]:
 class Thymio(pyenki.Thymio2):
 
     targets: Iterator[tuple[tuple[float, float, float], tuple[float, float]]]
-    thymios: set['Thymio']
+    thymios: set[Thymio]
 
     def __init__(self,
                  behavior_name: str = "HL",

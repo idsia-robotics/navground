@@ -41,7 +41,7 @@ Vector2Like: TypeAlias = Annotated[numpy.typing.ArrayLike, FloatType, '[2, 1]']
 
 # isort: split
 
-from .property import PropertyField, PropertyFieldLike, register
+from .property import PropertyField, PropertyFieldLike, register  # noqa: E402
 
 
 def zeros2() -> Vector2:
@@ -64,7 +64,7 @@ Cell: TypeAlias = Annotated[numpy.typing.NDArray[numpy.int32], '[2, 1]']
 CellLike: TypeAlias = Annotated[numpy.typing.ArrayLike, numpy.int32, '[2, 1]']
 Map: TypeAlias = Annotated[numpy.typing.NDArray[numpy.uint8], '[m, n]']
 
-from . import behavior_modulations, behaviors, kinematics
+from . import behavior_modulations, behaviors, kinematics    # noqa: E402
 
 
 def _copy_doc(fn: Any, cls: Any) -> None:

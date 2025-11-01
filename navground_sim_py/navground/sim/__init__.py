@@ -7,7 +7,7 @@ if hasattr(os, "add_dll_directory") and "NAVGROUND_DLL_PATH" in os.environ:
 
 import functools
 from collections.abc import Callable, Iterable
-from typing import TYPE_CHECKING, Annotated, Any, TypeAlias
+from typing import TYPE_CHECKING, Any, TypeAlias
 
 if TYPE_CHECKING:
     import tqdm
@@ -15,8 +15,6 @@ if TYPE_CHECKING:
 import importlib.metadata
 
 import navground.core
-import numpy
-import numpy.typing
 from navground.core import _copy_doc
 from navground.core import get_loaded_plugins as _get_loaded_core_plugins
 from navground.core import get_loaded_py_plugins as _get_loaded_py_core_plugins
@@ -44,7 +42,7 @@ SUPPORT_YAML: TypeAlias = (navground.core.SUPPORT_YAML | Task | StateEstimation
 TaskCallback: TypeAlias = Callable[[list[float]], None]
 Bounds: TypeAlias = tuple[navground.core.Vector2, navground.core.Vector2]
 
-from . import scenarios, state_estimations, tasks
+from . import scenarios, state_estimations, tasks  # noqa: E402
 
 
 def load_state_estimation(value: str) -> StateEstimation | None:
@@ -257,8 +255,8 @@ World.render_kwargs = {}
 World._repr_svg_ = repr_svg
 
 # isort: stop
-from .recorded_experiment import RecordedExperiment  # noqa: E402
-from .recorded_experiment import RecordedExperimentalRun
+from .recorded_experiment import (  # noqa: E402
+    RecordedExperiment, RecordedExperimentalRun)
 
 __all__ = [
     'Entity', 'Obstacle', 'Wall', 'World', 'Agent', 'Experiment', 'Scenario',

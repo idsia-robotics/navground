@@ -14,7 +14,9 @@ ScalarPropertyField: TypeAlias = bool | int | float | str | Vector2
 ListPropertyField: TypeAlias = list[bool] | list[int] | list[float] | list[
     str] | list[Vector2]
 PropertyField: TypeAlias = ScalarPropertyField | ListPropertyField
-PropertyFieldLike: TypeAlias = bool | SupportsInt | SupportsFloat | str | Vector2Like | Sequence[bool] | Sequence[SupportsInt] | Sequence[SupportsFloat] | Sequence[str] | Sequence[Vector2Like]
+PropertyFieldLike: TypeAlias = bool | SupportsInt | SupportsFloat | str | Vector2Like | Sequence[
+    bool] | Sequence[SupportsInt] | Sequence[SupportsFloat] | Sequence[
+        str] | Sequence[Vector2Like]
 
 T = TypeVar('T', bound=Any)
 
@@ -26,10 +28,10 @@ def _get_scalar_type_name(type_: type[ScalarPropertyField]) -> str:
 
 
 def _is_list(scalar_type_name: str, value: Any) -> bool:
-    if scalar_type_name == 'vector':
-        if (type(value) in (list, tuple) and len(value) == 2
-                and all(type(x) in (bool, int, float) for x in value)):
-            return False
+    if (scalar_type_name == 'vector'
+            and (type(value) in (list, tuple) and len(value) == 2
+                 and all(type(x) in (bool, int, float) for x in value))):
+        return False
     return type(value) in (list, tuple)
 
 

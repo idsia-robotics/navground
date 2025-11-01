@@ -17,6 +17,7 @@
 - Exposed `Entity.reset_uid` in Python.
 - Branch name to build infos (concatenated to the output of `git describe`).
 - Added several type aliases.
+- Added added `mypy` tests for `navground_core_py`, `navground_sim_py`, `navground_examples_py`, and `navground_minimal_plugin_py`.
 
 ### Changed
 - Upgraded to Pybind11 v3. Among others changes, this brings more accurate type hints. For example, methods that accept a C++ float, are now annotated to accept `typing.SupportsFloat`. This requires users to change the type annotation in their code if they are overriding navground methods (only relevant for static type checking, has no impact when executing the code).
@@ -24,6 +25,7 @@
 	- Updated stubs.
 - Added methods `BoundingBox.bounds` and `World.bounds` that replace functions in `navground.sim.bounds`.
 - `core.FloaType` is now configured at build time and can be used as a type alias.
+- Replaced `super().__init__(...)` with `Base.__init__(self, ...)` for classes that inherit from a Python trampoline, as specified by Pybind11 (https://pybind11.readthedocs.io/en/stable/advanced/classes.html)
 
 ### Removed
 

@@ -9,7 +9,7 @@ from navground import core
 class RandomSyncBehaviorGroup(core.BehaviorGroup):
 
     def __init__(self) -> None:
-        super().__init__()
+        core.BehaviorGroup.__init__(self)
         self.rg = numpy.random.default_rng(seed=0)
         self.step = 0
         self.cmds: list[core.Twist2] = []

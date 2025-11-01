@@ -11,7 +11,7 @@ class MyEnvironmentState(core.EnvironmentState):
 class MyBehavior(core.Behavior):
 
     def __init__(self, kinematics: core.Kinematics | None = None, radius: float = 0):
-        super().__init__(kinematics, radius)
+        core.Behavior.__init__(self, kinematics, radius)
         self._env_state = MyEnvironmentState()
 
     def get_environment_state(self) -> core.EnvironmentState:

@@ -5,7 +5,7 @@ import math
 import os
 from collections import ChainMap
 from collections.abc import Callable, Collection
-from typing import TYPE_CHECKING, Any, cast
+from typing import TYPE_CHECKING, Any
 
 import numpy as np
 import numpy.typing

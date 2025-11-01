@@ -13,10 +13,14 @@ add_test(NAME cli-echo COMMAND ${prefix} echo scenario
 add_test(NAME cli-sample COMMAND ${prefix} sample ${root}/scenario/cross.yaml)
 
 add_test(NAME cli-sample-uniform
-         COMMAND ${prefix} sample "{sampler: uniform, from: 0, to: 10}" --type int --number 10)
+         COMMAND ${prefix} sample "{sampler: uniform, from: 0, to: 10}" --type
+                 int --number 10)
 
 add_test(NAME cli-run COMMAND ${prefix} run ${root}/experiment/cross.yaml)
 
 add_test(NAME cli-video
          COMMAND ${prefix} record_video ${root}/experiment/cross.yaml
                  /tmp/video.mp4 --factor 100)
+
+add_test(NAME mypy COMMAND ${Python_EXECUTABLE} -m mypy -p navground.sim
+                           --strict)

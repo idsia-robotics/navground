@@ -1,18 +1,17 @@
 from __future__ import annotations
 
 import math
-from typing import Any, cast
 from collections.abc import Callable, Mapping, Sequence
+from typing import TYPE_CHECKING, Any, cast
 
 import numpy as np
 import numpy.typing
-from matplotlib import pyplot as plt
-from matplotlib.axes import Axes
-from matplotlib.figure import Figure
-from matplotlib.lines import Line2D
-from matplotlib.patches import Arrow, Circle
-from matplotlib.transforms import Affine2D, Bbox
 from navground import core, sim
+
+if TYPE_CHECKING:
+    from matplotlib.axes import Axes
+    from matplotlib.figure import Figure
+    from matplotlib.transforms import Affine2D
 
 Indices = list[int] | slice
 
@@ -53,6 +52,7 @@ def plot_agent(ax: Axes,
     :param      transform:            An optional affine transformation to apply to the plot
     :param      zorder:               The Z-order
     """
+    from matplotlib.patches import Arrow, Circle
     if transform:
         kwargs = {'transform': transform + ax.transData}
     else:
@@ -131,6 +131,10 @@ def plot_world(ax: Axes,
     :param      zorder:          The Z-order
     :param      kwargs:          Keywords passed to :py:func:`plot_agent`
     """
+    from matplotlib.lines import Line2D
+    from matplotlib.patches import Circle
+    from matplotlib.transforms import Bbox
+
     if transform:
         patch_kwargs = {'transform': transform + ax.transData}
     else:
@@ -298,6 +302,8 @@ def plot_runs(runs: Sequence[sim.ExperimentalRun],
 
     :returns:   The figure
     """
+    from matplotlib import pyplot as plt
+
     rows = math.ceil(len(runs) / columns)
     if not fig:
         fig, _ = plt.subplots(rows, columns)
@@ -328,6 +334,8 @@ def transform_from_pose(pose: core.Pose2) -> Affine2D:
 
     :returns:   The corresponding affine transformation
     """
+    from matplotlib.transforms import Affine2D
+
     return Affine2D().rotate(pose.orientation).translate(*pose.position)
 
 

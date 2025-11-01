@@ -387,7 +387,7 @@ Example
       
    class MotorController(core.BehaviorModulation, name="MotorController"):
        def __init__(self, k: float = 0.1):
-           super().__init__()
+           core.BehaviorModulation.__init__(self)
            self._k = k
            self.torques: np.ndarray = np.zeros(2)
    

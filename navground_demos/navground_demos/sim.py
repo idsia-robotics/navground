@@ -11,7 +11,7 @@ from navground import core, sim
 class ThymioDemo(sim.Scenario, name="PyThymioDemo"):
 
     def __init__(self, behavior_type: str = "HL"):
-        super().__init__()
+        sim.Scenario.__init__(self)
         self._behavior_type = behavior_type
 
     def init_world(self,

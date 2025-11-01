@@ -4,7 +4,6 @@ import argparse
 import sys
 from typing import SupportsFloat
 
-import numpy
 from navground import core
 
 

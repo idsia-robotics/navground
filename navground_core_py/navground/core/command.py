@@ -1,8 +1,7 @@
 from __future__ import annotations
 
-import collections.abc
 import argparse
-import typing
+import collections.abc
 
 from navground import core
 

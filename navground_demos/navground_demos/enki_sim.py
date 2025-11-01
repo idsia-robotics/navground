@@ -13,7 +13,7 @@ from .enki import enki2world, world2enki
 class ThymioWithAgent(pyenki.Thymio2):
 
     def __init__(self, agent: sim.Agent):
-        super().__init__(use_aseba_units=False)
+        super().__init__()
         self.agent = agent
         agent.enki_object = self  # type: ignore
 

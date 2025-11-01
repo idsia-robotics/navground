@@ -46,7 +46,7 @@ if(TARGET yaml-cpp::yaml-cpp)
 else()
   set(yaml-cpp-target yaml-cpp)
 endif()
-find_package(Eigen3 3.3 REQUIRED NO_MODULE)
+find_package(Eigen3 3...5 REQUIRED NO_MODULE)
 
 set(ORCA
     src/behaviors/ORCA/RVO2/Agent.cc src/behaviors/ORCA/RVO2/Obstacle.cc

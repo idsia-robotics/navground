@@ -1,6 +1,7 @@
 cmake_minimum_required(VERSION 3.19)
 
 set(CMAKE_OSX_DEPLOYMENT_TARGET 10.15)
+set(CMAKE_POLICY_VERSION_MINIMUM 3.5)
 
 project(navground VERSION 0.7.0)
 

@@ -1,4 +1,6 @@
 cmake_minimum_required(VERSION 3.19)
+set(CMAKE_POLICY_VERSION_MINIMUM 3.5)
+
 project(navground_py VERSION 0.7.0)
 
 set(Python_FIND_VIRTUALENV FIRST)

@@ -5,7 +5,7 @@ include(FetchContent)
 FetchContent_Declare(
   argparse
   GIT_REPOSITORY https://github.com/p-ranav/argparse.git
-  GIT_TAG v3.1
+  GIT_TAG v3.2
   GIT_SHALLOW TRUE
   OVERRIDE_FIND_PACKAGE)
 set(ARGPARSE_INSTALL
@@ -19,7 +19,7 @@ FetchContent_MakeAvailable(argparse)
 FetchContent_Declare(
   Eigen3
   GIT_REPOSITORY https://gitlab.com/libeigen/eigen.git
-  GIT_TAG 3.4.0
+  GIT_TAG 5.0.0
   GIT_SHALLOW TRUE
   OVERRIDE_FIND_PACKAGE)
 set(EIGEN_BUILD_PKGCONFIG
@@ -30,6 +30,9 @@ set(EIGEN_BUILD_TESTING
     CACHE INTERNAL "")
 set(EIGEN_BUILD_DOC
     OFF
+    CACHE INTERNAL "")
+set(EIGEN_BUILD_CMAKE_PACKAGE
+    ON
     CACHE INTERNAL "")
 FetchContent_MakeAvailable(Eigen3)
 
@@ -52,7 +55,7 @@ FetchContent_MakeAvailable(yaml-cpp)
 FetchContent_Declare(
   geos
   GIT_REPOSITORY https://github.com/libgeos/geos.git
-  GIT_TAG 3.13.0
+  GIT_TAG 3.14.1
   GIT_SHALLOW TRUE
   OVERRIDE_FIND_PACKAGE)
 set(GEOS_BUILD_DEVELOPER
@@ -80,7 +83,7 @@ set(HDF5_EXPORTED_TARGETS
 FetchContent_Declare(
   hdf5
   GIT_REPOSITORY https://github.com/HDFGroup/hdf5.git
-  GIT_TAG hdf5_1.14.5
+  GIT_TAG hdf5_1.14.6
   GIT_SHALLOW TRUE
   OVERRIDE_FIND_PACKAGE)
 
@@ -114,10 +117,13 @@ FetchContent_MakeAvailable(hdf5)
 
 FetchContent_Declare(
   HighFive
-  GIT_REPOSITORY https://github.com/BlueBrain/HighFive.git
-  GIT_TAG v2.10.1
+  GIT_REPOSITORY https://github.com/highfive-devs/highfive
+  GIT_TAG v3.2.0
   GIT_SHALLOW TRUE
   OVERRIDE_FIND_PACKAGE)
+set(HIGHFIVE_FIND_HDF5
+    OFF
+    CACHE INTERNAL "")
 set(HIGHFIVE_USE_BOOST
     OFF
     CACHE INTERNAL "")

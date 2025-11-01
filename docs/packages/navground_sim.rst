@@ -9,7 +9,7 @@ Dependencies
 
 - :doc:`navground_core </packages/navground_core>` the core library
 - `GEOS <https://libgeos.org>`_ for computational geometry
-- `HighFive <https://github.com/BlueBrain/HighFive>`_ to write HDF5 files
+- `HighFive <https://github.com/highfive-devs/highfive>`_ to write HDF5 files
 
 Libraries
 =========

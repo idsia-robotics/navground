@@ -310,7 +310,7 @@ You need to first install Hdf5 from source
 
    git clone https://github.com/HDFGroup/hdf5.git src/hdf5
    cd src/hdf5
-   git checkout tags/hdf5-1_14_0
+   git checkout hdf5_1.14.6
    cd ../..
    colcon build --merge-install --merge-install --cmake-args -DCMAKE_BUILD_TYPE=Release --packages-select HDF5 
 
@@ -340,7 +340,7 @@ Then, install HighFive.
 
 .. code-block:: console
 
-   git clone https://github.com/BlueBrain/HighFive.git src/HighFive
+   git clone https://github.com/highfive-devs/highfive src/HighFive
    colcon build --merge-install --cmake-args -DCMAKE_BUILD_TYPE=Release -DHIGHFIVE_UNIT_TESTS=OFF -DHIGHFIVE_USE_BOOST=OFF -DHIGHFIVE_BUILD_DOCS=OFF --packages-select HighFive
 
 Package

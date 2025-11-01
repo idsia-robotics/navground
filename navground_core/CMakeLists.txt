@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.11)
+cmake_minimum_required(VERSION 3.19)
 project(navground_core VERSION 0.7.0)
 
 # Default to C99
@@ -130,6 +130,8 @@ endif()
 # TRUE)
 
 target_compile_options(navground_core PUBLIC ${COMPILE_OPTIONS})
+set_target_properties(navground_core PROPERTIES VERSION ${CMAKE_PROJECT_VERSION} SOVERSION 1)
+# set_target_properties(navground_core PROPERTIES NO_SONAME 1)
 
 if(BUILD_STANDALONE_CMDS)
 

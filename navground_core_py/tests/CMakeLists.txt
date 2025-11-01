@@ -12,3 +12,6 @@ add_test(NAME cli-echo
 
 add_test(NAME properties COMMAND ${Python_EXECUTABLE} -m pytest
                                  ${CMAKE_CURRENT_SOURCE_DIR}/test_properties.py)
+
+add_test(NAME mypy COMMAND ${Python_EXECUTABLE} -m mypy -p navground.core
+                           --strict)

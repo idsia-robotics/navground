@@ -80,7 +80,7 @@ jobs:
           python-version: "3.12"
       - name: install pip deps
         run: |
-          pip install pytest wheel setuptools setuptools_git_versioning git+https://github.com/jeguzzi/pybind11_mkdoc@rst
+          pip install pytest wheel setuptools setuptools_git_versioning git+https://github.com/jeguzzi/pybind11_mkdoc@rst mypy
       - name: navground_core_py
         uses: ./.github/actions/build_test_install_py
         with:

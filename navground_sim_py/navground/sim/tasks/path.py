@@ -77,7 +77,7 @@ class PathTask(sim.Task, name="Path"):
         :param      points:     The points defining the curve
         :param      tolerance:  The goal tolerance
         """
-        super().__init__()
+        sim.Task.__init__(self)
         self._points = points
         self._tolerance = tolerance
 

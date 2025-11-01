@@ -28,7 +28,7 @@ class Thymio(pyenki.Thymio2):
     def __init__(self,
                  behavior_name: str = "HL",
                  obstacles: list[pyenki.CircularObject] = []):
-        super().__init__(use_aseba_units=False)
+        super().__init__()
         behavior = core.Behavior.make_type(behavior_name)
         if not behavior:
             print(f"No behavior with name {behavior_name}", file=sys.stderr)

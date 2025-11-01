@@ -98,7 +98,7 @@ def register(
         class C(T, name="C"):
 
             def __init__(self):
-                super().__init__()
+                T.__init__(self)
                 self._my_field = True
 
             @property

@@ -214,7 +214,7 @@ class SocialForceBehavior(Behavior, name="SocialForce"):
             v: Potential = ExponentialPotential(2.1, 0.3),
             u: Potential = ExponentialPotential(10, 0.2),
     ):
-        super().__init__(kinematics, radius)
+        Behavior.__init__(self, kinematics, radius)
         self._tau = tau
         self._step_duration = step_duration
         self.cos_phi = np.cos(phi)

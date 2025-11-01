@@ -13,7 +13,7 @@ class MyCustomBehavior(core.Behavior, name="Custom"):
     def __init__(self,
                  kinematics: core.Kinematics | None = None,
                  radius: float = 0) -> None:
-        super().__init__(kinematics, radius)
+        core.Behavior.__init__(self, kinematics, radius)
         self._param = False
         self._readonly_param = 1
 

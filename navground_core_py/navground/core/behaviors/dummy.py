@@ -26,7 +26,7 @@ class PyDummyBehavior(Behavior, name="PyDummy"):
     def __init__(self,
                  kinematics: Kinematics | None = None,
                  radius: float = 0.0):
-        super().__init__(kinematics, radius)
+        Behavior.__init__(self, kinematics, radius)
         self._tired = False
 
     @property

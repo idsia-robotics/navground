@@ -80,6 +80,11 @@ set(HDF5_EXPORTED_TARGETS
     "navground_simTargets"
     CACHE INTERNAL "")
 if(WIN32)
+# Disabled to avoid an error
+# when building on the github windows-2022 runner:
+#   
+#   CMake Error at build/_deps/hdf5-src/src/CMakeLists.txt:1206 (get_target_property):
+#   get_target_property() called with non-existent target "ZLIB::ZLIB". 
 set(HDF5_ENABLE_Z_LIB_SUPPORT
     OFF
     CACHE INTERNAL "")

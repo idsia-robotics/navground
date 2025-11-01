@@ -17,7 +17,7 @@ jobs:
         os:
           # - ubuntu-22.04
           # - ubuntu-22.04-arm
-          - windows-2022
+          - windows-latest
           # - macos-latest
           # - macos-latest-intel
         python-version:
@@ -60,6 +60,10 @@ jobs:
       - name: install deps
         run: pip install wheel setuptools setuptools_git_versioning repairwheel git+https://github.com/jeguzzi/pybind11_mkdoc@rst
       - uses: ilammy/msvc-dev-cmd@v1
+      - uses: repolevedavaj/install-nsis@v1.1.0
+        if: runner.os == 'Windows'
+        with:
+          nsis-version: '3.11'
       - name: build wheel
         if: runner.os == 'Windows'
         run: |

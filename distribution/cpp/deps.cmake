@@ -79,6 +79,11 @@ set(HDF5_EXTERNALLY_CONFIGURED
 set(HDF5_EXPORTED_TARGETS
     "navground_simTargets"
     CACHE INTERNAL "")
+if(WIN32)
+set(HDF5_ENABLE_Z_LIB_SUPPORT
+    OFF
+    CACHE INTERNAL "")
+endif()
 
 FetchContent_Declare(
   hdf5

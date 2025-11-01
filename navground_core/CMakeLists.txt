@@ -46,7 +46,7 @@ if(TARGET yaml-cpp::yaml-cpp)
 else()
   set(yaml-cpp-target yaml-cpp)
 endif()
-find_package(Eigen3 3.3 REQUIRED NO_MODULE)
+find_package(Eigen3 3.3...5 REQUIRED NO_MODULE)
 
 set(ORCA
     src/behaviors/ORCA/RVO2/Agent.cc src/behaviors/ORCA/RVO2/Obstacle.cc
@@ -130,6 +130,8 @@ endif()
 # TRUE)
 
 target_compile_options(navground_core PUBLIC ${COMPILE_OPTIONS})
+set_target_properties(navground_core PROPERTIES VERSION ${CMAKE_PROJECT_VERSION} SOVERSION 1)
+# set_target_properties(navground_core PROPERTIES NO_SONAME 1)
 
 if(BUILD_STANDALONE_CMDS)
 

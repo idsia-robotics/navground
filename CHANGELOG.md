@@ -288,6 +288,7 @@ Patch release that remove deprecated type hints and add support for the recently
 - Updated type hints to removed deprecated `typing` import and resolved all errors reported by `mypy --strict` and `ruff` with `flake8-pep585` and `pyupgrade`.
 - Fixed that `navground_py schema sim` outputted a schema without registered core classes by moving static definitions of registers to separate cpp files.
 - Fixed `--register` argument of `navground_py schema`.
+- Fixed `use_python` which relied on specific Python base classes (removed in v0.3); we now look for the presence of Python methods (i.e., variables with a `__code__` attribute).
 
 ### Changed
 

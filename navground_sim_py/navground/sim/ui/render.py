@@ -1,18 +1,20 @@
 from __future__ import annotations
 
-from typing import Any, cast
+from typing import TYPE_CHECKING, Any, cast
 
-import cairosvg  # type: ignore[import-untyped]
 import numpy as np
 import numpy.typing
 
 from .. import World
 from .to_svg import svg_for_world
 
+if TYPE_CHECKING:
+    from cairosvg.surface import PNGSurface  # type: ignore[import-untyped]
+
 Image = np.typing.NDArray[np.uint8]
 
 
-def _surface_to_npim(surface: cairosvg.surface.PNGSurface) -> Image:
+def _surface_to_npim(surface: PNGSurface) -> Image:
     """ Transforms a Cairo surface into a numpy array. """
     im = +np.frombuffer(surface.get_data(), np.uint8)
     H, W = surface.get_height(), surface.get_width()
@@ -24,6 +26,8 @@ def _svg_to_npim(svg_bytestring: str,
                  dpi: int = 96,
                  background_color: str = "snow") -> Image:
     """ Renders a svg bytestring as a RGB image in a numpy array """
+    import cairosvg  # type: ignore[import-untyped]
+
     tree = cairosvg.parser.Tree(bytestring=svg_bytestring)
     surf = cairosvg.surface.PNGSurface(tree,
                                        None,
@@ -77,6 +81,8 @@ def png_for_world(
 
     :returns:   A png bytestring
     """
+    import cairosvg
+
     svg_data = svg_for_world(world, **kwargs)
     return cast(
         bytes,
@@ -104,6 +110,8 @@ def pdf_for_world(world: World,
 
     :returns:   A pdf bytestring
     """
+    import cairosvg
+
     svg_data = svg_for_world(world, **kwargs)
     return cast(
         bytes,

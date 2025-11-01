@@ -189,16 +189,16 @@ struct PyTask : public Task, public PyHasRegister<Task> {
     PYBIND11_OVERRIDE(void, Task, prepare, agent, world);
   }
 
-  void close() override { PYBIND11_OVERRIDE(void, Task, close); }
+  void close() override { PYBIND11_OVERRIDE(void, Task, close, ); }
 
   size_t get_log_size() const override {
-    PYBIND11_OVERRIDE(size_t, Task, get_log_size);
+    PYBIND11_OVERRIDE(size_t, Task, get_log_size, );
   }
 
   OVERRIDE_DECODE
   OVERRIDE_ENCODE
 
-  bool done() const override { PYBIND11_OVERRIDE(bool, Task, done); }
+  bool done() const override { PYBIND11_OVERRIDE(bool, Task, done, ); }
 };
 
 struct PyStateEstimation : public StateEstimation,
@@ -219,7 +219,7 @@ struct PyStateEstimation : public StateEstimation,
     PYBIND11_OVERRIDE(void, StateEstimation, prepare, agent, world);
   }
 
-  void close() override { PYBIND11_OVERRIDE(void, StateEstimation, close); }
+  void close() override { PYBIND11_OVERRIDE(void, StateEstimation, close, ); }
 
   OVERRIDE_DECODE
   OVERRIDE_ENCODE
@@ -233,7 +233,7 @@ struct PySensor : public Sensor, public PyStateEstimation {
   using Sensor::Sensor;
 
   Sensor::Description get_description() const override {
-    PYBIND11_OVERRIDE_PURE(Sensor::Description, Sensor, get_description);
+    PYBIND11_OVERRIDE_PURE(Sensor::Description, Sensor, get_description, );
   }
 
   void update(Agent *agent, World *world, EnvironmentState *state) override {

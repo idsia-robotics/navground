@@ -224,9 +224,9 @@ public:
 
   /* Trampolines (need one for each virtual function) */
 
-  void prepare() override { PYBIND11_OVERRIDE(void, Behavior, prepare); }
+  void prepare() override { PYBIND11_OVERRIDE(void, Behavior, prepare, ); }
 
-  void close() override { PYBIND11_OVERRIDE(void, Behavior, close); }
+  void close() override { PYBIND11_OVERRIDE(void, Behavior, close, ); }
 
   Twist2 compute_cmd_internal(ng_float_t time_step) override {
     PYBIND11_OVERRIDE(Twist2, Behavior, compute_cmd_internal, time_step);
@@ -282,7 +282,7 @@ public:
   }
 
   EnvironmentState *get_environment_state() override {
-    PYBIND11_OVERRIDE(EnvironmentState *, Behavior, get_environment_state);
+    PYBIND11_OVERRIDE(EnvironmentState *, Behavior, get_environment_state, );
   }
 
   OVERRIDE_DECODE
@@ -324,16 +324,16 @@ struct PyKinematics : public Kinematics, public PyHasRegister<Kinematics> {
                       time_step);
   }
   bool is_wheeled() const override {
-    PYBIND11_OVERRIDE(bool, Kinematics, is_wheeled);
+    PYBIND11_OVERRIDE(bool, Kinematics, is_wheeled, );
   }
   unsigned dof() const override {
-    PYBIND11_OVERRIDE_PURE(unsigned, Kinematics, dof);
+    PYBIND11_OVERRIDE_PURE(unsigned, Kinematics, dof, );
   }
   ng_float_t get_max_angular_speed() const override {
-    PYBIND11_OVERRIDE(ng_float_t, Kinematics, get_max_angular_speed);
+    PYBIND11_OVERRIDE(ng_float_t, Kinematics, get_max_angular_speed, );
   }
   ng_float_t get_max_speed() const override {
-    PYBIND11_OVERRIDE(ng_float_t, Kinematics, get_max_angular_speed);
+    PYBIND11_OVERRIDE(ng_float_t, Kinematics, get_max_speed, );
   }
 
   OVERRIDE_DECODE
@@ -369,18 +369,20 @@ public:
   /* Trampolines (need one for each virtual function) */
 
   size_t get_group_hash() const override {
-    PYBIND11_OVERRIDE(size_t, BehaviorGroupMember, get_group_hash);
+    PYBIND11_OVERRIDE(size_t, BehaviorGroupMember, get_group_hash, );
   }
 
   void prepare() override {
-    PYBIND11_OVERRIDE(void, BehaviorGroupMember, prepare);
+    PYBIND11_OVERRIDE(void, BehaviorGroupMember, prepare, );
   }
 
-  void close() override { PYBIND11_OVERRIDE(void, BehaviorGroupMember, close); }
+  void close() override {
+    PYBIND11_OVERRIDE(void, BehaviorGroupMember, close, );
+  }
 
   EnvironmentState *get_environment_state() override {
     PYBIND11_OVERRIDE(EnvironmentState *, BehaviorGroupMember,
-                      get_environment_state);
+                      get_environment_state, );
   }
 
   // OVERRIDE_DECODE

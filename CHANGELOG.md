@@ -26,6 +26,12 @@
 - Added methods `BoundingBox.bounds` and `World.bounds` that replace functions in `navground.sim.bounds`.
 - `core.FloaType` is now configured at build time and can be used as a type alias.
 - Replaced `super().__init__(...)` with `Base.__init__(self, ...)` for classes that inherit from a Python trampoline, as specified by Pybind11 (https://pybind11.readthedocs.io/en/stable/advanced/classes.html)
+- Added Python 3.14 and updated dependencies:
+	- argparse v3.2
+  - eigen v5.0.0
+  - geos 3.14.1
+  - hdf5 1.14.6
+  - highfive 3.2.0
 
 ### Removed
 

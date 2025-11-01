@@ -17,6 +17,7 @@ jobs:
       - uses: actions/checkout@v4
         with:
           path: src/navground
+          fetch-depth: 0
       - run: mkdir src/navground/distribution/cpp/build
       - name: cache build/_deps directory
         uses: actions/cache@v4

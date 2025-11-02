@@ -2,23 +2,15 @@
 Local GridMap
 =============
 
-.. autoclass:: navground.sim.state_estimations.LocalGridMapStateEstimation
+.. py:currentmodule:: navground.sim.state_estimations
+
+.. autoenum:: navground.sim.state_estimations.LocalGridMapStateEstimation.FootprintType
+
+
+.. autoclass:: LocalGridMapStateEstimation
    :members:
-   :exclude-members: __new__
+   :exclude-members: __new__, FootprintType
+   :show-inheritance:
 
 
-   .. autoclass::    navground.sim.state_estimations.LocalGridMapStateEstimation.FootprintType
-      :members: __init__, name, value
-      :exclude-members: __new__
-   
-      .. autoattribute:: navground.sim.state_estimations.LocalGridMapStateEstimation.FootprintType.rectangular
-   
-         a rectangular area
-   
-      .. autoattribute:: navground.sim.state_estimations.LocalGridMapStateEstimation.FootprintType.circular
-   
-         a circular are
-   
-      .. autoattribute:: navground.sim.state_estimations.LocalGridMapStateEstimation.FootprintType.none
-   
-         no footprint
+

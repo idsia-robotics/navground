@@ -3,6 +3,7 @@ GoToPose
 ========
 
 .. autoclass:: navground.sim.tasks.GoToPoseTask
-   :members: point, orientation, tolerance, angular_tolerance
+   :members: point, orientation
    :exclude-members: __new__
+   :show-inheritance:
 

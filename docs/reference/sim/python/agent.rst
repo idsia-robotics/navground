@@ -9,4 +9,4 @@ Agent
 
 .. note::
 
-   Class :py:class:`Agent` supports `dynamic attributes <attributes python>`.
+   Class :py:class:`navground.sim.Agent` supports `dynamic attributes <attributes python>`.

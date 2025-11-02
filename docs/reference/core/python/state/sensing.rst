@@ -12,4 +12,5 @@ Sensing
     :exclude-members: __init__, __new__
 
 .. autoclass:: navground.core.SensingState
-    :members:
+   :members:
+   :show-inheritance:

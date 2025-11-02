@@ -76,16 +76,26 @@ class Potential:
     """A monotonic decreasing function of the distance"""
 
     def __call__(self, x: float) -> tuple[float, Vector2]:
-        "Return the value and gradient of the potential"
+        """Returns the value and gradient of the potential
+
+        :param x:  The distance
+        :returns:  ``(value, gradient)``
+        """
         return 0.0, zeros2()
 
 
 class ExponentialPotential(Potential):
     """
-    V(x) = a exp(-x/r)
+    A potential of form :math:`V(x) = a e^{-\\frac{x}{r}}`
     """
 
     def __init__(self, a: float, r: float):
+        """
+        Constructs a new instance.
+
+        :param      a:    The amplitude
+        :param      r:    The scale
+        """
         self.a = a
         self.r = r
 
@@ -119,9 +129,42 @@ class SocialForceBehavior(Behavior, name="SocialForce"):
     *State*: :py:class:`GeometricState`
     """
 
+    def __init__(self,
+                 kinematics: Kinematics | None = None,
+                 radius: float = 0.0,
+                 tau: float = 0.5,
+                 step_duration: float = 1.0,
+                 phi: float = 1.75,
+                 c: float = 0.5,
+                 v: Potential | None = None,
+                 u: Potential | None = None):
+        """
+        Constructs a new instance.
+
+        :param      kinematics:     The kinematics
+        :param      radius:         The radius
+        :param      tau:            The tau
+        :param      step_duration:  The step duration
+        :param      phi:            The phi
+        :param      c:              The weight of 'non-in-sight' forces
+        :param      v:              The neighbor potential. Will use default if not set.
+        :param      u:              The obstacle potential. Will use default if not set.
+        """
+        Behavior.__init__(self, kinematics, radius)
+        self._tau = tau
+        self._step_duration = step_duration
+        self.cos_phi = np.cos(phi)
+        self._c = c
+        self.v = v or ExponentialPotential(2.1, 0.3)
+        self.u = u or ExponentialPotential(10, 0.2)
+        self._state = GeometricState()
+
     @property
     @register(0.5, "Relaxation time", schema.positive)
     def tau(self) -> float:
+        """
+        The relaxation time [s].
+        """
         return self._tau
 
     @tau.setter
@@ -131,6 +174,9 @@ class SocialForceBehavior(Behavior, name="SocialForce"):
     @property
     @register(1.0, "Step duration", schema.positive)
     def step_duration(self) -> float:
+        """
+        The duration of a step [s].
+        """
         return self._step_duration
 
     @step_duration.setter
@@ -140,6 +186,9 @@ class SocialForceBehavior(Behavior, name="SocialForce"):
     @property
     @register(1.75, "Field of sight half-length")
     def phi(self) -> float:
+        """
+        The field of sight half-length
+        """
         return float(np.arccos(self.cos_phi))
 
     @phi.setter
@@ -149,6 +198,9 @@ class SocialForceBehavior(Behavior, name="SocialForce"):
     @property
     @register(0.5, "Weight of 'non-in-sight' forces", schema.positive)
     def c(self) -> float:
+        """
+        The weight of 'non-in-sight' forces
+        """
         return self._c
 
     @c.setter
@@ -158,6 +210,9 @@ class SocialForceBehavior(Behavior, name="SocialForce"):
     @property
     @register(2.1, "Neighbors potential amplitude")
     def v_a(self) -> float:
+        """
+        The neighbors potential amplitude
+        """
         if isinstance(self.v, ExponentialPotential):
             return self.v.a
         return 0
@@ -170,6 +225,9 @@ class SocialForceBehavior(Behavior, name="SocialForce"):
     @property
     @register(0.3, "Neighbors potential length scale", schema.positive)
     def v_r(self) -> float:
+        """
+        The neighbors potential length scale
+        """
         if isinstance(self.v, ExponentialPotential):
             return self.v.r
         return 0
@@ -182,6 +240,9 @@ class SocialForceBehavior(Behavior, name="SocialForce"):
     @property
     @register(10, "Obstacles potential amplitude")
     def u_a(self) -> float:
+        """
+        The obstacles potential amplitude
+        """
         if isinstance(self.u, ExponentialPotential):
             return self.u.a
         return 0
@@ -194,6 +255,9 @@ class SocialForceBehavior(Behavior, name="SocialForce"):
     @property
     @register(0.2, "Obstacles potential length scale", schema.positive)
     def u_r(self) -> float:
+        """
+        The obstacles potential length scale
+        """
         if isinstance(self.u, ExponentialPotential):
             return self.u.r
         return 0
@@ -203,27 +267,12 @@ class SocialForceBehavior(Behavior, name="SocialForce"):
         if isinstance(self.u, ExponentialPotential):
             self.u.r = max(0, value)
 
-    def __init__(
-            self,
-            kinematics: Kinematics | None = None,
-            radius: float = 0.0,
-            tau: float = 0.5,
-            step_duration: float = 1.0,
-            phi: float = 1.75,
-            c: float = 0.5,
-            v: Potential = ExponentialPotential(2.1, 0.3),
-            u: Potential = ExponentialPotential(10, 0.2),
-    ):
-        Behavior.__init__(self, kinematics, radius)
-        self._tau = tau
-        self._step_duration = step_duration
-        self.cos_phi = np.cos(phi)
-        self._c = c
-        self.v = v
-        self.u = u
-        self._state = GeometricState()
-
     def get_environment_state(self) -> GeometricState:
+        """
+        Overridden to define a :py:class:`GeometricState`.
+
+        :returns:   The environment state.
+        """
         return self._state
 
     def potential(self) -> Callable[[Vector2], float]:
@@ -299,6 +348,14 @@ class SocialForceBehavior(Behavior, name="SocialForce"):
     # TODO fluctuations
     def desired_velocity_towards_velocity(self, target_velocity: Vector2Like,
                                           time_step: SupportsFloat) -> Vector2:
+        """
+        Overridden: applies social forces to deviate from target velocity.
+
+        :param      target_velocity:  The target velocity
+        :param      time_step:        The time step
+
+        :returns:   The desired velocity
+        """
         # acceleration towards desired velocity
         target_velocity = np.asarray(target_velocity)
         speed = np.linalg.norm(target_velocity)
@@ -316,13 +373,25 @@ class SocialForceBehavior(Behavior, name="SocialForce"):
         force += sum(
             self.weighted(self.segment_repulsion_force(line), e, -1)
             for line in self._state.line_obstacles)
-        desired_velocity = self.actuated_twist.velocity + float(time_step) * force
+        desired_velocity = self.actuated_twist.velocity + float(
+            time_step) * force
         # no need to clamp norm ... this will be done the superclass
         # are we sure?
         return desired_velocity
 
-    def desired_velocity_towards_point(self, point: Vector2Like, speed: SupportsFloat,
+    def desired_velocity_towards_point(self, point: Vector2Like,
+                                       speed: SupportsFloat,
                                        time_step: SupportsFloat) -> Vector2:
+        """
+        Overridden: computes an optimal target velocity and calls
+        :py:meth:`desired_velocity_towards_velocity`.
+
+        :param      point:      The point
+        :param      speed:      The speed
+        :param      time_step:  The time step
+
+        :returns:   The desired velocity
+        """
         # Target is in general an area,
         # then target position is the closed point in that area
         delta = np.asarray(point) - self.position

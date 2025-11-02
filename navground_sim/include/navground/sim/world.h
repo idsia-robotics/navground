@@ -751,7 +751,8 @@ public:
    * @param[in]  bool  Whether to raise an exception if
    * the entity is not found.
    *
-   * @throws     std::exception If strict is set and the entity is not found.
+   * @throws     std::runtime_error If strict is set and the entity is not
+   * found.
    *
    * @return     The entity or nullptr if not found and strict is not set.
    */

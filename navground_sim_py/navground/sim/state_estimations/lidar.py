@@ -45,6 +45,9 @@ class PyLidarStateEstimation(sim.Sensor, name="pyLidar",
     @property
     @sim.register(-np.pi, "Start angle")
     def start_angle(self) -> float:
+        """
+        The lowest visible relative angle [rad].
+        """
         return self._start_angle
 
     @start_angle.setter
@@ -54,6 +57,9 @@ class PyLidarStateEstimation(sim.Sensor, name="pyLidar",
     @property
     @sim.register(2 * np.pi, "Field of view", schema.positive)
     def field_of_view(self) -> float:
+        """
+        The field of view [rad].
+        """
         return self._field_of_view
 
     @field_of_view.setter
@@ -63,6 +69,9 @@ class PyLidarStateEstimation(sim.Sensor, name="pyLidar",
     @property
     @sim.register(4.0, "Range", schema.positive)
     def range(self) -> float:
+        """
+        The range of view
+        """
         return self._range
 
     @range.setter
@@ -72,6 +81,9 @@ class PyLidarStateEstimation(sim.Sensor, name="pyLidar",
     @property
     @sim.register(11, "Resolution", schema.strict_positive)
     def resolution(self) -> int:
+        """
+        The number of range measurements per scan.
+        """
         return self._resolution
 
     @resolution.setter
@@ -80,6 +92,13 @@ class PyLidarStateEstimation(sim.Sensor, name="pyLidar",
 
     def update(self, agent: sim.Agent, world: sim.World,
                state: core.EnvironmentState) -> None:
+        """
+        Overridden: set state field "range" with range measurements.
+
+        :param      agent:  The agent
+        :param      world:  The world
+        :param      state:  The state
+        """
         if not isinstance(state, core.SensingState):
             return
         self._cc.setup(pose=agent.pose,
@@ -97,6 +116,12 @@ class PyLidarStateEstimation(sim.Sensor, name="pyLidar",
         buffer.data = ranges
 
     def get_description(self) -> dict[str, core.BufferDescription]:
+        """
+        Overridden: associates an buffer of shape :py:attr:`resolution`
+        to key "range".
+
+        :returns:   The buffer description.
+        """
         desc = core.BufferDescription([self.resolution], float, 0.0,
                                       self.range)
         return {self.get_field_name("range"): desc}

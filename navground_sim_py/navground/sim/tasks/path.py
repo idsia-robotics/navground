@@ -85,7 +85,7 @@ class PathTask(sim.Task, name="Path"):
     @sim.register([], "points", schema.longer_than(1))
     def points(self) -> list[core.Vector2]:
         """
-        :returns:    The points defining the curve
+        The points defining the curve
         """
         return self._points
 
@@ -97,7 +97,7 @@ class PathTask(sim.Task, name="Path"):
     @sim.register(1.0, "tolerance", schema.positive)
     def tolerance(self) -> float:
         """
-        :returns:   The goal tolerance
+        The goal tolerance
         """
         return self._tolerance
 
@@ -106,18 +106,29 @@ class PathTask(sim.Task, name="Path"):
         self._tolerance = max(0, value)
 
     def done(self) -> bool:
+        """
+        Overridden: always returns False.
+
+        :returns:   False
+        """
         return False
 
     @property
     def path(self) -> core.Path | None:
         """
-        :returns:   The path or None if not enough points are provided
+        The path or None if not enough points are provided
         """
         if len(self.points) > 1:
             return get_path(self.points)
         return None
 
     def prepare(self, agent: sim.Agent, world: sim.World) -> None:
+        """
+        Overridden: initializes the controller to follow the path if set.
+
+        :param      agent:  The agent
+        :param      world:  The world
+        """
         path = self.path
         if path:
             agent.controller.follow_path(path, self.tolerance)

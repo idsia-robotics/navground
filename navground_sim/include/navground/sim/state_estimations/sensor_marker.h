@@ -253,7 +253,7 @@ struct NAVGROUND_SIM_EXPORT MarkerStateEstimation : public Sensor {
   /**
    * @brief      Runs an update
    *
-   * Like \ref update but without writing a \ref core::SensingState.
+   * Like \ref Sensor::update but without writing a \ref core::SensingState.
    *
    * @param      agent  The agent
    * @param      world  The world

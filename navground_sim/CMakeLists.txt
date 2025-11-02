@@ -98,7 +98,7 @@ add_library(
   src/state_estimations/sensor_lidar.cpp
   src/state_estimations/sensor_discs.cpp
   src/state_estimations/sensor_boundary.cpp
-  src/state_estimations/sensor_combination.cpp
+  # src/state_estimations/sensor_combination.cpp
   src/state_estimations/sensor_odometry.cpp
   src/state_estimations/gridmap_state_estimation.cpp
   src/state_estimations/sensor_marker.cpp

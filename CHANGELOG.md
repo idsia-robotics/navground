@@ -37,6 +37,7 @@
 
 - `navground_utils`
 - `navground.sim.bounds`
+- `SensorCombination` (deprecated in 0.5)
 
 ## [0.6.0] 2026-06-07
 

@@ -18,6 +18,7 @@
 - Branch name to build infos (concatenated to the output of `git describe`).
 - Added several type aliases.
 - Added added `mypy` tests for `navground_core_py`, `navground_sim_py`, `navground_examples_py`, and `navground_minimal_plugin_py`.
+- Argument `strict` to `get_entity` to raise an exception if the entity uid is not found.
 
 ### Changed
 - Upgraded to Pybind11 v3. Among others changes, this brings more accurate type hints. For example, methods that accept a C++ float, are now annotated to accept `typing.SupportsFloat`. This requires users to change the type annotation in their code if they are overriding navground methods (only relevant for static type checking, has no impact when executing the code).

@@ -483,12 +483,12 @@ template <typename T = Agent> struct convert_world {
     }
     if (node["obstacles"]) {
       for (const auto &c : node["obstacles"]) {
-        rhs.add_obstacle(c.as<Obstacle>());
+        rhs.add_obstacle(c.as<std::shared_ptr<Obstacle>>());
       }
     }
     if (node["walls"]) {
       for (const auto &c : node["walls"]) {
-        rhs.add_wall(c.as<Wall>());
+        rhs.add_wall(c.as<std::shared_ptr<Wall>>());
       }
     }
     if (node["bounding_box"]) {

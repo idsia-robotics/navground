@@ -11,6 +11,7 @@
 #include <algorithm>
 #include <memory>
 #include <set>
+#include <stdexcept>
 #include <utility>
 #include <vector>
 
@@ -391,7 +392,7 @@ public:
    *
    * @param[in]  wall  The wall
    */
-  void add_wall(const Wall &wall);
+  void add_wall(const std::shared_ptr<Wall> &wall);
   /**
    * @brief      Adds a disc the world as a static obstacle
    *
@@ -403,7 +404,7 @@ public:
    *
    * @param[in]  obstacle  The obstacle
    */
-  void add_obstacle(const Obstacle &obstacle);
+  void add_obstacle(const std::shared_ptr<Obstacle> &obstacle);
 
   /**
    * @brief      Adds a random obstacles in the world bounding box
@@ -747,12 +748,19 @@ public:
    * @brief      Find an entity by identifier
    *
    * @param[in]  uid   The entity uid
+   * @param[in]  bool  Whether to raise an exception if
+   * the entity is not found.
    *
-   * @return     The entity or nullptr if not found.
+   * @throws     std::exception If strict is set and the entity is not found.
+   *
+   * @return     The entity or nullptr if not found and strict is not set.
    */
-  Entity *get_entity(unsigned uid) {
+  Entity *get_entity(unsigned uid, bool strict = false) {
     if (entities.count(uid)) {
       return entities.at(uid);
+    }
+    if (strict) {
+      throw std::runtime_error("No entity with uid " + std::to_string(uid));
     }
     return nullptr;
   }

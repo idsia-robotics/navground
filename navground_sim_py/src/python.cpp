@@ -1552,11 +1552,13 @@ Returns the YAML schema.
            py::overload_cast<const Disc &>(&World::add_obstacle),
            py::arg("disc"), DOC(navground, sim, World, add_obstacle))
       .def("add_obstacle",
-           py::overload_cast<const Obstacle &>(&World::add_obstacle),
+           py::overload_cast<const std::shared_ptr<Obstacle> &>(
+               &World::add_obstacle),
            py::arg("obstacle"), DOC(navground, sim, World, add_obstacle, 2))
       .def("add_wall", py::overload_cast<const LineSegment &>(&World::add_wall),
            py::arg("line"), DOC(navground, sim, World, add_wall))
-      .def("add_wall", py::overload_cast<const Wall &>(&World::add_wall),
+      .def("add_wall",
+           py::overload_cast<const std::shared_ptr<Wall> &>(&World::add_wall),
            py::arg("wall"), DOC(navground, sim, World, add_wall, 2))
       .def("index_of_agent", &World::index_of_agent, py::arg("agent"),
            DOC(navground, sim, World, index_of_agent))
@@ -1610,7 +1612,7 @@ Returns the YAML schema.
       .def_property("seed", &World::get_seed, &World::set_seed,
                     DOC(navground, sim, World, property_seed))
       .def("get_entity", &World::get_entity, py::arg("uid"),
-           py::return_value_policy::reference,
+           py::arg("strict") = false, py::return_value_policy::reference,
            DOC(navground, sim, World, get_entity))
       .def("_prepare", &World::prepare)
       .def("_close", &World::close)

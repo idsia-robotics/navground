@@ -303,7 +303,8 @@ class RecordedExperimentalRun:
             self.world.clear_collisions()
             if self.collisions:
                 cs = self.collisions[(self.collisions[:, 0] == self._step)]
-                ucs = [(self.world.get_entity(e1), self.world.get_entity(e2))
+                ucs = [(self.world.get_entity(e1, strict=True),
+                        self.world.get_entity(e2, strict=True))
                        for _, e1, e2 in cs]
                 for e1, e2 in ucs:
                     self.world.record_collision(e1, e2)

@@ -80,19 +80,21 @@ jobs:
           python-version: "3.12"
       - name: install pip deps
         run: |
-          pip install pytest wheel setuptools setuptools_git_versioning git+https://github.com/jeguzzi/pybind11_mkdoc@rst
+          pip install pytest wheel setuptools setuptools_git_versioning git+https://github.com/jeguzzi/pybind11_mkdoc@rst mypy
       - name: navground_core_py
         uses: ./.github/actions/build_test_install_py
         with:
           hash: ${{ hashFiles('navground_core/**', 'navground_core_py/**', 'cmake/**') }}
           package: navground_core_py
           cpack: true
+          python-version: "3.12"
       - name: navground_sim_py
         uses: ./.github/actions/build_test_install_py
         with:
           hash: ${{ hashFiles('navground_core/**', 'navground_sim/**', 'navground_core_py/include/**', 'navground_sim_py/**', 'cmake/**') }}
           package: navground_sim_py
           cpack: false
+          python-version: "3.12"
       - name: examples_cpp
         if: steps.changes.outputs.examples == 'true'
         run: |
@@ -100,7 +102,7 @@ jobs:
           cd navground_examples/build
           cmake -DBUILD_TESTING=ON ..
           cmake --build . -j 4
-          ctest
+          ctest --output-on-failure
       - name: examples_py
         working-directory: navground_examples_py
         if: steps.changes.outputs.examples_py == 'true'
@@ -117,7 +119,7 @@ jobs:
           cmake -DBUILD_TESTING=ON ..
           cmake --build . -j 4
           cmake --install . --prefix ../install
-          ctest
+          ctest --output-on-failure
       - name: plugin_py
         working-directory: navground_minimal_plugin_py
         if: steps.changes.outputs.minimal_plugin_py == 'true'

@@ -5,10 +5,10 @@ function(generate_docstrings target destination python_src headers)
 
   file(GLOB_RECURSE file_headers ${headers}/**.h)
 
-  # message("Python3_EXECUTABLE ${Python3_EXECUTABLE}")
+  # message("Python_EXECUTABLE ${Python_EXECUTABLE}")
   add_custom_command(
       COMMAND 
-        ${Python3_EXECUTABLE} 
+        ${Python_EXECUTABLE} 
         # ${CMAKE_CURRENT_FUNCTION_LIST_DIR}/generate_docstrings.py 
         ${script}
         ${destination} ${python_src} ${headers} ${ARGN} 

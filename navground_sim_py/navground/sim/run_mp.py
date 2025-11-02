@@ -2,26 +2,21 @@ from __future__ import annotations
 
 import itertools
 import multiprocessing
-from multiprocessing.queues import Queue
-
-try:
-    import multiprocess  # type: ignore[import-untyped]
-except ImportError:
-    multiprocess = None
-
 import pathlib
 import warnings
 from collections.abc import Callable, Iterable
 from queue import Empty
-from typing import TYPE_CHECKING, Any
+from typing import TYPE_CHECKING, Any, SupportsInt, TypeAlias
 
 import numpy as np
 from navground import sim
 
 if TYPE_CHECKING:
+    from multiprocessing.queues import Queue
+
     import tqdm
 
-ScenarioInitCallback = Callable[[sim.Scenario, int], None]
+ScenarioInitCallback: TypeAlias = Callable[[sim.Scenario, SupportsInt], None]
 
 
 def _load_and_run_experiment(
@@ -92,10 +87,13 @@ def run_mp(experiment: sim.Experiment,
                                         instead of `multiprocessing`
     :param      load_plugins:           Whether load the plugins in the processes
     """
-    if use_multiprocess and multiprocess:
-        mp = multiprocess
-    else:
-        mp = multiprocessing
+    mp = multiprocessing
+    if use_multiprocess:
+        try:
+            import multiprocess  # type: ignore[import-untyped]
+            mp = multiprocess
+        except ImportError:
+            pass
 
     if number_of_processes < 1:
         warnings.warn(

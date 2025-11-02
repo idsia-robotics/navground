@@ -621,7 +621,7 @@ void World::update_agents_strtree() {
   agent_envelops.clear();
   agent_index =
       std::make_shared<geos::index::strtree::TemplateSTRtree<Agent *>>(
-          agents.size());
+          std::max<std::size_t>(2, agents.size()));
   for (const auto &agent : agents) {
     auto &bb =
         agent_envelops.emplace_back(agent->pose.position[0] - agent->radius,
@@ -654,9 +654,9 @@ void World::update_static_strtree() {
   static_envelops.clear();
   obstacles_index =
       std::make_shared<geos::index::strtree::TemplateSTRtree<Obstacle *>>(
-          obstacles.size());
+          std::max<std::size_t>(2, obstacles.size()));
   walls_index = std::make_shared<geos::index::strtree::TemplateSTRtree<Wall *>>(
-      walls.size());
+      std::max<std::size_t>(2, walls.size()));
   // TODO(J): should coordinates be ordered?
   for (const auto &wall : walls) {
     const Vector2 &p1 = wall->line.p1;

@@ -5,8 +5,6 @@ Controller
 .. py:currentmodule:: navground.core
 
 .. autoclass:: navground.core.Action.State
-   :members: __init__, name, value
-   :exclude-members: __new__
 
    .. autoattribute:: idle
 
@@ -27,7 +25,7 @@ Controller
 
 .. autoclass:: Action
     :members:
-    :exclude-members: State
+    :exclude-members: State, __init__
 
 .. autoclass:: Controller
     :members:

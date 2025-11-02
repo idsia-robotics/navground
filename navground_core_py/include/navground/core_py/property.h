@@ -28,7 +28,7 @@ bool is_empty_vector(const Property::Field &value) {
 }
 
 template <typename T>
-std::optional<Property::Field> convert_py(const Property::Field &value) {
+std::optional<Property::Field> convert_py(const Property::Field &v) {
   return std::visit(
       [](auto &&arg) -> std::optional<Property::Field> {
         using V = std::decay_t<decltype(arg)>;
@@ -72,11 +72,11 @@ std::optional<Property::Field> convert_py(const Property::Field &value) {
         // we reject everything else, just like in C++
         return std::nullopt;
       },
-      value);
+      v);
 }
 
 // Pay attention that Python may pass
-// a value like ``[3.2, 1, 4] as [True, True, True]
+// a value like [3.2, 1, 4] as [True, True, True]
 
 inline std::optional<Converter>
 get_converter(const std::string &scalar_type_name, bool is_vector) {

@@ -1,17 +1,23 @@
+from __future__ import annotations
+
 import argparse
-import time
 import pathlib as pl
+import time
+from typing import SupportsInt
 
 from navground import core, sim
 
 
-class ThymioDemo(sim.Scenario, name="PyThymioDemo"):  # type: ignore[call-arg]
+class ThymioDemo(sim.Scenario, name="PyThymioDemo"):
 
     def __init__(self, behavior_type: str = "HL"):
-        super().__init__()
+        sim.Scenario.__init__(self)
         self._behavior_type = behavior_type
 
-    def init_world(self, world: sim.World, seed: int | None = None) -> None:
+    def init_world(self,
+                   world: sim.World,
+                   seed: SupportsInt | None = None) -> None:
+        super().init_world(world, seed)
         targets: list[core.Vector2Like] = [(1, 0), (-1, 0)]
         for i in range(2):
             task = sim.tasks.WaypointsTask(targets, True, 0.2)
@@ -19,7 +25,7 @@ class ThymioDemo(sim.Scenario, name="PyThymioDemo"):  # type: ignore[call-arg]
             kinematics = core.kinematics.TwoWheelsDifferentialDriveKinematics(
                 0.166, 0.094)
             behavior = core.Behavior.make_type(self.behavior_type)
-            agent = sim.Agent(0.08, behavior, kinematics, task, se, 0.02)
+            agent = sim.Agent(0.08, behavior, kinematics, task, [se], 0.02)
             if agent.behavior:
                 agent.behavior.optimal_speed = 0.12
                 agent.behavior.horizon = 1.0

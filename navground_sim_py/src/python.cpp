@@ -1,6 +1,7 @@
 #include <pybind11/chrono.h>
 #include <pybind11/eigen.h>
 #include <pybind11/functional.h>
+#include <pybind11/native_enum.h>
 #include <pybind11/numpy.h>
 #include <pybind11/operators.h>
 #include <pybind11/pybind11.h>
@@ -45,7 +46,9 @@
 #include "navground/sim/state_estimations/gridmap_state_estimation.h"
 #include "navground/sim/state_estimations/sensor.h"
 #include "navground/sim/state_estimations/sensor_boundary.h"
+#ifdef SENSOR_COMBINATION
 #include "navground/sim/state_estimations/sensor_combination.h"
+#endif
 #include "navground/sim/state_estimations/sensor_discs.h"
 #include "navground/sim/state_estimations/sensor_lidar.h"
 #include "navground/sim/state_estimations/sensor_marker.h"
@@ -188,16 +191,16 @@ struct PyTask : public Task, public PyHasRegister<Task> {
     PYBIND11_OVERRIDE(void, Task, prepare, agent, world);
   }
 
-  void close() override { PYBIND11_OVERRIDE(void, Task, close); }
+  void close() override { PYBIND11_OVERRIDE(void, Task, close, ); }
 
   size_t get_log_size() const override {
-    PYBIND11_OVERRIDE(size_t, Task, get_log_size);
+    PYBIND11_OVERRIDE(size_t, Task, get_log_size, );
   }
 
   OVERRIDE_DECODE
   OVERRIDE_ENCODE
 
-  bool done() const override { PYBIND11_OVERRIDE(bool, Task, done); }
+  bool done() const override { PYBIND11_OVERRIDE(bool, Task, done, ); }
 };
 
 struct PyStateEstimation : public StateEstimation,
@@ -218,7 +221,7 @@ struct PyStateEstimation : public StateEstimation,
     PYBIND11_OVERRIDE(void, StateEstimation, prepare, agent, world);
   }
 
-  void close() override { PYBIND11_OVERRIDE(void, StateEstimation, close); }
+  void close() override { PYBIND11_OVERRIDE(void, StateEstimation, close, ); }
 
   OVERRIDE_DECODE
   OVERRIDE_ENCODE
@@ -232,7 +235,7 @@ struct PySensor : public Sensor, public PyStateEstimation {
   using Sensor::Sensor;
 
   Sensor::Description get_description() const override {
-    PYBIND11_OVERRIDE_PURE(Sensor::Description, Sensor, get_description);
+    PYBIND11_OVERRIDE_PURE(Sensor::Description, Sensor, get_description, );
   }
 
   void update(Agent *agent, World *world, EnvironmentState *state) override {
@@ -1095,9 +1098,9 @@ static void init_scenario(Scenario *scenario, py::dict *state) {
 
 PYBIND11_MODULE(_navground_sim, m) {
   py::options options;
-#if PYBIND11_VERSION_MAJOR >= 2 && PYBIND11_VERSION_MINOR >= 10
-  options.disable_enum_members_docstring();
-#endif
+  // #if PYBIND11_VERSION_MAJOR >= 2 && PYBIND11_VERSION_MINOR >= 10
+  //   options.disable_enum_members_docstring();
+  // #endif
 
   declare_register<StateEstimation>(m, "StateEstimation");
   declare_register<Task>(m, "Task");
@@ -1235,7 +1238,7 @@ Creates a rectangular region
                 std::tuple<ng_float_t, ng_float_t, ng_float_t, ng_float_t>>();
             return bb_from_tuple(v);
           },
-          DOC(navground, sim, bb_to_tuple))
+          py::arg("value"), DOC(navground, sim, bb_to_tuple))
       .def_static("envelop", &envelop, py::arg("position"), py::arg("radius"),
                   DOC(navground, sim, envelop))
       .def_property("width", &BoundingBox::getWidth, nullptr)
@@ -1342,6 +1345,19 @@ Expands the bounding box by a vector
 :param delta: The expansion vector
 :type delta: :py:class:`navground.core.Vector2`
            )doc")
+      .def_property(
+          "bounds",
+          [](const BoundingBox &bb) {
+            return std::make_tuple<Vector2, Vector2>(
+                Vector2(bb.getMinX(), bb.getMinY()),
+                Vector2(bb.getMaxX(), bb.getMaxY()));
+          },
+          nullptr,
+          R"doc(
+Returns the bottom-left and the top-right vertices.
+
+:return: ``(bottom-left, top-right)`` tuple
+)doc")
       .def_static("schema", &YAML::schema_py<BoundingBox>, R"doc(
 Returns the YAML schema.
 
@@ -1633,6 +1649,21 @@ Returns the YAML schema.
       .def_property("ignore_collisions", &World::get_ignore_collisions,
                     &World::set_ignore_collisions,
                     DOC(navground, sim, World, property_ignore_collisions))
+      .def_property(
+          "bounds",
+          [](const World &world) {
+            const auto bb = world.get_bounding_box();
+            return std::make_tuple<Vector2, Vector2>(
+                Vector2(bb.getMinX(), bb.getMinY()),
+                Vector2(bb.getMaxX(), bb.getMaxY()));
+          },
+          nullptr,
+          R"doc(
+Returns the bottom-left and the top-right vertices
+of the bounding box.
+
+:return: ``(bottom-left, top-right)`` tuple
+)doc")
       .def("copy_random_generator", &World::copy_random_generator,
            py::arg("world"), DOC(navground, sim, World, copy_random_generator))
       .def("add_random_obstacles", &World::add_random_obstacles,
@@ -1885,8 +1916,8 @@ The random generator.
       marker_se(m, "MarkerStateEstimation",
                 DOC(navground, sim, MarkerStateEstimation));
 
-  py::enum_<MarkerStateEstimation::ReferenceOrientation>(
-      marker_se, "ReferenceOrientation",
+  py::native_enum<MarkerStateEstimation::ReferenceOrientation>(
+      marker_se, "ReferenceOrientation", "enum.Enum",
       DOC(navground, core, MarkerStateEstimation, ReferenceOrientation))
       .value("agent", MarkerStateEstimation::ReferenceOrientation::agent,
              DOC(navground, core, MarkerStateEstimation, ReferenceOrientation,
@@ -1897,7 +1928,9 @@ The random generator.
       .value("target_direction",
              MarkerStateEstimation::ReferenceOrientation::target_direction,
              DOC(navground, core, MarkerStateEstimation, ReferenceOrientation,
-                 none));
+                 none))
+      .export_values()
+      .finalize();
 
   marker_se
       .def(
@@ -1969,8 +2002,8 @@ The random generator.
       gmse(m, "LocalGridMapStateEstimation",
            DOC(navground, sim, LocalGridMapStateEstimation));
 
-  py::enum_<LocalGridMapStateEstimation::FootprintType>(
-      gmse, "FootprintType",
+  py::native_enum<LocalGridMapStateEstimation::FootprintType>(
+      gmse, "FootprintType", "enum.Enum",
       DOC(navground, core, LocalGridMapStateEstimation, FootprintType))
       .value("rectangular",
              LocalGridMapStateEstimation::FootprintType::rectangular,
@@ -1981,7 +2014,9 @@ The random generator.
                  circular))
       .value("none", LocalGridMapStateEstimation::FootprintType::none,
              DOC(navground, core, LocalGridMapStateEstimation, FootprintType,
-                 none));
+                 none))
+      .export_values()
+      .finalize();
 
   gmse.def(py::init<const std::vector<std::shared_ptr<LidarStateEstimation>> &,
                     const std::vector<std::string> &,
@@ -2132,6 +2167,7 @@ The random generator.
                     &BoundarySensor::set_max_y,
                     DOC(navground, sim, BoundarySensor, property_max_y));
 
+#ifdef SENSOR_COMBINATION
   py::class_<SensorCombination, Sensor, StateEstimation,
              std::shared_ptr<SensorCombination>>
       cse(m, "SensorCombination", DOC(navground, sim, SensorCombination));
@@ -2141,6 +2177,7 @@ The random generator.
       .def_property("sensors", &SensorCombination::get_sensors,
                     &SensorCombination::set_sensors,
                     DOC(navground, sim, SensorCombination, property_sensors));
+#endif
 
   task.def(py::init<>())
       // .def("update", &Task::update)
@@ -2817,7 +2854,7 @@ Adds a record probe.
 :type key: str
 
 :param probe: the probe factory like a RecordProbe class.
-:type key: typing.Callable[[navground.sim.Dataset], sim.RecordProbe]
+:type key: collections.abc.Callable[[navground.sim.Dataset], sim.RecordProbe]
 
 )doc")
       .def(
@@ -2836,7 +2873,7 @@ Adds a group record probe.
 :type key: str
 
 :param probe: the probe factory like a GroupRecordProbe class.
-:type key: typing.Callable[[], sim.GroupRecordProbe]
+:type key: collections.abc.Callable[[], sim.GroupRecordProbe]
 
 )doc")
       .def_property(
@@ -3425,7 +3462,7 @@ Register a probe to record data to during all runs.
 :param key: the name associated to the record
 :type key: str
 :param probe: the probe factory like a RecordProbe class.
-:type key: typing.Callable[[navground.sim.Dataset], sim.RecordProbe]
+:type key: collections.abc.Callable[[navground.sim.Dataset], sim.RecordProbe]
 )doc")
       .def("add_group_record_probe", &PyExperiment::add_group_record_probe_py,
            py::arg("key"), py::arg("probe"),
@@ -3435,7 +3472,7 @@ Register a probe to record a group of data to during all runs.
 :param key: the name associated to the group
 :type key: str
 :param probe: the probe factory like a GroupRecordProbe class.
-:type key: typing.Callable[[], sim.GroupRecordProbe]
+:type key: collections.abc.Callable[[], sim.GroupRecordProbe]
 )doc")
       .def("save", &Experiment::save, py::arg("directory") = py::none(),
            py::arg("path") = py::none(), DOC(navground, sim, Experiment, save))
@@ -3823,7 +3860,9 @@ Load a Sampler from a YAML string.
   pickle_via_yaml<PyStateEstimation>(lse);
   pickle_via_yaml<PyStateEstimation>(ose);
   pickle_via_yaml<PyStateEstimation>(dse);
+#ifdef SENSOR_COMBINATION
   pickle_via_yaml<PyStateEstimation>(cse);
+#endif
   pickle_via_yaml<PyStateEstimation>(sse);
   pickle_via_yaml<PyStateEstimation>(marker_se);
   pickle_via_yaml<PyStateEstimation>(gmse);

@@ -1,12 +1,13 @@
 from __future__ import annotations
 
-from typing import Any
-
-from IPython.display import HTML, SVG, display_html
+from typing import TYPE_CHECKING, Any
 
 from . import World
 from .real_time import RealTimeSimulation
 from .ui import Rect, WebUI, html_for_world, svg_for_world
+
+if TYPE_CHECKING:
+    from IPython.display import HTML, SVG
 
 
 def notebook_view(width: int = 600, **kwargs: Any) -> HTML:
@@ -19,6 +20,8 @@ def notebook_view(width: int = 600, **kwargs: Any) -> HTML:
 
     :returns:   A HTML view
     """
+    from IPython.display import HTML
+
     return HTML(  # type: ignore[no-untyped-call]
         html_for_world(world=None,
                        with_websocket=True,
@@ -48,6 +51,8 @@ def display_in_notebook(world: World, **kwargs: Any) -> SVG:
        which has the same effect of calling this function with no optional arguments.
 
     """
+    from IPython.display import SVG
+
     return SVG(data=svg_for_world(
         world,  # type: ignore[no-untyped-call]
         **kwargs))
@@ -73,6 +78,7 @@ async def run_in_notebook(world: World,
     :param      kwargs:            Arguments forwarded to :py:func:`navground.sim.ui.html_for_world`
 
     """
+    from IPython.display import display_html
 
     view = notebook_view(width=width, port=port, **kwargs)
     display_html(view)  # type: ignore[no-untyped-call]

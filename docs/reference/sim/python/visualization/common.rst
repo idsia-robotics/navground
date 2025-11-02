@@ -7,15 +7,15 @@ Configuration
 .. py:currentmodule:: navground.sim.ui
 
 .. py:type:: Decorate
-   :canonical: typing.Callable[[navground.sim.Entity], dict[str, str]]
+   :canonical: collections.abc.Callable[[navground.sim.Entity], dict[str, str]]
 
    A function that returns a dictionary of SVG style attributes for an entity, like
    ``{"fill": "red"}``.
 
 .. py:type:: Rect
-   :canonical: tuple[numpy.ndarray, numpy.ndarray] | numpy.ndarray
+   :canonical: typing.Annotated[numpy.typing.ArrayLike, numpy.floating[Any], '[2, 2]']
 
-   A rectangle defined by two points, at the bottom-left and top-right vertices.
+   A rectangle defined by two points at the bottom-left and top-right vertices.
 
 .. autoclass:: RenderConfig
    :members: 

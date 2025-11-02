@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 import argparse
 import os
 import sys
@@ -11,7 +13,7 @@ from .enki import enki2world, world2enki
 class ThymioWithAgent(pyenki.Thymio2):
 
     def __init__(self, agent: sim.Agent):
-        super().__init__(use_aseba_units=False)
+        super().__init__()
         self.agent = agent
         agent.enki_object = self  # type: ignore
 
@@ -68,21 +70,24 @@ class EnkiExperiment:
         self.prepare_run(seed)
         self.experiment.start_run(self.exp_run)
         if self.factor > 0:
-            self.enki_world.run_in_viewer(cam_position=(100, 100),  # type: ignore
-                                          cam_altitude=300.0,
-                                          cam_yaw=0.0,
-                                          cam_pitch=-1,
-                                          walls_height=self.height / 100,
-                                          orthographic=False,
-                                          realtime_factor=self.factor,
-                                          callback=self.update)
+            self.enki_world.run_in_viewer(
+                cam_position=(100, 100),  # type: ignore
+                cam_altitude=300.0,
+                cam_yaw=0.0,
+                cam_pitch=-1,
+                walls_height=self.height / 100,
+                orthographic=False,
+                realtime_factor=self.factor,
+                callback=self.update)
         else:
-            self.enki_world.run(self.experiment.steps,  # type: ignore
-                                self.experiment.time_step, self.update)
+            self.enki_world.run(
+                self.experiment.steps,  # type: ignore
+                self.experiment.time_step,
+                self.update)
         self.experiment.stop_run(self.exp_run)
         print(self.exp_run.poses.shape)
 
-    def run(self):
+    def run(self) -> None:
         self.experiment.start()
         for i in range(self.experiment.number_of_runs +
                        self.experiment.run_index):

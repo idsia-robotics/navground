@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 import argparse
 import itertools
 import sys
@@ -14,18 +16,19 @@ def enki2world(cs: tuple[float, float]) -> core.Vector2:
 
 
 def world2enki(cs: core.Vector2Like) -> tuple[float, float]:
+    cs = numpy.asarray(cs)
     return (100 * cs[0], 100 * cs[1])
 
 
 class Thymio(pyenki.Thymio2):
 
     targets: Iterator[tuple[tuple[float, float, float], tuple[float, float]]]
-    thymios: set['Thymio']
+    thymios: set[Thymio]
 
     def __init__(self,
                  behavior_name: str = "HL",
                  obstacles: list[pyenki.CircularObject] = []):
-        super().__init__(use_aseba_units=False)
+        super().__init__()
         behavior = core.Behavior.make_type(behavior_name)
         if not behavior:
             print(f"No behavior with name {behavior_name}", file=sys.stderr)
@@ -96,13 +99,14 @@ def main() -> None:
     for thymio in thymios:
         thymio.thymios = thymios - {thymio}
     if arg.factor > 0:
-        world.run_in_viewer(cam_position=(100, 100),  # type: ignore
-                            cam_altitude=300.0,
-                            cam_yaw=0.0,
-                            cam_pitch=-1,
-                            walls_height=10,
-                            orthographic=False,
-                            realtime_factor=arg.factor)
+        world.run_in_viewer(
+            cam_position=(100, 100),  # type: ignore
+            cam_altitude=300.0,
+            cam_yaw=0.0,
+            cam_pitch=-1,
+            walls_height=10,
+            orthographic=False,
+            realtime_factor=arg.factor)
     else:
         print('Start simulating 1 minute at 50 ticks per second')
         a = time.time()

@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.11)
+cmake_minimum_required(VERSION 3.19)
 project(navground_sim VERSION 0.7.0)
 
 # Default to C99
@@ -44,8 +44,8 @@ find_package(HighFive QUIET)
 if(NOT HighFive_FOUND)
   FetchContent_Declare(
     HighFive
-    GIT_REPOSITORY https://github.com/BlueBrain/HighFive.git
-    GIT_TAG v2.10.1
+    GIT_REPOSITORY https://github.com/highfive-devs/highfive
+    GIT_TAG v3.2.0
     GIT_SHALLOW TRUE
     OVERRIDE_FIND_PACKAGE)
   set(HIGHFIVE_USE_BOOST OFF)
@@ -98,7 +98,7 @@ add_library(
   src/state_estimations/sensor_lidar.cpp
   src/state_estimations/sensor_discs.cpp
   src/state_estimations/sensor_boundary.cpp
-  src/state_estimations/sensor_combination.cpp
+  # src/state_estimations/sensor_combination.cpp
   src/state_estimations/sensor_odometry.cpp
   src/state_estimations/gridmap_state_estimation.cpp
   src/state_estimations/sensor_marker.cpp
@@ -158,6 +158,10 @@ target_include_directories(navground_sim
 # https://developer.apple.com/documentation/xcode-release-notes/xcode-15-release-notes
 target_compile_definitions(
   navground_sim PUBLIC _LIBCPP_ENABLE_CXX17_REMOVED_UNARY_BINARY_FUNCTION)
+
+target_compile_options(navground_sim PUBLIC ${COMPILE_OPTIONS})
+set_target_properties(navground_sim PROPERTIES VERSION ${CMAKE_PROJECT_VERSION} SOVERSION 1)
+# set_target_properties(navground_core PROPERTIES NO_SONAME 1)
 
 include(${CMAKE_CURRENT_LIST_DIR}/../cmake/build_info.cmake)
 

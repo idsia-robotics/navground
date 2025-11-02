@@ -4,6 +4,7 @@ Social margin
 
 .. autoclass:: navground.core.SocialMarginModulation
     :members:
+    :exclude-members: __init__
 
 .. autoclass:: navground.core.SocialMarginZeroModulation
     :members:

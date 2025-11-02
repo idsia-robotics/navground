@@ -23,7 +23,7 @@ runs:
         cd ${{inputs.package}}/build
         cmake -DCMAKE_BUILD_TYPE=Release -DBUILD_TESTING=ON ..
         cmake --build . -j 4
-        ctest
+        ctest --output-on-failure
         cpack
         mv packages ${{github.workspace}}/packages/${{inputs.package}}
     - name: Upload test logs

@@ -1,3 +1,7 @@
+from __future__ import annotations
+
+from typing import SupportsFloat
+
 import numpy
 from navground import core
 
@@ -5,12 +9,12 @@ from navground import core
 class RandomSyncBehaviorGroup(core.BehaviorGroup):
 
     def __init__(self) -> None:
-        super().__init__()
+        core.BehaviorGroup.__init__(self)
         self.rg = numpy.random.default_rng(seed=0)
         self.step = 0
         self.cmds: list[core.Twist2] = []
 
-    def compute_cmds(self, time_step: float) -> list[core.Twist2]:
+    def compute_cmds(self, time_step: SupportsFloat) -> list[core.Twist2]:
         if self.step % self.size == 0 or self.size != len(self.cmds):
             self.cmds = [
                 core.Twist2(
@@ -25,7 +29,7 @@ class RandomSyncBehaviorGroup(core.BehaviorGroup):
 
 class RandomSyncBehavior(core.BehaviorGroupMember):
 
-    _groups: dict[int, RandomSyncBehaviorGroup] = {}
+    _groups: dict[int, core.BehaviorGroup] = {}
 
     def make_group(self) -> RandomSyncBehaviorGroup:
         return RandomSyncBehaviorGroup()
@@ -33,7 +37,7 @@ class RandomSyncBehavior(core.BehaviorGroupMember):
     def get_group_hash(self) -> int:
         return 0
 
-    def get_groups(self) -> dict[int, RandomSyncBehaviorGroup]:
+    def get_groups(self) -> dict[int, core.BehaviorGroup]:
         return self._groups
 
 

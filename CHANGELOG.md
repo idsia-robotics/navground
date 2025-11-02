@@ -7,18 +7,37 @@
 - `Twist3` constructor.
 - `FourWheelsOmniDriveKinematics` mapping between wheel speeds and twist. 
 - `core.Neighbor.load, `sim.Wall.load`, and `sim.Obstacle.load` now work as expected.
+- Fixed calling `class_type` on a Python register. This make `help(...)` works again when called on classes that have a register. 
+- Fixed type hints errors.
 
 ### Added
 - World and scenario property `ignore_collisions` to ignore collisions between any entity.
 - Entity (agents, obstacles, walls) property `ignore_collisions` to ignore collisions for a specific entity.
 - Additional type of object accepted by the `echo` command.
 - Exposed `Entity.reset_uid` in Python.
+- Branch name to build infos (concatenated to the output of `git describe`).
+- Added several type aliases.
+- Added added `mypy` tests for `navground_core_py`, `navground_sim_py`, `navground_examples_py`, and `navground_minimal_plugin_py`.
 
-
+### Changed
+- Upgraded to Pybind11 v3. Among others changes, this brings more accurate type hints. For example, methods that accept a C++ float, are now annotated to accept `typing.SupportsFloat`. This requires users to change the type annotation in their code if they are overriding navground methods (only relevant for static type checking, has no impact when executing the code).
+	- Replaced `py::enum_` with `py::native_enum` (a subclass of Python native enums `enum.Enum`).
+	- Updated stubs.
+- Added methods `BoundingBox.bounds` and `World.bounds` that replace functions in `navground.sim.bounds`.
+- `core.FloaType` is now configured at build time and can be used as a type alias.
+- Replaced `super().__init__(...)` with `Base.__init__(self, ...)` for classes that inherit from a Python trampoline, as specified by Pybind11 (https://pybind11.readthedocs.io/en/stable/advanced/classes.html)
+- Added Python 3.14 and updated dependencies:
+	- argparse v3.2
+  - eigen v5.0.0
+  - geos 3.14.1
+  - hdf5 1.14.6
+  - highfive 3.2.0
 
 ### Removed
 
 - `navground_utils`
+- `navground.sim.bounds`
+- `SensorCombination` (deprecated in 0.5)
 
 ## [0.6.0] 2026-06-07
 
@@ -278,6 +297,7 @@ Patch release that remove deprecated type hints and add support for the recently
 - Updated type hints to removed deprecated `typing` import and resolved all errors reported by `mypy --strict` and `ruff` with `flake8-pep585` and `pyupgrade`.
 - Fixed that `navground_py schema sim` outputted a schema without registered core classes by moving static definitions of registers to separate cpp files.
 - Fixed `--register` argument of `navground_py schema`.
+- Fixed `use_python` which relied on specific Python base classes (removed in v0.3); we now look for the presence of Python methods (i.e., variables with a `__code__` attribute).
 
 ### Changed
 

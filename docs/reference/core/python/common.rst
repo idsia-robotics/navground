@@ -7,15 +7,21 @@ Geometry
 Two dimensional
 ===============
 
+.. py:type:: FloatType
+   :module: navground.core
+   :canonical: numpy.float32
+
+   Same as type :cpp:type:`ng_float_t`, either :py:type:`numpy.float32` or :py:type:`numpy.float64`.
+
 .. py:type:: Vector2
    :module: navground.core
-   :canonical: numpy.ndarray[tuple[typing.Literal[2]], numpy.dtype[numpy.float64]]
+   :canonical: typing.Annotated[numpy.typing.NDArray[FloatType], '[2, 1]']
 
    A two dimensional :py:class:`numpy.ndarray` of type :cpp:type:`ng_float_t`.
 
 .. py:type:: Vector2Like
    :module: navground.core
-   :canonical: Vector2 | tuple[float, float] | list[float]
+   :canonical: typing.Annotated[numpy.typing.ArrayLike, FloatType, '[2, 1]']
 
    An object convertible to :py:type:`Vector2`. 
 
@@ -33,8 +39,6 @@ Two dimensional
    On the contrary, pybind11 functions documented to return :py:type:`Vector2` do return this type.
 
 .. autoclass:: Frame
-   :members:
-   :exclude-members: __new__
 
    .. autoattribute:: relative
 

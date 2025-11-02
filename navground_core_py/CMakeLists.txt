@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.11)
+cmake_minimum_required(VERSION 3.19)
 project(navground_core_py VERSION 0.7.0)
 
 set(CMAKE_MODULE_PATH ${CMAKE_CURRENT_LIST_DIR}/../cmake)
@@ -28,23 +28,23 @@ set(BUILD_PKG_DIRECTORY
     "${CMAKE_CURRENT_BINARY_DIR}"
     CACHE STRING "Where to build the extension")
 
-set(Python3_FIND_STRATEGY LOCATION)
-
 find_package(navground_core REQUIRED)
-find_package(Python3 REQUIRED COMPONENTS Interpreter Development)
-find_package(pybind11 QUIET)
+# set(Python3_FIND_STRATEGY LOCATION)
+# set(PYBIND11_FINDPYTHON ON)
+find_package(Python REQUIRED COMPONENTS Interpreter Development)
+find_package(pybind11 CONFIG QUIET)
 if(NOT pybind11_FOUND)
   include(FetchContent)
   FetchContent_Declare(
     pybind11
     GIT_REPOSITORY https://github.com/pybind/pybind11.git
-    GIT_TAG v2.13.6
+    GIT_TAG v3.0.1
     GIT_SHALLOW TRUE
     OVERRIDE_FIND_PACKAGE)
   set(PYBIND11_INSTALL ON)
   set(INCLUDE_PYBIND11 true)
   FetchContent_MakeAvailable(pybind11)
-  find_package(pybind11 REQUIRED)
+  find_package(pybind11 CONFIG QUIET)
 endif()
 
 add_library(navground_core_py INTERFACE)
@@ -114,6 +114,13 @@ include(${CMAKE_CURRENT_LIST_DIR}/../cmake/build_info.cmake)
 configure_build_info(include/navground/core_py/version.h.in
                      ${BUILD_INCLUDE_DIRECTORY}/navground/core_py/version.h)
 
+if (NAVGROUND_USES_DOUBLE)
+  set(FLOAT_SIZE "64")
+else()
+  set(FLOAT_SIZE "32")
+endif()
+configure_file(${CMAKE_CURRENT_LIST_DIR}/cmake/types.py.in ${BUILD_PKG_DIRECTORY}/navground/core/types.py @ONLY)
+
 install(DIRECTORY include/navground/core_py DESTINATION include/navground)
 
 install(FILES ${BUILD_INCLUDE_DIRECTORY}/navground/core_py/version.h
@@ -147,6 +154,8 @@ if(ament_cmake_python_FOUND)
       navground)
 
     install(TARGETS _navground
+            DESTINATION "${PYTHON_INSTALL_DIR}/navground/core")
+    install(FILES ${BUILD_PKG_DIRECTORY}/navground/core/types.py
             DESTINATION "${PYTHON_INSTALL_DIR}/navground/core")
 
     if(WIN32)

@@ -12,7 +12,7 @@ State estimations
    sensor_lidar
    sensor_discs
    sensor_boundary
-   sensor_combination
+   .. sensor_combination
    sensor_pylidar
    sensor_odometry
    local_gridmap

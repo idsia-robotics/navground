@@ -11,12 +11,13 @@ jobs:
           - ubuntu-22.04-arm
           - windows-latest
           - macos-latest
-          - macos-13
+          - macos-15-intel
     runs-on: ${{ matrix.os }}
     steps:
       - uses: actions/checkout@v4
         with:
           path: src/navground
+          fetch-depth: 0
       - run: mkdir src/navground/distribution/cpp/build
       - name: cache build/_deps directory
         uses: actions/cache@v4
@@ -25,6 +26,10 @@ jobs:
           path: src/navground/distribution/cpp/build/_deps
           key: build-deps-${{ matrix.os }}-${{ hashFiles('src/navground/distribution/cpp/deps.cmake') }}
       - uses: ilammy/msvc-dev-cmd@v1
+      - uses: repolevedavaj/install-nsis@v1.1.0
+        if: runner.os == 'Windows'
+        with:
+          nsis-version: '3.11'
       - name: build package
         if: runner.os == 'Windows'
         run: |

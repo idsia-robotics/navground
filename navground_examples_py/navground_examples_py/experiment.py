@@ -1,9 +1,11 @@
+from __future__ import annotations
+
 from navground import sim
 
 from .probes import CheckIfMoving, IsMovingProbe, IsMovingSparseProbe
 
 
-def main():
+def main() -> None:
     experiment = sim.load_experiment("""
 steps: 300
 time_step: 0.1
@@ -37,6 +39,7 @@ scenario:
         type: Bounded
         range: 5.0
 """)
+    assert experiment
     experiment.add_probe(CheckIfMoving)
     experiment.add_record_probe("is_moving", IsMovingProbe)
     experiment.add_group_record_probe("still_times", IsMovingSparseProbe)

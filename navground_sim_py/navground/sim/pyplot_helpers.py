@@ -1,18 +1,17 @@
 from __future__ import annotations
 
 import math
-from typing import Any
 from collections.abc import Callable, Mapping, Sequence
+from typing import TYPE_CHECKING, Any, cast
 
 import numpy as np
 import numpy.typing
-from matplotlib import pyplot as plt
-from matplotlib.axes import Axes
-from matplotlib.figure import Figure
-from matplotlib.lines import Line2D
-from matplotlib.patches import Arrow, Circle
-from matplotlib.transforms import Affine2D, Bbox
 from navground import core, sim
+
+if TYPE_CHECKING:
+    from matplotlib.axes import Axes
+    from matplotlib.figure import Figure
+    from matplotlib.transforms import Affine2D
 
 Indices = list[int] | slice
 
@@ -53,6 +52,7 @@ def plot_agent(ax: Axes,
     :param      transform:            An optional affine transformation to apply to the plot
     :param      zorder:               The Z-order
     """
+    from matplotlib.patches import Arrow, Circle
     if transform:
         kwargs = {'transform': transform + ax.transData}
     else:
@@ -64,7 +64,7 @@ def plot_agent(ax: Axes,
         velocity = agent.velocity
     if not color:
         color = agent.color or 'b'
-    circle = Circle(tuple(position),
+    circle = Circle(cast(tuple[float, float], tuple(position)),
                     agent.radius,
                     color=color,
                     alpha=alpha,
@@ -96,7 +96,7 @@ def plot_agent(ax: Axes,
     if with_safety_margin and agent.behavior:
         safety_margin = agent.behavior.safety_margin
         if safety_margin > 0:
-            c = Circle(tuple(position),
+            c = Circle(cast(tuple[float, float], tuple(position)),
                        agent.radius + safety_margin,
                        color=color,
                        alpha=alpha,
@@ -131,13 +131,17 @@ def plot_world(ax: Axes,
     :param      zorder:          The Z-order
     :param      kwargs:          Keywords passed to :py:func:`plot_agent`
     """
+    from matplotlib.lines import Line2D
+    from matplotlib.patches import Circle
+    from matplotlib.transforms import Bbox
+
     if transform:
         patch_kwargs = {'transform': transform + ax.transData}
     else:
         patch_kwargs = {}
     for obstacle in world.obstacles:
         disc = obstacle.disc
-        c = Circle(tuple(disc.position),
+        c = Circle(cast(tuple[float, float], tuple(disc.position)),
                    disc.radius,
                    color=obstacles_color,
                    alpha=obstacles_alpha,
@@ -204,7 +208,7 @@ def plot_trajectory(ax: Axes,
                            agent,
                            color=color,
                            pose=core.Pose2((x, y), theta),
-                           velocity=np.zeros(2),
+                           velocity=core.zeros2(),
                            zorder=zorder,
                            **kwargs)
             if plot_last_pose and (empty
@@ -214,7 +218,7 @@ def plot_trajectory(ax: Axes,
                            agent,
                            color=color,
                            pose=core.Pose2((x, y), theta),
-                           velocity=np.zeros(2),
+                           velocity=core.zeros2(),
                            zorder=zorder,
                            **kwargs)
         else:
@@ -298,6 +302,8 @@ def plot_runs(runs: Sequence[sim.ExperimentalRun],
 
     :returns:   The figure
     """
+    from matplotlib import pyplot as plt
+
     rows = math.ceil(len(runs) / columns)
     if not fig:
         fig, _ = plt.subplots(rows, columns)
@@ -328,6 +334,8 @@ def transform_from_pose(pose: core.Pose2) -> Affine2D:
 
     :returns:   The corresponding affine transformation
     """
+    from matplotlib.transforms import Affine2D
+
     return Affine2D().rotate(pose.orientation).translate(*pose.position)
 
 

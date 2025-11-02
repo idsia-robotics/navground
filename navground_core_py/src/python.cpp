@@ -1,6 +1,7 @@
 #include <pybind11/chrono.h>
 #include <pybind11/eigen.h>
 #include <pybind11/functional.h>
+#include <pybind11/native_enum.h>
 #include <pybind11/operators.h>
 #include <pybind11/pybind11.h>
 #include <pybind11/stl.h>
@@ -223,9 +224,9 @@ public:
 
   /* Trampolines (need one for each virtual function) */
 
-  void prepare() override { PYBIND11_OVERRIDE(void, Behavior, prepare); }
+  void prepare() override { PYBIND11_OVERRIDE(void, Behavior, prepare, ); }
 
-  void close() override { PYBIND11_OVERRIDE(void, Behavior, close); }
+  void close() override { PYBIND11_OVERRIDE(void, Behavior, close, ); }
 
   Twist2 compute_cmd_internal(ng_float_t time_step) override {
     PYBIND11_OVERRIDE(Twist2, Behavior, compute_cmd_internal, time_step);
@@ -281,7 +282,7 @@ public:
   }
 
   EnvironmentState *get_environment_state() override {
-    PYBIND11_OVERRIDE(EnvironmentState *, Behavior, get_environment_state);
+    PYBIND11_OVERRIDE(EnvironmentState *, Behavior, get_environment_state, );
   }
 
   OVERRIDE_DECODE
@@ -323,16 +324,16 @@ struct PyKinematics : public Kinematics, public PyHasRegister<Kinematics> {
                       time_step);
   }
   bool is_wheeled() const override {
-    PYBIND11_OVERRIDE(bool, Kinematics, is_wheeled);
+    PYBIND11_OVERRIDE(bool, Kinematics, is_wheeled, );
   }
   unsigned dof() const override {
-    PYBIND11_OVERRIDE_PURE(unsigned, Kinematics, dof);
+    PYBIND11_OVERRIDE_PURE(unsigned, Kinematics, dof, );
   }
   ng_float_t get_max_angular_speed() const override {
-    PYBIND11_OVERRIDE(ng_float_t, Kinematics, get_max_angular_speed);
+    PYBIND11_OVERRIDE(ng_float_t, Kinematics, get_max_angular_speed, );
   }
   ng_float_t get_max_speed() const override {
-    PYBIND11_OVERRIDE(ng_float_t, Kinematics, get_max_angular_speed);
+    PYBIND11_OVERRIDE(ng_float_t, Kinematics, get_max_speed, );
   }
 
   OVERRIDE_DECODE
@@ -368,18 +369,20 @@ public:
   /* Trampolines (need one for each virtual function) */
 
   size_t get_group_hash() const override {
-    PYBIND11_OVERRIDE(size_t, BehaviorGroupMember, get_group_hash);
+    PYBIND11_OVERRIDE(size_t, BehaviorGroupMember, get_group_hash, );
   }
 
   void prepare() override {
-    PYBIND11_OVERRIDE(void, BehaviorGroupMember, prepare);
+    PYBIND11_OVERRIDE(void, BehaviorGroupMember, prepare, );
   }
 
-  void close() override { PYBIND11_OVERRIDE(void, BehaviorGroupMember, close); }
+  void close() override {
+    PYBIND11_OVERRIDE(void, BehaviorGroupMember, close, );
+  }
 
   EnvironmentState *get_environment_state() override {
     PYBIND11_OVERRIDE(EnvironmentState *, BehaviorGroupMember,
-                      get_environment_state);
+                      get_environment_state, );
   }
 
   // OVERRIDE_DECODE
@@ -433,9 +436,9 @@ PYBIND11_MODULE(_navground, m) {
   py::options options;
   // options.disable_function_signatures();
 
-#if PYBIND11_VERSION_MAJOR >= 2 && PYBIND11_VERSION_MINOR >= 10
-  options.disable_enum_members_docstring();
-#endif
+  // #if PYBIND11_VERSION_MAJOR >= 2 && PYBIND11_VERSION_MINOR >= 10
+  //   options.disable_enum_members_docstring();
+  // #endif
 
   py::class_<BuildInfo>(m, "BuildInfo", DOC(navground, core, BuildInfo))
       .def_readonly("version", &BuildInfo::version,
@@ -470,9 +473,9 @@ PYBIND11_MODULE(_navground, m) {
 Constructs a new instance.
 
 :param getter: The getter
-:type getter: :py:class:`typing.Callable[[], T]`
+:type getter: :py:type:`collections.abc.Callable[[], T]`
 :param setter: An optional setter
-:type setter: :py:class:`typing.Callable[[T], None]` | None
+:type setter: :py:type:`collections.abc.Callable[[T], None]` | None
 :param default: The default value (should be convertible to the property type)
 :type default: :py:type:`navground.core.PropertyField`
 :param type_name: The property type name
@@ -480,7 +483,7 @@ Constructs a new instance.
 :param description: Optional description
 :type description: str
 :param schema: Optional schema modifier
-:type schema: :py:class:`typing.Callable[[dict[str, typing.Any]], None]`
+:type schema: :py:type:`collections.abc.Callable[[dict[str, typing.Any]], None]`
 :param deprecated_names: A list of deprecated names for this property
 :type deprecated_names: list[str]
            )doc")
@@ -516,7 +519,7 @@ Constructs a navground property from a Python property.
 :param description: Optional description
 :type description: str
 :param schema: Optional schema modifier
-:type schema: :py:class:`typing.Callable[[dict[str, typing.Any]], None]`
+:type schema: :py:type:`collections.abc.Callable[[dict[str, typing.Any]], None]`
 :param deprecated_names: A list of deprecated names for this property
 :type deprecated_names: list[str]
            )doc");
@@ -539,10 +542,10 @@ Constructs a navground property from a Python property.
   declare_register<Kinematics>(m, "Kinematics");
   declare_register<BehaviorModulation>(m, "BehaviorModulation");
 
-  py::enum_<Frame>(m, "Frame", DOC(navground, core, Frame))
+  py::native_enum<Frame>(m, "Frame", "enum.Enum", DOC(navground, core, Frame))
       .value("relative", Frame::relative, DOC(navground, core, Frame, relative))
-      .value("absolute", Frame::absolute,
-             DOC(navground, core, Frame, absolute));
+      .value("absolute", Frame::absolute, DOC(navground, core, Frame, absolute))
+      .finalize();
 
   auto twist = py::class_<Twist2>(m, "Twist2", DOC(navground, core, Twist2));
 
@@ -721,7 +724,8 @@ Constructs a navground property from a Python property.
       .def(py::self != py::self)
       .def("__repr__", &to_string<Neighbor>)
       .def_static("schema", &YAML::schema_py<Neighbor>, YAML::schema_py_doc())
-      .def_static("load", &YAML::load_string_unique_py<Neighbor>, py::arg("value"),
+      .def_static("load", &YAML::load_string_unique_py<Neighbor>,
+                  py::arg("value"),
                   YAML::load_string_py_doc("neighbor", "Neighbor").c_str())
       .def("dump", &YAML::dump<Neighbor>, YAML::dump_doc());
 
@@ -1182,8 +1186,8 @@ Constructs a navground property from a Python property.
                     &MotorPIDModulation::set_k_d,
                     DOC(navground, core, MotorPIDModulation, property_k_d));
 
-  py::enum_<Behavior::Heading>(behavior, "Heading",
-                               DOC(navground, core, Behavior_Heading))
+  py::native_enum<Behavior::Heading>(behavior, "Heading", "enum.Enum",
+                                     DOC(navground, core, Behavior, Heading))
       .value("idle", Behavior::Heading::idle,
              DOC(navground, core, Behavior_Heading, idle))
       .value("target_point", Behavior::Heading::target_point,
@@ -1193,7 +1197,8 @@ Constructs a navground property from a Python property.
       .value("target_angular_speed", Behavior::Heading::target_angular_speed,
              DOC(navground, core, Behavior_Heading, target_angular_speed))
       .value("velocity", Behavior::Heading::velocity,
-             DOC(navground, core, Behavior_Heading, velocity));
+             DOC(navground, core, Behavior_Heading, velocity))
+      .finalize();
 
   behavior
       .def(py::init<std::shared_ptr<Kinematics>, ng_float_t>(),
@@ -1933,7 +1938,8 @@ Initializes a buffer.
   py::class_<Action, std::shared_ptr<Action>> action(
       m, "Action", DOC(navground, core, Action));
 
-  py::enum_<Action::State>(action, "State", DOC(navground, core, Action_State))
+  py::native_enum<Action::State>(action, "State", "enum.Enum",
+                                 DOC(navground, core, Action_State))
       .value("idle", Action::State::idle,
              DOC(navground, core, Action_State, idle))
       .value("running", Action::State::running,
@@ -1941,7 +1947,8 @@ Initializes a buffer.
       .value("failure", Action::State::failure,
              DOC(navground, core, Action_State, failure))
       .value("success", Action::State::success,
-             DOC(navground, core, Action_State, success));
+             DOC(navground, core, Action_State, success))
+      .finalize();
 
   action
       .def_readonly("state", &Action::state,

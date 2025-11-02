@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>navground_core &#8212; navground 0.7.0.dev documentation</title>
+    <title>navground_core &#8212; navground 0.8.0.dev documentation</title>
   
   
   
@@ -41,7 +41,7 @@
 
     <script src="../_static/jquery.js?v=5d32c60e"></script>
     <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-    <script src="../_static/documentation_options.js?v=176ebae1"></script>
+    <script src="../_static/documentation_options.js?v=a17d1565"></script>
     <script src="../_static/doctools.js?v=9bcbadda"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -142,7 +142,7 @@
   
   
   
-    <p class="title logo__title">navground 0.7.0.dev documentation</p>
+    <p class="title logo__title">navground 0.8.0.dev documentation</p>
   
 </a></div>
         <div class="sidebar-primary-item">
@@ -595,8 +595,7 @@ document.write(`
 <section id="info">
 <span id="id2"></span><h3>info<a class="headerlink" href="#info" title="Link to this heading">#</a></h3>
 <p>Lists registered components (behaviors, kinematics, and behavior modulations) implemented in C++.</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">usage</span><span class="p">:</span> <span class="n">info</span> <span class="p">[</span><span class="o">-</span><span class="n">h</span><span class="p">]</span> <span class="p">[</span><span class="o">--</span><span class="n">no</span><span class="o">-</span><span class="n">plugins</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">v</span><span class="p">]</span> <span class="p">[</span><span class="o">--</span><span class="n">build</span><span class="p">]</span> <span class="p">[</span><span class="o">--</span><span class="n">properties</span><span class="p">]</span> <span class="p">[</span><span class="o">--</span><span class="n">description</span><span class="p">]</span> <span class="p">[</span><span class="o">--</span><span class="n">behaviors</span> <span class="p">[</span><span class="n">BEHAVIORS</span><span class="p">]]</span> <span class="p">[</span><span class="o">--</span><span class="n">kinematics</span> <span class="p">[</span><span class="n">KINEMATICS</span><span class="p">]]</span>
-            <span class="p">[</span><span class="o">--</span><span class="n">modulations</span> <span class="p">[</span><span class="n">MODULATIONS</span><span class="p">]]</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">usage</span><span class="p">:</span> <span class="n">info</span> <span class="p">[</span><span class="o">-</span><span class="n">h</span><span class="p">]</span> <span class="p">[</span><span class="o">--</span><span class="n">no</span><span class="o">-</span><span class="n">plugins</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">v</span><span class="p">]</span> <span class="p">[</span><span class="o">--</span><span class="n">build</span><span class="p">]</span> <span class="p">[</span><span class="o">--</span><span class="n">properties</span><span class="p">]</span> <span class="p">[</span><span class="o">--</span><span class="n">description</span><span class="p">]</span> <span class="p">[</span><span class="o">--</span><span class="n">behaviors</span> <span class="p">[</span><span class="n">BEHAVIORS</span><span class="p">]]</span> <span class="p">[</span><span class="o">--</span><span class="n">kinematics</span> <span class="p">[</span><span class="n">KINEMATICS</span><span class="p">]]</span> <span class="p">[</span><span class="o">--</span><span class="n">modulations</span> <span class="p">[</span><span class="n">MODULATIONS</span><span class="p">]]</span>
 </pre></div>
 </div>
 <section id="navground.core.info-parser-named-arguments">
@@ -667,7 +666,7 @@ document.write(`
 <h4>Positional Arguments<a class="headerlink" href="#navground.core.echo-parser-positional-arguments" title="Link to this heading">#</a></h4>
 <dl class="option-list">
 <dt><kbd>kind</kbd></dt>
-<dd><p>The kind of object to load: behavior, modulation, kinematics</p>
+<dd><p>The kind of object to load: behavior, modulation, kinematics, line, disc, neighbor</p>
 </dd>
 <dt><kbd>YAML</kbd></dt>
 <dd><p>YAML string, or path to a YAML file, describing an experiment</p>
@@ -705,14 +704,14 @@ document.write(`
 <section id="schema">
 <span id="id5"></span><h3>schema<a class="headerlink" href="#schema" title="Link to this heading">#</a></h3>
 <p>Print JSON-Schema of YAML-convertible navground core classes.</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">usage</span><span class="p">:</span> <span class="n">schema</span> <span class="p">[</span><span class="o">-</span><span class="n">h</span><span class="p">]</span> <span class="p">[</span><span class="o">--</span><span class="n">no</span><span class="o">-</span><span class="n">plugins</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">v</span><span class="p">]</span> <span class="p">[</span><span class="o">--</span><span class="n">register</span><span class="p">]</span> <span class="p">[</span><span class="o">--</span><span class="nb">type</span> <span class="n">TYPE</span><span class="p">]</span> <span class="p">[{</span><span class="n">kinematics</span><span class="p">,</span><span class="n">core</span><span class="p">,</span><span class="n">behavior_modulation</span><span class="p">,</span><span class="n">behavior</span><span class="p">}]</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">usage</span><span class="p">:</span> <span class="n">schema</span> <span class="p">[</span><span class="o">-</span><span class="n">h</span><span class="p">]</span> <span class="p">[</span><span class="o">--</span><span class="n">no</span><span class="o">-</span><span class="n">plugins</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">v</span><span class="p">]</span> <span class="p">[</span><span class="o">--</span><span class="n">register</span><span class="p">]</span> <span class="p">[</span><span class="o">--</span><span class="nb">type</span> <span class="n">TYPE</span><span class="p">]</span> <span class="p">[{</span><span class="n">core</span><span class="p">,</span><span class="n">behavior</span><span class="p">,</span><span class="n">behavior_modulation</span><span class="p">,</span><span class="n">kinematics</span><span class="p">}]</span>
 </pre></div>
 </div>
 <section id="navground.core.print_schema-parser-positional-arguments">
 <h4>Positional Arguments<a class="headerlink" href="#navground.core.print_schema-parser-positional-arguments" title="Link to this heading">#</a></h4>
 <dl class="option-list">
 <dt><kbd>kind</kbd></dt>
-<dd><p>Possible choices: kinematics, core, behavior_modulation, behavior</p>
+<dd><p>Possible choices: core, behavior, behavior_modulation, kinematics</p>
 <p>The target type of the scheme</p>
 </dd>
 </dl>

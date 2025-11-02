@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Python API &#8212; navground 0.7.0.dev documentation</title>
+    <title>Python API &#8212; navground 0.8.0.dev documentation</title>
   
   
   
@@ -41,7 +41,7 @@
 
     <script src="../../../_static/jquery.js?v=5d32c60e"></script>
     <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-    <script src="../../../_static/documentation_options.js?v=176ebae1"></script>
+    <script src="../../../_static/documentation_options.js?v=a17d1565"></script>
     <script src="../../../_static/doctools.js?v=9bcbadda"></script>
     <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -142,7 +142,7 @@
   
   
   
-    <p class="title logo__title">navground 0.7.0.dev documentation</p>
+    <p class="title logo__title">navground 0.8.0.dev documentation</p>
   
 </a></div>
         <div class="sidebar-primary-item">
@@ -534,11 +534,11 @@ document.write(`
 <div class="toctree-wrapper compound">
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="world.html">World</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="world.html#navground.sim.BoundingBox"><code class="docutils literal notranslate"><span class="pre">BoundingBox</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="world.html#navground.sim.Entity"><code class="docutils literal notranslate"><span class="pre">Entity</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="world.html#navground.sim.Obstacle"><code class="docutils literal notranslate"><span class="pre">Obstacle</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="world.html#navground.sim.Wall"><code class="docutils literal notranslate"><span class="pre">Wall</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="world.html#navground.sim.World"><code class="docutils literal notranslate"><span class="pre">World</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="world.html#boundingbox">BoundingBox</a></li>
+<li class="toctree-l2"><a class="reference internal" href="world.html#entity">Entity</a></li>
+<li class="toctree-l2"><a class="reference internal" href="world.html#obstacle">Obstacle</a></li>
+<li class="toctree-l2"><a class="reference internal" href="world.html#wall">Wall</a></li>
+<li class="toctree-l2"><a class="reference internal" href="world.html#id1">World</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="agent.html">Agent</a><ul>
@@ -552,7 +552,6 @@ document.write(`
 <li class="toctree-l2"><a class="reference internal" href="state_estimations/sensor_lidar.html">Lidar</a></li>
 <li class="toctree-l2"><a class="reference internal" href="state_estimations/sensor_discs.html">Discs</a></li>
 <li class="toctree-l2"><a class="reference internal" href="state_estimations/sensor_boundary.html">Boundary</a></li>
-<li class="toctree-l2"><a class="reference internal" href="state_estimations/sensor_combination.html">Combination</a></li>
 <li class="toctree-l2"><a class="reference internal" href="state_estimations/sensor_pylidar.html">PyLidar</a></li>
 <li class="toctree-l2"><a class="reference internal" href="state_estimations/sensor_odometry.html">Odometry</a></li>
 <li class="toctree-l2"><a class="reference internal" href="state_estimations/local_gridmap.html">Local GridMap</a></li>
@@ -569,7 +568,6 @@ document.write(`
 </li>
 <li class="toctree-l1"><a class="reference internal" href="sampling.html">Sampling</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="sampling.html#navground.sim.Sampler"><code class="docutils literal notranslate"><span class="pre">Sampler</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="sampling.html#navground.sim.load_sampler"><code class="docutils literal notranslate"><span class="pre">load_sampler()</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="sampling.html#agents">Agents</a></li>
 </ul>
 </li>
@@ -592,13 +590,17 @@ document.write(`
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="yaml.html">YAML</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="yaml.html#load_state_estimation"><code class="docutils literal notranslate"><span class="pre">load_state_estimation()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="yaml.html#load_sensor"><code class="docutils literal notranslate"><span class="pre">load_sensor()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="yaml.html#load_task"><code class="docutils literal notranslate"><span class="pre">load_task()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="yaml.html#load_scenario"><code class="docutils literal notranslate"><span class="pre">load_scenario()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="yaml.html#load_agent"><code class="docutils literal notranslate"><span class="pre">load_agent()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="yaml.html#load_world"><code class="docutils literal notranslate"><span class="pre">load_world()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="yaml.html#load_experiment"><code class="docutils literal notranslate"><span class="pre">load_experiment()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="yaml.html#navground.sim.load_state_estimation"><code class="docutils literal notranslate"><span class="pre">load_state_estimation()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="yaml.html#navground.sim.load_sensor"><code class="docutils literal notranslate"><span class="pre">load_sensor()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="yaml.html#navground.sim.load_task"><code class="docutils literal notranslate"><span class="pre">load_task()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="yaml.html#navground.sim.load_scenario"><code class="docutils literal notranslate"><span class="pre">load_scenario()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="yaml.html#navground.sim.load_obstacle"><code class="docutils literal notranslate"><span class="pre">load_obstacle()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="yaml.html#navground.sim.load_wall"><code class="docutils literal notranslate"><span class="pre">load_wall()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="yaml.html#navground.sim.load_agent"><code class="docutils literal notranslate"><span class="pre">load_agent()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="yaml.html#navground.sim.load_world"><code class="docutils literal notranslate"><span class="pre">load_world()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="yaml.html#navground.sim.load_experiment"><code class="docutils literal notranslate"><span class="pre">load_experiment()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="yaml.html#navground.sim.load_sampler"><code class="docutils literal notranslate"><span class="pre">load_sampler()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="yaml.html#navground.sim.load_group"><code class="docutils literal notranslate"><span class="pre">load_group()</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="yaml.html#navground.sim.dump"><code class="docutils literal notranslate"><span class="pre">dump()</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="yaml.html#schema">Schema</a></li>
 </ul>

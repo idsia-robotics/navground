@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Social margin &#8212; navground 0.7.0.dev documentation</title>
+    <title>Social margin &#8212; navground 0.8.0.dev documentation</title>
   
   
   
@@ -41,7 +41,7 @@
 
     <script src="../../../_static/jquery.js?v=5d32c60e"></script>
     <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-    <script src="../../../_static/documentation_options.js?v=176ebae1"></script>
+    <script src="../../../_static/documentation_options.js?v=a17d1565"></script>
     <script src="../../../_static/doctools.js?v=9bcbadda"></script>
     <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -142,7 +142,7 @@
   
   
   
-    <p class="title logo__title">navground 0.7.0.dev documentation</p>
+    <p class="title logo__title">navground 0.8.0.dev documentation</p>
   
 </a></div>
         <div class="sidebar-primary-item">
@@ -527,15 +527,15 @@ document.write(`
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground4core12SocialMargin17get_default_valueEv"><code class="docutils literal notranslate"><span class="pre">get_default_value()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground4core12SocialMargin10get_valuesEv"><code class="docutils literal notranslate"><span class="pre">get_values()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground4core12SocialMargin13get_max_valueEv"><code class="docutils literal notranslate"><span class="pre">get_max_value()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core12SocialMargin10ModulationE"><code class="docutils literal notranslate"><span class="pre">navground::core::SocialMargin::Modulation</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core12SocialMargin14ZeroModulationE"><code class="docutils literal notranslate"><span class="pre">navground::core::SocialMargin::ZeroModulation</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core12SocialMargin18ConstantModulationE"><code class="docutils literal notranslate"><span class="pre">navground::core::SocialMargin::ConstantModulation</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core12SocialMargin16LinearModulationE"><code class="docutils literal notranslate"><span class="pre">navground::core::SocialMargin::LinearModulation</span></code></a><ul class="visible nav section-nav flex-column">
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core12SocialMargin16LinearModulation16LinearModulationE10ng_float_t"><code class="docutils literal notranslate"><span class="pre">LinearModulation()</span></code></a></li>
 </ul>
 </li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core12SocialMargin18LogisticModulationE"><code class="docutils literal notranslate"><span class="pre">navground::core::SocialMargin::LogisticModulation</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core12SocialMargin10ModulationE"><code class="docutils literal notranslate"><span class="pre">navground::core::SocialMargin::Modulation</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core12SocialMargin19QuadraticModulationE"><code class="docutils literal notranslate"><span class="pre">navground::core::SocialMargin::QuadraticModulation</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core12SocialMargin14ZeroModulationE"><code class="docutils literal notranslate"><span class="pre">navground::core::SocialMargin::ZeroModulation</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core12SocialMargin18LogisticModulationE"><code class="docutils literal notranslate"><span class="pre">navground::core::SocialMargin::LogisticModulation</span></code></a></li>
 </ul>
 </li>
 </ul>
@@ -709,6 +709,19 @@ document.write(`
 
 </div>
 <dl class="cpp class">
+<dt class="sig sig-object cpp" id="_CPPv4N9navground4core12SocialMargin10ModulationE">
+<span class="target" id="classnavground_1_1core_1_1_social_margin_1_1_modulation"></span><span class="k"><span class="pre">class</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">Modulation</span></span></span><a class="headerlink" href="#_CPPv4N9navground4core12SocialMargin10ModulationE" title="Link to this definition">#</a><br /></dt>
+<dd><p>Abstract modulation: maps a pair (margin, distance) to a margin. </p>
+<p>Subclassed by <a class="reference internal" href="#classnavground_1_1core_1_1_social_margin_1_1_constant_modulation"><span class="std std-ref">navground::core::SocialMargin::ConstantModulation</span></a>, <a class="reference internal" href="#classnavground_1_1core_1_1_social_margin_1_1_linear_modulation"><span class="std std-ref">navground::core::SocialMargin::LinearModulation</span></a>, <a class="reference internal" href="#classnavground_1_1core_1_1_social_margin_1_1_logistic_modulation"><span class="std std-ref">navground::core::SocialMargin::LogisticModulation</span></a>, <a class="reference internal" href="#classnavground_1_1core_1_1_social_margin_1_1_quadratic_modulation"><span class="std std-ref">navground::core::SocialMargin::QuadraticModulation</span></a>, <a class="reference internal" href="#classnavground_1_1core_1_1_social_margin_1_1_zero_modulation"><span class="std std-ref">navground::core::SocialMargin::ZeroModulation</span></a></p>
+</dd></dl>
+
+<dl class="cpp class">
+<dt class="sig sig-object cpp" id="_CPPv4N9navground4core12SocialMargin14ZeroModulationE">
+<span class="target" id="classnavground_1_1core_1_1_social_margin_1_1_zero_modulation"></span><span class="k"><span class="pre">class</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">ZeroModulation</span></span></span><span class="w"> </span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="k"><span class="pre">public</span></span><span class="w"> </span><span class="n"><span class="pre">navground</span></span><span class="p"><span class="pre">::</span></span><a class="reference internal" href="index.html#_CPPv4N9navground4coreE" title="navground::core"><span class="n"><span class="pre">core</span></span></a><span class="p"><span class="pre">::</span></span><a class="reference internal" href="#_CPPv4N9navground4core12SocialMarginE" title="navground::core::SocialMargin"><span class="n"><span class="pre">SocialMargin</span></span></a><span class="p"><span class="pre">::</span></span><a class="reference internal" href="#_CPPv4N9navground4core12SocialMargin10ModulationE" title="navground::core::SocialMargin::Modulation"><span class="n"><span class="pre">Modulation</span></span></a><a class="headerlink" href="#_CPPv4N9navground4core12SocialMargin14ZeroModulationE" title="Link to this definition">#</a><br /></dt>
+<dd><p>A modulation that always return 0. </p>
+</dd></dl>
+
+<dl class="cpp class">
 <dt class="sig sig-object cpp" id="_CPPv4N9navground4core12SocialMargin18ConstantModulationE">
 <span class="target" id="classnavground_1_1core_1_1_social_margin_1_1_constant_modulation"></span><span class="k"><span class="pre">class</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">ConstantModulation</span></span></span><span class="w"> </span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="k"><span class="pre">public</span></span><span class="w"> </span><span class="n"><span class="pre">navground</span></span><span class="p"><span class="pre">::</span></span><a class="reference internal" href="index.html#_CPPv4N9navground4coreE" title="navground::core"><span class="n"><span class="pre">core</span></span></a><span class="p"><span class="pre">::</span></span><a class="reference internal" href="#_CPPv4N9navground4core12SocialMarginE" title="navground::core::SocialMargin"><span class="n"><span class="pre">SocialMargin</span></span></a><span class="p"><span class="pre">::</span></span><a class="reference internal" href="#_CPPv4N9navground4core12SocialMargin10ModulationE" title="navground::core::SocialMargin::Modulation"><span class="n"><span class="pre">Modulation</span></span></a><a class="headerlink" href="#_CPPv4N9navground4core12SocialMargin18ConstantModulationE" title="Link to this definition">#</a><br /></dt>
 <dd><p>A modulation that leaves the margin unchanged. </p>
@@ -717,7 +730,7 @@ document.write(`
 <dl class="cpp class">
 <dt class="sig sig-object cpp" id="_CPPv4N9navground4core12SocialMargin16LinearModulationE">
 <span class="target" id="classnavground_1_1core_1_1_social_margin_1_1_linear_modulation"></span><span class="k"><span class="pre">class</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">LinearModulation</span></span></span><span class="w"> </span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="k"><span class="pre">public</span></span><span class="w"> </span><span class="n"><span class="pre">navground</span></span><span class="p"><span class="pre">::</span></span><a class="reference internal" href="index.html#_CPPv4N9navground4coreE" title="navground::core"><span class="n"><span class="pre">core</span></span></a><span class="p"><span class="pre">::</span></span><a class="reference internal" href="#_CPPv4N9navground4core12SocialMarginE" title="navground::core::SocialMargin"><span class="n"><span class="pre">SocialMargin</span></span></a><span class="p"><span class="pre">::</span></span><a class="reference internal" href="#_CPPv4N9navground4core12SocialMargin10ModulationE" title="navground::core::SocialMargin::Modulation"><span class="n"><span class="pre">Modulation</span></span></a><a class="headerlink" href="#_CPPv4N9navground4core12SocialMargin16LinearModulationE" title="Link to this definition">#</a><br /></dt>
-<dd><p>A modulation that linearly interpolate between 0 and the input margin, returning the input margin above <code class="docutils literal notranslate"><span class="pre">upper_distance</span></code></p>
+<dd><p>A modulation that linearly interpolate between 0 and the input margin, returning the input margin above <code class="docutils literal notranslate"><span class="pre">upper_distance</span></code>. </p>
 <div class="breathe-sectiondef docutils container">
 <p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-functions">Public Functions</p>
 <dl class="cpp function">
@@ -735,28 +748,15 @@ document.write(`
 </dd></dl>
 
 <dl class="cpp class">
-<dt class="sig sig-object cpp" id="_CPPv4N9navground4core12SocialMargin18LogisticModulationE">
-<span class="target" id="classnavground_1_1core_1_1_social_margin_1_1_logistic_modulation"></span><span class="k"><span class="pre">class</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">LogisticModulation</span></span></span><span class="w"> </span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="k"><span class="pre">public</span></span><span class="w"> </span><span class="n"><span class="pre">navground</span></span><span class="p"><span class="pre">::</span></span><a class="reference internal" href="index.html#_CPPv4N9navground4coreE" title="navground::core"><span class="n"><span class="pre">core</span></span></a><span class="p"><span class="pre">::</span></span><a class="reference internal" href="#_CPPv4N9navground4core12SocialMarginE" title="navground::core::SocialMargin"><span class="n"><span class="pre">SocialMargin</span></span></a><span class="p"><span class="pre">::</span></span><a class="reference internal" href="#_CPPv4N9navground4core12SocialMargin10ModulationE" title="navground::core::SocialMargin::Modulation"><span class="n"><span class="pre">Modulation</span></span></a><a class="headerlink" href="#_CPPv4N9navground4core12SocialMargin18LogisticModulationE" title="Link to this definition">#</a><br /></dt>
-<dd><p>A logistic modulation. </p>
-</dd></dl>
-
-<dl class="cpp class">
-<dt class="sig sig-object cpp" id="_CPPv4N9navground4core12SocialMargin10ModulationE">
-<span class="target" id="classnavground_1_1core_1_1_social_margin_1_1_modulation"></span><span class="k"><span class="pre">class</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">Modulation</span></span></span><a class="headerlink" href="#_CPPv4N9navground4core12SocialMargin10ModulationE" title="Link to this definition">#</a><br /></dt>
-<dd><p>Abstract modulation: maps a pair (margin, distance) to a margin. </p>
-<p>Subclassed by <a class="reference internal" href="#classnavground_1_1core_1_1_social_margin_1_1_constant_modulation"><span class="std std-ref">navground::core::SocialMargin::ConstantModulation</span></a>, <a class="reference internal" href="#classnavground_1_1core_1_1_social_margin_1_1_linear_modulation"><span class="std std-ref">navground::core::SocialMargin::LinearModulation</span></a>, <a class="reference internal" href="#classnavground_1_1core_1_1_social_margin_1_1_logistic_modulation"><span class="std std-ref">navground::core::SocialMargin::LogisticModulation</span></a>, <a class="reference internal" href="#classnavground_1_1core_1_1_social_margin_1_1_quadratic_modulation"><span class="std std-ref">navground::core::SocialMargin::QuadraticModulation</span></a>, <a class="reference internal" href="#classnavground_1_1core_1_1_social_margin_1_1_zero_modulation"><span class="std std-ref">navground::core::SocialMargin::ZeroModulation</span></a></p>
-</dd></dl>
-
-<dl class="cpp class">
 <dt class="sig sig-object cpp" id="_CPPv4N9navground4core12SocialMargin19QuadraticModulationE">
 <span class="target" id="classnavground_1_1core_1_1_social_margin_1_1_quadratic_modulation"></span><span class="k"><span class="pre">class</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">QuadraticModulation</span></span></span><span class="w"> </span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="k"><span class="pre">public</span></span><span class="w"> </span><span class="n"><span class="pre">navground</span></span><span class="p"><span class="pre">::</span></span><a class="reference internal" href="index.html#_CPPv4N9navground4coreE" title="navground::core"><span class="n"><span class="pre">core</span></span></a><span class="p"><span class="pre">::</span></span><a class="reference internal" href="#_CPPv4N9navground4core12SocialMarginE" title="navground::core::SocialMargin"><span class="n"><span class="pre">SocialMargin</span></span></a><span class="p"><span class="pre">::</span></span><a class="reference internal" href="#_CPPv4N9navground4core12SocialMargin10ModulationE" title="navground::core::SocialMargin::Modulation"><span class="n"><span class="pre">Modulation</span></span></a><a class="headerlink" href="#_CPPv4N9navground4core12SocialMargin19QuadraticModulationE" title="Link to this definition">#</a><br /></dt>
 <dd><p>A modulation that quadratically interpolates between 0 and the input margin, returning the input margin above <code class="docutils literal notranslate"><span class="pre">upper_distance</span></code>. The slope is 0 at distance 0. </p>
 </dd></dl>
 
 <dl class="cpp class">
-<dt class="sig sig-object cpp" id="_CPPv4N9navground4core12SocialMargin14ZeroModulationE">
-<span class="target" id="classnavground_1_1core_1_1_social_margin_1_1_zero_modulation"></span><span class="k"><span class="pre">class</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">ZeroModulation</span></span></span><span class="w"> </span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="k"><span class="pre">public</span></span><span class="w"> </span><span class="n"><span class="pre">navground</span></span><span class="p"><span class="pre">::</span></span><a class="reference internal" href="index.html#_CPPv4N9navground4coreE" title="navground::core"><span class="n"><span class="pre">core</span></span></a><span class="p"><span class="pre">::</span></span><a class="reference internal" href="#_CPPv4N9navground4core12SocialMarginE" title="navground::core::SocialMargin"><span class="n"><span class="pre">SocialMargin</span></span></a><span class="p"><span class="pre">::</span></span><a class="reference internal" href="#_CPPv4N9navground4core12SocialMargin10ModulationE" title="navground::core::SocialMargin::Modulation"><span class="n"><span class="pre">Modulation</span></span></a><a class="headerlink" href="#_CPPv4N9navground4core12SocialMargin14ZeroModulationE" title="Link to this definition">#</a><br /></dt>
-<dd><p>A modulation that always return 0. </p>
+<dt class="sig sig-object cpp" id="_CPPv4N9navground4core12SocialMargin18LogisticModulationE">
+<span class="target" id="classnavground_1_1core_1_1_social_margin_1_1_logistic_modulation"></span><span class="k"><span class="pre">class</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">LogisticModulation</span></span></span><span class="w"> </span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="k"><span class="pre">public</span></span><span class="w"> </span><span class="n"><span class="pre">navground</span></span><span class="p"><span class="pre">::</span></span><a class="reference internal" href="index.html#_CPPv4N9navground4coreE" title="navground::core"><span class="n"><span class="pre">core</span></span></a><span class="p"><span class="pre">::</span></span><a class="reference internal" href="#_CPPv4N9navground4core12SocialMarginE" title="navground::core::SocialMargin"><span class="n"><span class="pre">SocialMargin</span></span></a><span class="p"><span class="pre">::</span></span><a class="reference internal" href="#_CPPv4N9navground4core12SocialMargin10ModulationE" title="navground::core::SocialMargin::Modulation"><span class="n"><span class="pre">Modulation</span></span></a><a class="headerlink" href="#_CPPv4N9navground4core12SocialMargin18LogisticModulationE" title="Link to this definition">#</a><br /></dt>
+<dd><p>A logistic modulation. </p>
 </dd></dl>
 
 </dd></dl>
@@ -821,15 +821,15 @@ document.write(`
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground4core12SocialMargin17get_default_valueEv"><code class="docutils literal notranslate"><span class="pre">get_default_value()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground4core12SocialMargin10get_valuesEv"><code class="docutils literal notranslate"><span class="pre">get_values()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground4core12SocialMargin13get_max_valueEv"><code class="docutils literal notranslate"><span class="pre">get_max_value()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core12SocialMargin10ModulationE"><code class="docutils literal notranslate"><span class="pre">navground::core::SocialMargin::Modulation</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core12SocialMargin14ZeroModulationE"><code class="docutils literal notranslate"><span class="pre">navground::core::SocialMargin::ZeroModulation</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core12SocialMargin18ConstantModulationE"><code class="docutils literal notranslate"><span class="pre">navground::core::SocialMargin::ConstantModulation</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core12SocialMargin16LinearModulationE"><code class="docutils literal notranslate"><span class="pre">navground::core::SocialMargin::LinearModulation</span></code></a><ul class="visible nav section-nav flex-column">
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core12SocialMargin16LinearModulation16LinearModulationE10ng_float_t"><code class="docutils literal notranslate"><span class="pre">LinearModulation()</span></code></a></li>
 </ul>
 </li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core12SocialMargin18LogisticModulationE"><code class="docutils literal notranslate"><span class="pre">navground::core::SocialMargin::LogisticModulation</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core12SocialMargin10ModulationE"><code class="docutils literal notranslate"><span class="pre">navground::core::SocialMargin::Modulation</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core12SocialMargin19QuadraticModulationE"><code class="docutils literal notranslate"><span class="pre">navground::core::SocialMargin::QuadraticModulation</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core12SocialMargin14ZeroModulationE"><code class="docutils literal notranslate"><span class="pre">navground::core::SocialMargin::ZeroModulation</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground4core12SocialMargin18LogisticModulationE"><code class="docutils literal notranslate"><span class="pre">navground::core::SocialMargin::LogisticModulation</span></code></a></li>
 </ul>
 </li>
 </ul>

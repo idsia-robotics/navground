@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>How to integrate a Python component &#8212; navground 0.7.0.dev documentation</title>
+    <title>How to integrate a Python component &#8212; navground 0.8.0.dev documentation</title>
   
   
   
@@ -41,7 +41,7 @@
 
     <script src="../../_static/jquery.js?v=5d32c60e"></script>
     <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-    <script src="../../_static/documentation_options.js?v=176ebae1"></script>
+    <script src="../../_static/documentation_options.js?v=a17d1565"></script>
     <script src="../../_static/doctools.js?v=9bcbadda"></script>
     <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -142,7 +142,7 @@
   
   
   
-    <p class="title logo__title">navground 0.7.0.dev documentation</p>
+    <p class="title logo__title">navground 0.8.0.dev documentation</p>
   
 </a></div>
         <div class="sidebar-primary-item">
@@ -627,7 +627,7 @@ in the navground API and CLI, and you will simplify its usage by others.</p>
 <section id="define-properties">
 <span id="py-properties"></span><h2>Define Properties<a class="headerlink" href="#define-properties" title="Link to this heading">#</a></h2>
 <p>Add a Python property for any parameter you want to expose.
-Below <a class="reference external" href="https://docs.python.org/3/library/functions.html#property" title="(in Python v3.13)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">property</span></code></a>, add the <a class="reference internal" href="../../reference/core/python/register.html#navground.core.register" title="navground.core.register"><code class="xref py py-meth docutils literal notranslate"><span class="pre">navground.core.register()</span></code></a> decorator
+Below <a class="reference external" href="https://docs.python.org/3/library/functions.html#property" title="(in Python v3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">property</span></code></a>, add the <a class="reference internal" href="../../reference/core/python/register.html#navground.core.register" title="navground.core.register"><code class="xref py py-meth docutils literal notranslate"><span class="pre">navground.core.register()</span></code></a> decorator
 with the default value and an optional description</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">MyComponent</span><span class="p">(</span><span class="n">Component</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;MyName&quot;</span><span class="p">):</span>
 
@@ -671,11 +671,11 @@ with the default value and an optional description</p>
 </div>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>When working with components defined in Python, navground properties are not very useful, as you could directly inspect the Python class and use its accessors, or even generic accessors like <a class="reference external" href="https://docs.python.org/3/library/functions.html#getattr" title="(in Python v3.13)"><code class="xref py py-func docutils literal notranslate"><span class="pre">getattr()</span></code></a> and <a class="reference external" href="https://docs.python.org/3/library/functions.html#setattr" title="(in Python v3.13)"><code class="xref py py-func docutils literal notranslate"><span class="pre">setattr()</span></code></a>. Instead, when the component is loaded from YAML or C++, properties offer a generic way to access to instance attributes.</p>
+<p>When working with components defined in Python, navground properties are not very useful, as you could directly inspect the Python class and use its accessors, or even generic accessors like <a class="reference external" href="https://docs.python.org/3/library/functions.html#getattr" title="(in Python v3.14)"><code class="xref py py-func docutils literal notranslate"><span class="pre">getattr()</span></code></a> and <a class="reference external" href="https://docs.python.org/3/library/functions.html#setattr" title="(in Python v3.14)"><code class="xref py py-func docutils literal notranslate"><span class="pre">setattr()</span></code></a>. Instead, when the component is loaded from YAML or C++, properties offer a generic way to access to instance attributes.</p>
 </div>
 <section id="property-schema">
 <h3>Property Schema<a class="headerlink" href="#property-schema" title="Link to this heading">#</a></h3>
-<p>Pass an optional argument of type <code class="code highlight py cpp docutils literal highlight-cpp"><span class="n">typing</span><span class="p">.</span><span class="n">Callable</span><span class="p">[[</span><span class="n">dict</span><span class="p">[</span><span class="n">str</span><span class="p">,</span><span class="w"> </span><span class="n">typing</span><span class="p">.</span><span class="n">Any</span><span class="p">]],</span><span class="w"> </span><span class="n">None</span><span class="p">]</span></code> when registering a property to add validation constrains. For example, to mark an integer property as strictly positive, add</p>
+<p>Pass an optional argument of type <code class="code highlight py cpp docutils literal highlight-cpp"><span class="n">collections</span><span class="p">.</span><span class="n">abc</span><span class="p">.</span><span class="n">Callable</span><span class="p">[[</span><span class="n">dict</span><span class="p">[</span><span class="n">str</span><span class="p">,</span><span class="w"> </span><span class="n">typing</span><span class="p">.</span><span class="n">Any</span><span class="p">]],</span><span class="w"> </span><span class="n">None</span><span class="p">]</span></code> when registering a property to add validation constrains. For example, to mark an integer property as strictly positive, add</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="nd">@core</span><span class="o">.</span><span class="n">register</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="s2">&quot;my description&quot;</span><span class="p">,</span> <span class="n">core</span><span class="o">.</span><span class="n">schema</span><span class="o">.</span><span class="n">strict_positive</span><span class="p">)</span>
 <span class="k">def</span><span class="w"> </span><span class="nf">value</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span> <span class="o">...</span>
 </pre></div>
@@ -742,7 +742,7 @@ the treatment as random variable for free.</p>
 </div>
 <section id="class-schema">
 <h3>Class Schema<a class="headerlink" href="#class-schema" title="Link to this heading">#</a></h3>
-<p>If your class defines a custom YAML representation, it should also register the related JSON-schema, as a function of type <code class="code highlight py cpp docutils literal highlight-cpp"><span class="n">typing</span><span class="p">.</span><span class="n">Callable</span><span class="p">[[</span><span class="n">dict</span><span class="p">[</span><span class="n">str</span><span class="p">,</span><span class="w"> </span><span class="n">typing</span><span class="p">.</span><span class="n">Any</span><span class="p">]],</span><span class="w"> </span><span class="n">None</span><span class="p">]</span></code> that modify the default schema of the class.</p>
+<p>If your class defines a custom YAML representation, it should also register the related JSON-schema, as a function of type <code class="code highlight py cpp docutils literal highlight-cpp"><span class="n">collections</span><span class="p">.</span><span class="n">abc</span><span class="p">.</span><span class="n">Callable</span><span class="p">[[</span><span class="n">dict</span><span class="p">[</span><span class="n">str</span><span class="p">,</span><span class="w"> </span><span class="n">typing</span><span class="p">.</span><span class="n">Any</span><span class="p">]],</span><span class="w"> </span><span class="n">None</span><span class="p">]</span></code> that modify the default schema of the class.</p>
 <p>In the example above, we add the appropriate schema</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">MyComponent</span><span class="p">(</span><span class="n">Component</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;MyName&quot;</span><span class="p">):</span>
 

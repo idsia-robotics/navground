@@ -1,0 +1,744 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Attributes vs Properties &#8212; navground 0.7.0 documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=8f2a1f02" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=eba8b062" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../_static/tabs.css?v=a5c4661c" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script src="../_static/jquery.js?v=5d32c60e"></script>
+    <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+    <script src="../_static/documentation_options.js?v=c62cc9a0"></script>
+    <script src="../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=f281be69"></script>
+    <script src="../_static/tabs.js?v=3030b3cb"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script src="../_static/design-tabs.js?v=f930bc37"></script>
+    <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@jupyter-widgets/html-manager@^1.0.1/dist/embed-amd.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'background/attributes_and_properties';</script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Reference" href="../reference/index.html" />
+    <link rel="prev" title="Accessors" href="accessors.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search..."
+         aria-label="Search..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../index.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">navground 0.7.0 documentation</p>
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../introduction.html">Introduction</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../installation/index.html">Installation</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../installation/pip.html">PyPi</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../installation/github_release.html">Github release</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../installation/docker.html">Docker</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../installation/from_source.html">Building from source</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../installation/step_by_step.html">Step-by-step Instructions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../installation/setup_dev.html">Setup a development environment</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../installation/troubleshooting.html">Troubleshooting</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1"><a class="reference internal" href="../first_steps.html">First Steps</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cli.html">Command Line Interface</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials/tour.html">A tour of navground</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../packages/index.html">Packages</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../packages/navground_core.html">navground_core</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../packages/navground_core_py.html">navground_core_py</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../packages/navground_sim.html">navground_sim</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../packages/navground_sim_py.html">navground_sim_py</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../packages/navground_examples.html">navground_examples</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../packages/navground_examples_py.html">navground_examples_py</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../packages/navground_examples_yaml.html">navground_examples_yaml</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../packages/navground_demos.html">navground_demos</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../packages/navground_minimal_plugin_cpp.html">navground_minimal_plugin_cpp</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../packages/navground_minimal_plugin_py.html">navground_minimal_plugin_py</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../tutorials/index.html">Tutorials</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../tutorials/designing_an_experiment.html">Designing an experiment</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tutorials/running_an_experiment_no_hdf5.html">Running and analysing experiments (in memory)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tutorials/running_an_experiment.html">Running and analysing experiments (HFD5)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tutorials/display.html">Visualize a simulation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tutorials/playback.html">Load and playing back recorded experiments</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tutorials/deadlocks_and_collisions.html">Deadlocks and Collisions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tutorials/modulations.html">Behavior Modulations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tutorials/sensors.html">Sensors</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tutorials/world_attributes.html">World attributes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tutorials/sampling.html">Scenarios generate worlds</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../guides/index.html">Guides</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../guides/extend/index.html">How to extend navground</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../guides/extend/register_cpp.html">How to integrate a C++ component</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../guides/extend/register_py.html">How to integrate a Python component</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../guides/extend/behavior.html">Behaviors</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../guides/extend/behavior_group.html">Behavior groups</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../guides/extend/behavior_modulation.html">Behavior modulations</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../guides/extend/kinematics.html">Kinematics</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../guides/extend/state_estimation.html">State Estimations</a></li>
+
+<li class="toctree-l3"><a class="reference internal" href="../guides/extend/task.html">Tasks</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../guides/extend/scenario.html">Scenarios</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2"><a class="reference internal" href="../guides/parallelize.html">How to parallelize the execution of an experiment</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../guides/probes.html">How to record custom data in experiments</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../guides/install.html">How to build without the ROS build tools</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../guides/validate.html">How to validate code</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../components/index.html">Components</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../components/behaviors/index.html">Behaviors</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../components/behaviors/dummy.html">Dummy</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../components/behaviors/orca.html">Optimal Reciprocal Collision Avoidance (ORCA)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../components/behaviors/hrvo.html">Hybrid Velocity Obstacle (HRVO)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../components/behaviors/hl.html">Human-like (HL)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../components/behaviors/social_force.html">Social Force</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../components/behavior_modulations/index.html">Behavior Modulations</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../components/behavior_modulations/limit_acceleration.html">Limiting the acceleration</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../components/behavior_modulations/limit_twist.html">Limiting the twist</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../components/behavior_modulations/motor_pid.html">Motorized Wheels PID</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../components/behavior_modulations/relaxation.html">Relaxation</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../components/kinematics/index.html">Kinematics</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../components/kinematics/omni.html">Omni-directional</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../components/kinematics/ahead.html">Ahead</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../components/kinematics/2wdiff.html">Two-wheeled differential drive</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../components/kinematics/2wdiffdyn.html">Two-wheeled differential drive with limited torque</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../components/kinematics/4womni.html">Four-wheeled omnidirectional drive</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../components/kinematics/bicycle.html">Bicycle</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../components/state_estimations/index.html">State Estimations</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../components/state_estimations/bounded.html">Geometric with limited range</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../components/state_estimations/discs.html">Discs</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../components/state_estimations/odometry.html">Odometry</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../components/state_estimations/lidar.html">Lidar</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../components/state_estimations/boundary.html">Boundary</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../components/state_estimations/local_gridmap.html">Local GridMap</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../components/state_estimations/marker.html">Marker</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../components/tasks/index.html">Tasks</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../components/tasks/direction.html">Direction</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../components/tasks/waypoints.html">Waypoints</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../components/tasks/go_to_pose.html">GoToPose</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../components/tasks/path.html">Path</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../components/scenarios/index.html">Scenarios</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../components/scenarios/antipodal.html">Antipodal</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../components/scenarios/corridor.html">Corridor</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../components/scenarios/cross.html">Cross</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../components/scenarios/cross_torus.html">Cross Torus</a></li>
+</ul>
+</details></li>
+</ul>
+</details></li>
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="index.html">Background Information</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="two_wheeled_kinematics.html">Two-wheeled kinematics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="accessors.html">Accessors</a></li>
+<li class="toctree-l2 current active"><a class="current reference internal" href="#">Attributes vs Properties</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../reference/index.html">Reference</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../reference/core/index.html">Core</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../reference/core/cpp/index.html">C++ API</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="../reference/core/cpp/types.html">Types</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../reference/core/cpp/common.html">Geometry</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../reference/core/cpp/auto_registration.html">Auto registration</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../reference/core/cpp/attribute.html">Attributes</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../reference/core/cpp/yaml.html">YAML</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../reference/core/cpp/kinematics/index.html">Kinematics</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../reference/core/cpp/target.html">Target</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../reference/core/cpp/behaviors/index.html">Behaviors</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../reference/core/cpp/state/index.html">Environment State</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../reference/core/cpp/collision_computation.html">Computing collisions</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../reference/core/cpp/social_margin.html">Social margin</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../reference/core/cpp/behavior_modulations/index.html">Behavior Modulations</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../reference/core/cpp/controller.html">Controller</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../reference/core/cpp/helper.html">Helpers</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../reference/core/cpp/build.html">Build info</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../reference/core/python/index.html">Python API</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="../reference/core/python/common.html">Geometry</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../reference/core/python/auto_registration.html">Auto registration</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../reference/core/python/attribute.html">Attributes</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../reference/core/python/yaml.html">YAML</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../reference/core/python/kinematics/index.html">Kinematics</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../reference/core/python/target.html">Target</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../reference/core/python/behaviors/index.html">Behaviors</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../reference/core/python/state/index.html">Environment State</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../reference/core/python/collision_computation.html">Computing collisions</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../reference/core/python/social_margin.html">Social margin</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../reference/core/python/behavior_modulations/index.html">Behavior Modulations</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../reference/core/python/controller.html">Controller</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../reference/core/python/build.html">Build info</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../reference/core/yaml/index.html">YAML Schemas</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="../reference/core/yaml/common.html">Geometry</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../reference/core/yaml/register.html">Registered components</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../reference/core/yaml/attributes.html">Attributes</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../reference/core/yaml/kinematics.html">Kinematics</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../reference/core/yaml/social_margin.html">Social margin</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../reference/core/yaml/behavior_modulation.html">Behavior Modulation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../reference/core/yaml/state.html">Environment State</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../reference/core/yaml/behavior.html">Behavior</a></li>
+</ul>
+</details></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../reference/sim/index.html">Simulation</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../reference/sim/cpp/index.html">C++ API</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="../reference/sim/cpp/world.html">World</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../reference/sim/cpp/agent.html">Agent</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../reference/sim/cpp/state_estimations/index.html">State estimations</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../reference/sim/cpp/tasks/index.html">Tasks</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../reference/sim/cpp/sampling.html">Sampling</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../reference/sim/cpp/scenarios/index.html">Scenarios</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../reference/sim/cpp/experiment/index.html">Experiments</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../reference/sim/cpp/yaml.html">YAML</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../reference/sim/python/index.html">Python API</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="../reference/sim/python/world.html">World</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../reference/sim/python/agent.html">Agent</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../reference/sim/python/state_estimations/index.html">State estimations</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../reference/sim/python/tasks/index.html">Tasks</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../reference/sim/python/sampling.html">Sampling</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../reference/sim/python/scenarios/index.html">Scenarios</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../reference/sim/python/experiment/index.html">Experiments</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../reference/sim/python/yaml.html">YAML</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../reference/sim/python/plugins.html">Plugins</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../reference/sim/python/helpers.html">Helpers</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../reference/sim/python/visualization/index.html">Visualization</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../reference/sim/yaml/index.html">YAML Schemas</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="../reference/sim/yaml/agent.html">Agent</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../reference/sim/yaml/task.html">Task</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../reference/sim/yaml/state_estimation.html">State estimation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../reference/sim/yaml/world.html">World</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../reference/sim/yaml/samplers.html">Sampling</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../reference/sim/yaml/scenario.html">Scenario</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../reference/sim/yaml/experiment.html">Experiment</a></li>
+</ul>
+</details></li>
+</ul>
+</details></li>
+</ul>
+</details></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../_sources/background/attributes_and_properties.rst" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.rst</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Attributes vs Properties</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section id="attributes-vs-properties">
+<h1>Attributes vs Properties<a class="headerlink" href="#attributes-vs-properties" title="Link to this heading">#</a></h1>
+<p>We added two ways to access values by name in the navground C++ library inspired by Python features: (dynamic) attributes and properties.</p>
+<p>For both values are restricted to booleans, integers, floating-point numbers, strings, 2-D vectors and homogeneous sequences of these types  (<code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">std::vector</span></code> in C++, <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code></a> in Python) and are saved/loaded from/to YAML.</p>
+<p>We expose a similar APIs to set/get them:</p>
+<div class="sphinx-tabs docutils container">
+<div aria-label="Tabbed content" class="closeable" role="tablist"><button aria-controls="panel-0-0-0" aria-selected="true" class="sphinx-tabs-tab" id="tab-0-0-0" name="0-0" role="tab" tabindex="0">C++</button><button aria-controls="panel-0-0-1" aria-selected="false" class="sphinx-tabs-tab" id="tab-0-0-1" name="0-1" role="tab" tabindex="-1">Python</button></div><div aria-labelledby="tab-0-0-0" class="sphinx-tabs-panel" id="panel-0-0-0" name="0-0" role="tabpanel" tabindex="0"><div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="n">SupportsAttributes</span><span class="w"> </span><span class="n">obj</span><span class="p">;</span>
+<span class="n">obj</span><span class="p">.</span><span class="n">set</span><span class="p">(</span><span class="s">&quot;key&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">value</span><span class="p">);</span>
+<span class="n">obj</span><span class="p">.</span><span class="n">get</span><span class="p">(</span><span class="s">&quot;key&quot;</span><span class="p">);</span>
+</pre></div>
+</div>
+</div><div aria-labelledby="tab-0-0-1" class="sphinx-tabs-panel" hidden="true" id="panel-0-0-1" name="0-1" role="tabpanel" tabindex="0"><div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="n">obj</span> <span class="o">=</span> <span class="n">SupportsAttributes</span><span class="p">()</span>
+<span class="n">obj</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="s2">&quot;key&quot;</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
+<span class="n">obj</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;key&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div></div>
+<p>The main differences between them are that:</p>
+<ul>
+<li><p>the list of properties is pre-defined by the class and cannot be modified by instances.</p>
+<div class="sphinx-tabs docutils container">
+<div aria-label="Tabbed content" class="closeable" role="tablist"><button aria-controls="panel-1-1-0" aria-selected="true" class="sphinx-tabs-tab" id="tab-1-1-0" name="1-0" role="tab" tabindex="0">C++</button><button aria-controls="panel-1-1-1" aria-selected="false" class="sphinx-tabs-tab" id="tab-1-1-1" name="1-1" role="tab" tabindex="-1">Python</button></div><div aria-labelledby="tab-1-1-0" class="sphinx-tabs-panel" id="panel-1-1-0" name="1-0" role="tabpanel" tabindex="0"><div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">SupportsProperties</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="k">public</span><span class="w"> </span><span class="n">HasProperties</span><span class="w"> </span><span class="p">{</span>
+<span class="w">   </span><span class="kt">int</span><span class="w"> </span><span class="nf">my_param_getter</span><span class="p">();</span>
+<span class="w">   </span><span class="kt">void</span><span class="w"> </span><span class="nf">my_param_setter</span><span class="p">();</span>
+<span class="w">   </span><span class="kr">inline</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="k">static</span><span class="w"> </span><span class="n">core</span><span class="o">::</span><span class="n">Properties</span><span class="w"> </span><span class="n">properties</span><span class="p">{</span>
+<span class="w">     </span><span class="p">{</span><span class="s">&quot;my_param&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="n">core</span><span class="o">::</span><span class="n">make_property</span><span class="o">&lt;</span><span class="kt">int</span><span class="p">,</span><span class="n">SupportsProperties</span><span class="o">&gt;</span><span class="p">(</span>
+<span class="w">        </span><span class="o">&amp;</span><span class="n">my_param_getter</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">my_param_setter</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span>
+<span class="w">        </span><span class="s">&quot;my param description&quot;</span><span class="p">)}};</span>
+<span class="p">};</span>
+</pre></div>
+</div>
+</div><div aria-labelledby="tab-1-1-1" class="sphinx-tabs-panel" hidden="true" id="panel-1-1-1" name="1-1" role="tabpanel" tabindex="0"><div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">SupportsProperties</span><span class="p">(</span><span class="n">HasProperties</span><span class="p">):</span>
+
+    <span class="nd">@property</span>
+    <span class="nd">@sim</span><span class="o">.</span><span class="n">register</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">my_param</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span> <span class="o">...</span>
+
+    <span class="nd">@my_param</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">my_param</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span> <span class="o">...</span>
+</pre></div>
+</div>
+</div></div>
+<p>On the contrary, attributes can be freely added/deleted by each instance</p>
+<div class="sphinx-tabs docutils container">
+<div aria-label="Tabbed content" class="closeable" role="tablist"><button aria-controls="panel-2-2-0" aria-selected="true" class="sphinx-tabs-tab" id="tab-2-2-0" name="2-0" role="tab" tabindex="0">C++</button><button aria-controls="panel-2-2-1" aria-selected="false" class="sphinx-tabs-tab" id="tab-2-2-1" name="2-1" role="tab" tabindex="-1">Python</button></div><div aria-labelledby="tab-2-2-0" class="sphinx-tabs-panel" id="panel-2-2-0" name="2-0" role="tabpanel" tabindex="0"><div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="n">SupportsAttributes</span><span class="w"> </span><span class="n">obj</span><span class="p">;</span>
+<span class="n">obj</span><span class="p">.</span><span class="n">set</span><span class="p">(</span><span class="s">&quot;my_param&quot;</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">);</span>
+<span class="n">obj</span><span class="p">.</span><span class="n">remove</span><span class="p">(</span><span class="s">&quot;my_param&quot;</span><span class="p">);</span>
+</pre></div>
+</div>
+</div><div aria-labelledby="tab-2-2-1" class="sphinx-tabs-panel" hidden="true" id="panel-2-2-1" name="2-1" role="tabpanel" tabindex="0"><div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="n">obj</span> <span class="o">=</span> <span class="n">SupportsAttributes</span><span class="p">()</span>
+<span class="n">obj</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="s2">&quot;my_param&quot;</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+<span class="n">obj</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="s2">&quot;my_param&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div></div>
+</li>
+<li><p>properties are typed, while attributes values can change type.</p>
+<div class="sphinx-tabs docutils container">
+<div aria-label="Tabbed content" class="closeable" role="tablist"><button aria-controls="panel-3-3-0" aria-selected="true" class="sphinx-tabs-tab" id="tab-3-3-0" name="3-0" role="tab" tabindex="0">C++</button><button aria-controls="panel-3-3-1" aria-selected="false" class="sphinx-tabs-tab" id="tab-3-3-1" name="3-1" role="tab" tabindex="-1">Python</button></div><div aria-labelledby="tab-3-3-0" class="sphinx-tabs-panel" id="panel-3-3-0" name="3-0" role="tabpanel" tabindex="0"><div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="n">SupportsAttributes</span><span class="w"> </span><span class="n">obj</span><span class="p">;</span>
+<span class="n">obj</span><span class="p">.</span><span class="n">set</span><span class="p">(</span><span class="s">&quot;my_param&quot;</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">);</span>
+<span class="n">obj</span><span class="p">.</span><span class="n">set</span><span class="p">(</span><span class="s">&quot;my_param&quot;</span><span class="p">,</span><span class="w"> </span><span class="mf">1.234</span><span class="p">)</span>
+<span class="n">obj</span><span class="p">.</span><span class="n">set</span><span class="p">(</span><span class="s">&quot;my_param&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;xxx&quot;</span><span class="p">);</span>
+</pre></div>
+</div>
+</div><div aria-labelledby="tab-3-3-1" class="sphinx-tabs-panel" hidden="true" id="panel-3-3-1" name="3-1" role="tabpanel" tabindex="0"><div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="n">obj</span> <span class="o">=</span> <span class="n">SupportsAttributes</span><span class="p">()</span>
+<span class="n">obj</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="s2">&quot;my_param&quot;</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+<span class="n">obj</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="s2">&quot;my_param&quot;</span><span class="p">,</span> <span class="mf">1.234</span><span class="p">)</span>
+<span class="n">obj</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="s2">&quot;my_param&quot;</span><span class="p">,</span> <span class="s2">&quot;xxx&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div></div>
+</li>
+<li><p>properties have a default value while attributes do not.</p>
+<div class="sphinx-tabs docutils container">
+<div aria-label="Tabbed content" class="closeable" role="tablist"><button aria-controls="panel-4-4-0" aria-selected="true" class="sphinx-tabs-tab" id="tab-4-4-0" name="4-0" role="tab" tabindex="0">C++</button><button aria-controls="panel-4-4-1" aria-selected="false" class="sphinx-tabs-tab" id="tab-4-4-1" name="4-1" role="tab" tabindex="-1">Python</button></div><div aria-labelledby="tab-4-4-0" class="sphinx-tabs-panel" id="panel-4-4-0" name="4-0" role="tabpanel" tabindex="0"><div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="n">SupportsProperties</span><span class="w"> </span><span class="n">obj1</span><span class="p">;</span>
+<span class="c1">// returns a value of the property type</span>
+<span class="c1">// (integer in this case)</span>
+<span class="k">auto</span><span class="w"> </span><span class="n">value1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">obj1</span><span class="p">.</span><span class="n">get</span><span class="p">(</span><span class="s">&quot;my_param&quot;</span><span class="p">);</span>
+<span class="n">SupportsAttributes</span><span class="w"> </span><span class="n">obj2</span><span class="p">;</span>
+<span class="c1">// return std::nullopt as the attributes is not defined</span>
+<span class="k">auto</span><span class="w"> </span><span class="n">value2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">obj2</span><span class="p">.</span><span class="n">get</span><span class="p">(</span><span class="s">&quot;my_param&quot;</span><span class="p">);</span>
+</pre></div>
+</div>
+</div><div aria-labelledby="tab-4-4-1" class="sphinx-tabs-panel" hidden="true" id="panel-4-4-1" name="4-1" role="tabpanel" tabindex="0"><div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="n">obj1</span> <span class="o">=</span> <span class="n">SupportsProperties</span><span class="p">()</span>
+<span class="c1"># returns a value of the property type</span>
+<span class="c1"># (integer in this case)</span>
+<span class="n">value1</span> <span class="o">=</span> <span class="n">obj1</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;my_param&quot;</span><span class="p">)</span>
+<span class="n">obj2</span> <span class="o">=</span> <span class="n">SupportsAttributes</span><span class="p">()</span>
+<span class="c1"># returns None as the attribute is not defined</span>
+<span class="n">value2</span> <span class="o">=</span> <span class="n">obj2</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;my_param&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div></div>
+</li>
+</ul>
+<p>They also serve different goals:</p>
+<ul>
+<li><p>properties are used to expose (to C++, Python and YAML) parameters of registered sub-classes. In the normal case, properties are solely read by the class itself and are not used to share data between different objects.
+If the sub-classes are implemented in C++, we can access those parameters from Python and YAML too (and vice-versa), without explicitly binding the accessors.</p>
+<p>For example, when defining a new behavior, we expose specific configurations as properties, which we then used to configure the behavior through YAML.</p>
+</li>
+<li><p>attributes are used to append (from C++/Python/YAML) data to an object, in particular to an instance of a (non-registered) base class. When reading an attribute, users should check if the attribute is defined and has the expected type.</p>
+<p>For example, we set the attribute “floor_color” of a world to specify the color of the floor. Then, we can write a renderer that consumes that attribute if it is defined.</p>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">navground</span><span class="w"> </span><span class="kn">import</span> <span class="n">sim</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">navground.sim.ui.render</span><span class="w"> </span><span class="kn">import</span> <span class="n">pdf_for_world</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">navground.sim.ui</span><span class="w"> </span><span class="kn">import</span> <span class="n">svg_color</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">floor</span><span class="p">(</span><span class="n">world</span><span class="p">:</span> <span class="n">sim</span><span class="o">.</span><span class="n">World</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+    <span class="n">x</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">world</span><span class="o">.</span><span class="n">bounding_box</span><span class="o">.</span><span class="n">to_tuple</span><span class="p">()</span>
+    <span class="n">height</span> <span class="o">=</span> <span class="n">world</span><span class="o">.</span><span class="n">bounding_box</span><span class="o">.</span><span class="n">height</span>
+    <span class="n">width</span> <span class="o">=</span> <span class="n">world</span><span class="o">.</span><span class="n">bounding_box</span><span class="o">.</span><span class="n">width</span>
+    <span class="n">rgb</span> <span class="o">=</span> <span class="n">world</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;floor_color&quot;</span><span class="p">)</span>
+    <span class="k">try</span><span class="p">:</span>
+       <span class="n">color</span> <span class="o">=</span> <span class="n">svg_color</span><span class="p">(</span><span class="o">*</span><span class="n">rgb</span><span class="p">)</span>
+    <span class="k">except</span><span class="p">:</span>
+       <span class="n">color</span> <span class="o">=</span> <span class="s2">&quot;white&quot;</span>
+    <span class="k">return</span> <span class="sa">f</span><span class="s1">&#39;&lt;rect x=&quot;</span><span class="si">{</span><span class="n">x</span><span class="si">}</span><span class="s1">&quot; y=&quot;</span><span class="si">{</span><span class="n">y</span><span class="si">}</span><span class="s1">&quot; height=&quot;</span><span class="si">{</span><span class="n">height</span><span class="si">}</span><span class="s1">&quot; width=&quot;</span><span class="si">{</span><span class="n">width</span><span class="si">}</span><span class="s1">&quot; color=&quot;</span><span class="si">{</span><span class="n">color</span><span class="si">}</span><span class="s1">&quot;/&gt;&#39;</span>
+
+<span class="n">world</span> <span class="o">=</span> <span class="n">sim</span><span class="o">.</span><span class="n">World</span><span class="p">()</span>
+<span class="n">world</span><span class="o">.</span><span class="n">bounding_box</span> <span class="o">=</span> <span class="n">sim</span><span class="o">.</span><span class="n">BoundingBox</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+<span class="n">world</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="s2">&quot;floor_color&quot;</span><span class="p">,</span> <span class="p">[</span><span class="mf">0.3</span><span class="p">,</span> <span class="mf">0.7</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">])</span>
+<span class="n">image</span> <span class="o">=</span> <span class="n">pdf_for_world</span><span class="p">(</span><span class="n">world</span><span class="p">,</span> <span class="n">extras</span><span class="o">=</span><span class="p">[</span><span class="n">floor</span><span class="p">])</span>
+</pre></div>
+</div>
+</li>
+</ul>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>In the example above, we could have used Python attributes directly (i.e., <code class="docutils literal notranslate"><span class="pre">__dict__</span></code>), which <a class="reference internal" href="../reference/sim/python/world.html#navground.sim.World" title="navground.sim.World"><code class="xref py py-class docutils literal notranslate"><span class="pre">navground.sim.World</span></code></a> supports.
+By using navground own attributes instead, we can read/write the attributes from C++ and YAML too. For example, we could write a C++ state estimation that consumes such attribute, see <a class="reference internal" href="../tutorials/world_attributes.html"><span class="doc">World attributes</span></a>.</p>
+</div>
+<p>Currently, attributes are supported by:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">World</span></code> (<a class="reference internal" href="../reference/sim/cpp/world.html#_CPPv4N9navground3sim5WorldE" title="navground::sim::World"><code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">C++</span></code></a>, <a class="reference internal" href="../reference/sim/python/world.html#navground.sim.World" title="navground.sim.World"><code class="xref py py-class docutils literal notranslate"><span class="pre">Python</span></code></a>)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Agent</span></code> (<a class="reference internal" href="../reference/sim/cpp/agent.html#_CPPv4N9navground3sim5AgentE" title="navground::sim::Agent"><code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">C++</span></code></a>, <a class="reference internal" href="../reference/sim/python/agent.html#navground.sim.Agent" title="navground.sim.Agent"><code class="xref py py-class docutils literal notranslate"><span class="pre">Python</span></code></a>)</p></li>
+</ul>
+</section>
+
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="accessors.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Accessors</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="../reference/index.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Reference</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Jérôme Guzzi, IDSIA
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2023, Jérôme Guzzi, IDSIA.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

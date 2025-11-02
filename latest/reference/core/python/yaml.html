@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>YAML &#8212; navground 0.7.0.dev documentation</title>
+    <title>YAML &#8212; navground 0.8.0.dev documentation</title>
   
   
   
@@ -41,7 +41,7 @@
 
     <script src="../../../_static/jquery.js?v=5d32c60e"></script>
     <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-    <script src="../../../_static/documentation_options.js?v=176ebae1"></script>
+    <script src="../../../_static/documentation_options.js?v=a17d1565"></script>
     <script src="../../../_static/doctools.js?v=9bcbadda"></script>
     <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -142,7 +142,7 @@
   
   
   
-    <p class="title logo__title">navground 0.7.0.dev documentation</p>
+    <p class="title logo__title">navground 0.8.0.dev documentation</p>
   
 </a></div>
         <div class="sidebar-primary-item">
@@ -517,6 +517,9 @@ document.write(`
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.core.load_behavior"><code class="docutils literal notranslate"><span class="pre">load_behavior()</span></code></a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.core.load_behavior_modulation"><code class="docutils literal notranslate"><span class="pre">load_behavior_modulation()</span></code></a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.core.load_kinematics"><code class="docutils literal notranslate"><span class="pre">load_kinematics()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.core.load_disc"><code class="docutils literal notranslate"><span class="pre">load_disc()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.core.load_line_segment"><code class="docutils literal notranslate"><span class="pre">load_line_segment()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.core.load_neighbor"><code class="docutils literal notranslate"><span class="pre">load_neighbor()</span></code></a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.core.dump"><code class="docutils literal notranslate"><span class="pre">dump()</span></code></a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#schema">Schema</a><ul class="visible nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.core.schema.Schema"><code class="docutils literal notranslate"><span class="pre">Schema</span></code></a></li>
@@ -538,13 +541,19 @@ document.write(`
                   
   <section id="yaml">
 <span id="core-python-yaml"></span><h1>YAML<a class="headerlink" href="#yaml" title="Link to this heading">#</a></h1>
-<p>The Python bindings only exposed part of the public functionality described in <a class="reference external" href="corecppyaml">the YAML cpp reference</a>.
-In particular, you can load registered components and dump them to YAML.</p>
+<p>The Python bindings exposed part of the public functionality described in <a class="reference external" href="corecppyaml">the YAML cpp reference</a>.
+In particular, for classes
+<a class="reference internal" href="behaviors/behavior.html#navground.core.Behavior" title="navground.core.Behavior"><code class="xref py py-class docutils literal notranslate"><span class="pre">Behavior</span></code></a>,
+<a class="reference internal" href="behavior_modulations/behavior_modulation.html#navground.core.BehaviorModulation" title="navground.core.BehaviorModulation"><code class="xref py py-class docutils literal notranslate"><span class="pre">BehaviorModulation</span></code></a>,
+<a class="reference internal" href="kinematics/kinematics.html#navground.core.Kinematics" title="navground.core.Kinematics"><code class="xref py py-class docutils literal notranslate"><span class="pre">Kinematics</span></code></a>,
+<a class="reference internal" href="state/geometric.html#navground.core.Disc" title="navground.core.Disc"><code class="xref py py-class docutils literal notranslate"><span class="pre">Disc</span></code></a>,
+<a class="reference internal" href="state/geometric.html#navground.core.LineSegment" title="navground.core.LineSegment"><code class="xref py py-class docutils literal notranslate"><span class="pre">LineSegment</span></code></a>,
+<a class="reference internal" href="state/geometric.html#navground.core.Neighbor" title="navground.core.Neighbor"><code class="xref py py-class docutils literal notranslate"><span class="pre">Neighbor</span></code></a>
+you can load objects of class <code class="docutils literal notranslate"><span class="pre">T</span></code> using <code class="docutils literal notranslate"><span class="pre">T.load(...)</span></code> or <code class="docutils literal notranslate"><span class="pre">load_&lt;t&gt;(...)</span></code>:</p>
 <dl class="py function">
 <dt class="sig sig-object py" id="navground.core.load_behavior">
-<span class="sig-name descname"><span class="pre">load_behavior</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><span class="pre">str</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="behaviors/behavior.html#navground.core.Behavior" title="navground.core.Behavior"><span class="pre">Behavior</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><span class="pre">None</span></a></span></span><a class="headerlink" href="#navground.core.load_behavior" title="Link to this definition">#</a></dt>
-<dd><p>load(value: str) -&gt; object</p>
-<p>Load a behavior from a YAML string.</p>
+<span class="sig-name descname"><span class="pre">load_behavior</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="behaviors/behavior.html#navground.core.Behavior" title="navground.core.Behavior"><span class="pre">Behavior</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span></span><a class="headerlink" href="#navground.core.load_behavior" title="Link to this definition">#</a></dt>
+<dd><p>Load a behavior from a YAML string.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>value</strong> – the YAML string.</p>
@@ -553,16 +562,15 @@ In particular, you can load registered components and dump them to YAML.</p>
 <dd class="field-even"><p>The loaded behavior or <code class="docutils literal notranslate"><span class="pre">None</span></code> if loading fails.</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference internal" href="behaviors/behavior.html#navground.core.Behavior" title="navground.core.Behavior">Behavior</a>| None</p>
+<dd class="field-odd"><p><a class="reference internal" href="behaviors/behavior.html#navground.core.Behavior" title="navground.core.Behavior"><em>Behavior</em></a>| <em>None</em></p>
 </dd>
 </dl>
 </dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="navground.core.load_behavior_modulation">
-<span class="sig-name descname"><span class="pre">load_behavior_modulation</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><span class="pre">str</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="behavior_modulations/behavior_modulation.html#navground.core.BehaviorModulation" title="navground.core.BehaviorModulation"><span class="pre">BehaviorModulation</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><span class="pre">None</span></a></span></span><a class="headerlink" href="#navground.core.load_behavior_modulation" title="Link to this definition">#</a></dt>
-<dd><p>load(value: str) -&gt; object</p>
-<p>Load a modulation from a YAML string.</p>
+<span class="sig-name descname"><span class="pre">load_behavior_modulation</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="behavior_modulations/behavior_modulation.html#navground.core.BehaviorModulation" title="navground.core.BehaviorModulation"><span class="pre">BehaviorModulation</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span></span><a class="headerlink" href="#navground.core.load_behavior_modulation" title="Link to this definition">#</a></dt>
+<dd><p>Load a modulation from a YAML string.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>value</strong> – the YAML string.</p>
@@ -571,16 +579,15 @@ In particular, you can load registered components and dump them to YAML.</p>
 <dd class="field-even"><p>The loaded modulation or <code class="docutils literal notranslate"><span class="pre">None</span></code> if loading fails.</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference internal" href="behavior_modulations/behavior_modulation.html#navground.core.BehaviorModulation" title="navground.core.BehaviorModulation">BehaviorModulation</a>| None</p>
+<dd class="field-odd"><p><a class="reference internal" href="behavior_modulations/behavior_modulation.html#navground.core.BehaviorModulation" title="navground.core.BehaviorModulation"><em>BehaviorModulation</em></a>| <em>None</em></p>
 </dd>
 </dl>
 </dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="navground.core.load_kinematics">
-<span class="sig-name descname"><span class="pre">load_kinematics</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><span class="pre">str</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="kinematics/kinematics.html#navground.core.Kinematics" title="navground.core.Kinematics"><span class="pre">Kinematics</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><span class="pre">None</span></a></span></span><a class="headerlink" href="#navground.core.load_kinematics" title="Link to this definition">#</a></dt>
-<dd><p>load(value: str) -&gt; object</p>
-<p>Load a kinematics from a YAML string.</p>
+<span class="sig-name descname"><span class="pre">load_kinematics</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="kinematics/kinematics.html#navground.core.Kinematics" title="navground.core.Kinematics"><span class="pre">Kinematics</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span></span><a class="headerlink" href="#navground.core.load_kinematics" title="Link to this definition">#</a></dt>
+<dd><p>Load a kinematics from a YAML string.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>value</strong> – the YAML string.</p>
@@ -589,31 +596,77 @@ In particular, you can load registered components and dump them to YAML.</p>
 <dd class="field-even"><p>The loaded kinematics or <code class="docutils literal notranslate"><span class="pre">None</span></code> if loading fails.</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference internal" href="kinematics/kinematics.html#navground.core.Kinematics" title="navground.core.Kinematics">Kinematics</a>| None</p>
+<dd class="field-odd"><p><a class="reference internal" href="kinematics/kinematics.html#navground.core.Kinematics" title="navground.core.Kinematics"><em>Kinematics</em></a>| <em>None</em></p>
 </dd>
 </dl>
 </dd></dl>
 
 <dl class="py function">
+<dt class="sig sig-object py" id="navground.core.load_disc">
+<span class="sig-name descname"><span class="pre">load_disc</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="state/geometric.html#navground.core.Disc" title="navground.core.Disc"><span class="pre">Disc</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span></span><a class="headerlink" href="#navground.core.load_disc" title="Link to this definition">#</a></dt>
+<dd><p>Load a disc from a YAML string.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>value</strong> – the YAML string.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The loaded disc or <code class="docutils literal notranslate"><span class="pre">None</span></code> if loading fails.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="state/geometric.html#navground.core.Disc" title="navground.core.Disc"><em>Disc</em></a>| <em>None</em></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="navground.core.load_line_segment">
+<span class="sig-name descname"><span class="pre">load_line_segment</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="state/geometric.html#navground.core.LineSegment" title="navground.core.LineSegment"><span class="pre">LineSegment</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span></span><a class="headerlink" href="#navground.core.load_line_segment" title="Link to this definition">#</a></dt>
+<dd><p>Load a line from a YAML string.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>value</strong> – the YAML string.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The loaded line or <code class="docutils literal notranslate"><span class="pre">None</span></code> if loading fails.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="state/geometric.html#navground.core.LineSegment" title="navground.core.LineSegment"><em>LineSegment</em></a>| <em>None</em></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="navground.core.load_neighbor">
+<span class="sig-name descname"><span class="pre">load_neighbor</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="state/geometric.html#navground.core.Neighbor" title="navground.core.Neighbor"><span class="pre">Neighbor</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span></span><a class="headerlink" href="#navground.core.load_neighbor" title="Link to this definition">#</a></dt>
+<dd><p>Load a neighbor from a YAML string.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>value</strong> – the YAML string.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The loaded neighbor or <code class="docutils literal notranslate"><span class="pre">None</span></code> if loading fails.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="state/geometric.html#navground.core.Neighbor" title="navground.core.Neighbor"><em>Neighbor</em></a>| <em>None</em></p>
+</dd>
+</dl>
+</dd></dl>
+
+<p>You can dump objects of the same classes to YAML using <code class="docutils literal notranslate"><span class="pre">T.dump()</span></code> or</p>
+<dl class="py function">
 <dt class="sig sig-object py" id="navground.core.dump">
-<span class="sig-name descname"><span class="pre">dump</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">obj</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="behaviors/behavior.html#navground.core.Behavior" title="navground.core.Behavior"><span class="pre">Behavior</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference internal" href="behavior_modulations/behavior_modulation.html#navground.core.BehaviorModulation" title="navground.core.BehaviorModulation"><span class="pre">BehaviorModulation</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference internal" href="kinematics/kinematics.html#navground.core.Kinematics" title="navground.core.Kinematics"><span class="pre">Kinematics</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference internal" href="state/geometric.html#navground.core.Disc" title="navground.core.Disc"><span class="pre">Disc</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference internal" href="state/geometric.html#navground.core.LineSegment" title="navground.core.LineSegment"><span class="pre">LineSegment</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference internal" href="state/geometric.html#navground.core.Neighbor" title="navground.core.Neighbor"><span class="pre">Neighbor</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><span class="pre">str</span></a></span></span><a class="headerlink" href="#navground.core.dump" title="Link to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">dump</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">obj</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="behaviors/behavior.html#navground.core.Behavior" title="navground.core.Behavior"><span class="pre">Behavior</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference internal" href="behavior_modulations/behavior_modulation.html#navground.core.BehaviorModulation" title="navground.core.BehaviorModulation"><span class="pre">BehaviorModulation</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference internal" href="kinematics/kinematics.html#navground.core.Kinematics" title="navground.core.Kinematics"><span class="pre">Kinematics</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference internal" href="state/geometric.html#navground.core.Disc" title="navground.core.Disc"><span class="pre">Disc</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference internal" href="state/geometric.html#navground.core.LineSegment" title="navground.core.LineSegment"><span class="pre">LineSegment</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference internal" href="state/geometric.html#navground.core.Neighbor" title="navground.core.Neighbor"><span class="pre">Neighbor</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a></span></span><a class="headerlink" href="#navground.core.dump" title="Link to this definition">#</a></dt>
 <dd><p>Dumps the object to a YAML-string.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>The YAML representation</p>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
-<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)">str</a></p>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><em>str</em></a></p>
 </dd>
 </dl>
 </dd></dl>
 
-<div class="admonition note">
-<p class="admonition-title">Note</p>
-<p>Functions <code class="docutils literal notranslate"><span class="pre">load_&lt;component&gt;()</span></code> and methods <code class="docutils literal notranslate"><span class="pre">&lt;Component&gt;.load()</span></code> are equivalent, like
-for example <a class="reference internal" href="#navground.core.load_behavior" title="navground.core.load_behavior"><code class="xref py py-func docutils literal notranslate"><span class="pre">navground.core.load_behavior()</span></code></a> and <a class="reference internal" href="behaviors/behavior.html#navground.core.Behavior.load" title="navground.core.Behavior.load"><code class="xref py py-meth docutils literal notranslate"><span class="pre">navground.core.Behavior.load()</span></code></a>.</p>
-<p>Similar is valid for function <a class="reference internal" href="#navground.core.dump" title="navground.core.dump"><code class="xref py py-func docutils literal notranslate"><span class="pre">navground.core.dump()</span></code></a> and methods <code class="docutils literal notranslate"><span class="pre">&lt;Component&gt;.dump()</span></code>, such as <a class="reference internal" href="behaviors/behavior.html#navground.core.Behavior.dump" title="navground.core.Behavior.dump"><code class="xref py py-meth docutils literal notranslate"><span class="pre">navground.core.Behavior.dump()</span></code></a>.</p>
-</div>
 <section id="schema">
 <h2>Schema<a class="headerlink" href="#schema" title="Link to this heading">#</a></h2>
 <p>Moreover, we expose methods that return <a class="reference external" href="https://json-schema.org">JSON Schema</a> for all supported types (<code class="docutils literal notranslate"><span class="pre">Class.schema</span></code>, <code class="docutils literal notranslate"><span class="pre">Component.register_schema</span></code>), and a function that generate the bundle schema used for validation in <a class="reference internal" href="../../../packages/navground_core_py.html#validate-py"><span class="std std-ref">validate</span></a>.</p>
@@ -624,23 +677,23 @@ for example <a class="reference internal" href="#navground.core.load_behavior" t
 </dl>
 <dl class="py type">
 <dt class="sig sig-object py" id="navground.core.schema.Schema">
-<em class="property"><span class="pre">type</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">Schema</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.13)"><span class="pre">dict</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><span class="pre">str</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.13)"><span class="pre">Any</span></a><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#navground.core.schema.Schema" title="Link to this definition">#</a></dt>
+<em class="property"><span class="pre">type</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">Schema</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.14)"><span class="pre">dict</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.14)"><span class="pre">Any</span></a><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#navground.core.schema.Schema" title="Link to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py type">
 <dt class="sig sig-object py" id="navground.core.schema.SchemaModifier">
-<em class="property"><span class="pre">type</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">SchemaModifier</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Callable" title="(in Python v3.13)"><span class="pre">Callable</span></a><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">[</span></span><span class="pre">Schema</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><span class="pre">None</span></a><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#navground.core.schema.SchemaModifier" title="Link to this definition">#</a></dt>
+<em class="property"><span class="pre">type</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">SchemaModifier</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/collections.abc.html#collections.abc.Callable" title="(in Python v3.14)"><span class="pre">Callable</span></a><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#navground.core.schema.Schema" title="navground.core.schema.Schema"><span class="pre">Schema</span></a><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#navground.core.schema.SchemaModifier" title="Link to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="navground.core.schema.register">
-<span class="sig-name descname"><span class="pre">register</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">modifier</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">SchemaModifier</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">staticmethod</span><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">[</span></span><span class="pre">Schema</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><span class="pre">None</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#navground.core.schema.register" title="Link to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">register</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">modifier</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#navground.core.schema.SchemaModifier" title="navground.core.schema.SchemaModifier"><span class="pre">SchemaModifier</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">staticmethod</span><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#navground.core.schema.Schema" title="navground.core.schema.Schema"><span class="pre">Schema</span></a><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#navground.core.schema.register" title="Link to this definition">#</a></dt>
 <dd><p>Register a custom JSON-schema for a class</p>
 <p>Use it as:</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="k">class</span><span class="w"> </span><span class="nc">MyClass</span><span class="p">(</span><span class="n">Class</span><span class="p">,</span> <span class="n">name</span><span class="o">=...</span><span class="p">):</span>
 <span class="gp">&gt;&gt;&gt;</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="nd">@schema</span><span class="o">.</span><span class="n">register</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="k">def</span><span class="w"> </span><span class="nf">modifier</span><span class="p">(</span><span class="n">schema</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">typing</span><span class="o">.</span><span class="n">Any</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">def</span><span class="w"> </span><span class="nf">modifier</span><span class="p">(</span><span class="n">schema</span><span class="p">:</span> <span class="n">navground</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">schema</span><span class="o">.</span><span class="n">Schema</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="gp">&gt;&gt;&gt; </span>    <span class="o">...</span>
 </pre></div>
 </div>
@@ -652,7 +705,7 @@ for example <a class="reference internal" href="#navground.core.load_behavior" t
 <dd class="field-even"><p>The registered static method</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>staticmethod</p>
+<dd class="field-odd"><p><em>staticmethod</em></p>
 </dd>
 </dl>
 </dd></dl>
@@ -660,14 +713,14 @@ for example <a class="reference internal" href="#navground.core.load_behavior" t
 <dl class="py function">
 <dt class="sig sig-object py" id="navground.core.schema.bundle">
 <span class="sig-name descname"><span class="pre">bundle</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#navground.core.schema.bundle" title="Link to this definition">#</a></dt>
-<dd><p>bundle_schema() -&gt; object</p>
+<dd><p>bundle_schema() -&gt; navground.core.schema.Schema</p>
 <p>Returns the bundle json-schema</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>json-schema</p>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
-<dd class="field-even"><p><a class="reference internal" href="#navground.core.schema.Schema" title="dict[str, typing.Any]"><code class="xref py py-type docutils literal notranslate"><span class="pre">dict[str,</span> <span class="pre">typing.Any]</span></code></a></p>
+<dd class="field-even"><p><a class="reference internal" href="#navground.core.schema.Schema" title="navground.core.schema.Schema"><code class="xref py py-type docutils literal notranslate"><span class="pre">navground.core.schema.Schema</span></code></a></p>
 </dd>
 </dl>
 </dd></dl>
@@ -723,6 +776,9 @@ for example <a class="reference internal" href="#navground.core.load_behavior" t
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.core.load_behavior"><code class="docutils literal notranslate"><span class="pre">load_behavior()</span></code></a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.core.load_behavior_modulation"><code class="docutils literal notranslate"><span class="pre">load_behavior_modulation()</span></code></a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.core.load_kinematics"><code class="docutils literal notranslate"><span class="pre">load_kinematics()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.core.load_disc"><code class="docutils literal notranslate"><span class="pre">load_disc()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.core.load_line_segment"><code class="docutils literal notranslate"><span class="pre">load_line_segment()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.core.load_neighbor"><code class="docutils literal notranslate"><span class="pre">load_neighbor()</span></code></a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.core.dump"><code class="docutils literal notranslate"><span class="pre">dump()</span></code></a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#schema">Schema</a><ul class="visible nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.core.schema.Schema"><code class="docutils literal notranslate"><span class="pre">Schema</span></code></a></li>

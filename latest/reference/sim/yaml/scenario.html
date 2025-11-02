@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Scenario &#8212; navground 0.7.0.dev documentation</title>
+    <title>Scenario &#8212; navground 0.8.0.dev documentation</title>
   
   
   
@@ -41,7 +41,7 @@
 
     <script src="../../../_static/jquery.js?v=5d32c60e"></script>
     <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-    <script src="../../../_static/documentation_options.js?v=176ebae1"></script>
+    <script src="../../../_static/documentation_options.js?v=a17d1565"></script>
     <script src="../../../_static/doctools.js?v=9bcbadda"></script>
     <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -142,7 +142,7 @@
   
   
   
-    <p class="title logo__title">navground 0.7.0.dev documentation</p>
+    <p class="title logo__title">navground 0.8.0.dev documentation</p>
   
 </a></div>
         <div class="sidebar-primary-item">
@@ -739,6 +739,13 @@ document.write(`
 <span class="w">        </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">integer</span>
 <span class="w">    </span><span class="nt">$id</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">id</span>
 <span class="w">    </span><span class="nt">$ref</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">number_sampler</span>
+<span class="w">  </span><span class="nt">ignore_collisions</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">$defs</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">of</span><span class="p">:</span>
+<span class="w">        </span><span class="nt">$dynamicAnchor</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">T</span>
+<span class="w">        </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">boolean</span>
+<span class="w">    </span><span class="nt">$id</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ignore_collisions</span>
+<span class="w">    </span><span class="nt">$ref</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">boolean_sampler</span>
 <span class="w">  </span><span class="nt">kinematics</span><span class="p">:</span>
 <span class="w">    </span><span class="nt">$ref</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">kinematics_sampler</span>
 <span class="w">  </span><span class="nt">name</span><span class="p">:</span>
@@ -877,6 +884,8 @@ document.write(`
 <span class="w">    </span><span class="nt">items</span><span class="p">:</span>
 <span class="w">      </span><span class="nt">$ref</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">group</span>
 <span class="w">    </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">array</span>
+<span class="w">  </span><span class="nt">ignore_collisions</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">boolean</span>
 <span class="w">  </span><span class="nt">obstacles</span><span class="p">:</span>
 <span class="w">    </span><span class="nt">items</span><span class="p">:</span>
 <span class="w">      </span><span class="nt">$ref</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">obstacle</span>
@@ -960,7 +969,7 @@ document.write(`
 <span class="w">      </span><span class="nt">$defs</span><span class="p">:</span>
 <span class="w">        </span><span class="nt">of</span><span class="p">:</span>
 <span class="w">          </span><span class="nt">$dynamicAnchor</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">T</span>
-<span class="w">          </span><span class="nt">default</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0.100000001</span>
+<span class="w">          </span><span class="nt">default</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0.1</span>
 <span class="w">          </span><span class="nt">description</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Goal tolerance</span>
 <span class="w">          </span><span class="nt">exclusiveMinimum</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0</span>
 <span class="w">          </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">number</span>
@@ -982,7 +991,7 @@ document.write(`
 <span class="w">      </span><span class="nt">$defs</span><span class="p">:</span>
 <span class="w">        </span><span class="nt">of</span><span class="p">:</span>
 <span class="w">          </span><span class="nt">$dynamicAnchor</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">T</span>
-<span class="w">          </span><span class="nt">default</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0.100000001</span>
+<span class="w">          </span><span class="nt">default</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0.1</span>
 <span class="w">          </span><span class="nt">description</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">initial minimal distance between agents</span>
 <span class="w">          </span><span class="nt">minimum</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0</span>
 <span class="w">          </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">number</span>
@@ -1024,7 +1033,7 @@ document.write(`
 <span class="w">      </span><span class="nt">$defs</span><span class="p">:</span>
 <span class="w">        </span><span class="nt">of</span><span class="p">:</span>
 <span class="w">          </span><span class="nt">$dynamicAnchor</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">T</span>
-<span class="w">          </span><span class="nt">default</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0.100000001</span>
+<span class="w">          </span><span class="nt">default</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0.1</span>
 <span class="w">          </span><span class="nt">description</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">initial minimal distance between agents</span>
 <span class="w">          </span><span class="nt">minimum</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0</span>
 <span class="w">          </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">number</span>
@@ -1076,7 +1085,7 @@ document.write(`
 <span class="w">      </span><span class="nt">$defs</span><span class="p">:</span>
 <span class="w">        </span><span class="nt">of</span><span class="p">:</span>
 <span class="w">          </span><span class="nt">$dynamicAnchor</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">T</span>
-<span class="w">          </span><span class="nt">default</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0.100000001</span>
+<span class="w">          </span><span class="nt">default</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0.1</span>
 <span class="w">          </span><span class="nt">description</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">initial minimal distance between agents</span>
 <span class="w">          </span><span class="nt">minimum</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0</span>
 <span class="w">          </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">number</span>

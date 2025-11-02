@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>A tour of navground &#8212; navground 0.7.0.dev documentation</title>
+    <title>A tour of navground &#8212; navground 0.8.0.dev documentation</title>
   
   
   
@@ -42,7 +42,7 @@
 
     <script src="../_static/jquery.js?v=5d32c60e"></script>
     <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-    <script src="../_static/documentation_options.js?v=176ebae1"></script>
+    <script src="../_static/documentation_options.js?v=a17d1565"></script>
     <script src="../_static/doctools.js?v=9bcbadda"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -145,7 +145,7 @@
   
   
   
-    <p class="title logo__title">navground 0.7.0.dev documentation</p>
+    <p class="title logo__title">navground 0.8.0.dev documentation</p>
   
 </a></div>
         <div class="sidebar-primary-item">
@@ -1302,7 +1302,7 @@ Action has finished with State.success.
 <span class="k">class</span><span class="w"> </span><span class="nc">MyScenario</span><span class="p">(</span><span class="n">sim</span><span class="o">.</span><span class="n">Scenario</span><span class="p">):</span>
 
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+        <span class="n">sim</span><span class="o">.</span><span class="n">Scenario</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">init_world</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">world</span><span class="p">:</span> <span class="n">sim</span><span class="o">.</span><span class="n">World</span><span class="p">,</span> <span class="n">seed</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">init_world</span><span class="p">(</span><span class="n">world</span><span class="p">,</span> <span class="n">seed</span><span class="p">)</span>
@@ -1364,7 +1364,7 @@ Action has finished with State.success.
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-datetime.timedelta(microseconds=147)
+datetime.timedelta(microseconds=168)
 </pre></div></div>
 </div>
 <p>as well as the agents’ trajectory, as an array of <code class="docutils literal notranslate"><span class="pre">steps</span> <span class="pre">x</span> <span class="pre">agents</span> <span class="pre">x</span> <span class="pre">3</span></code> coordinates.</p>
@@ -1471,7 +1471,7 @@ datetime.timedelta(microseconds=147)
 obstacles:
   - position:
       - 5
-      - 0.100000001
+      - 0.1
     radius: 1
     uid: 1
 walls:
@@ -1520,7 +1520,7 @@ agents:
       orientations:
         []
       random: false
-      tolerance: 0.100000001
+      tolerance: 0.1
       tolerances:
         []
       wait_time: 0
@@ -1538,17 +1538,17 @@ agents:
       range: 5
       update_static_obstacles: false
     position:
-      - 0.0595567599
-      - 0.0292687751
+      - 0.05955676
+      - 0.029268775
     orientation: 4.697999
     velocity:
       - 0
       - 0
     angular_speed: 1
     radius: 1
-    control_period: 0.100000001
-    speed_tolerance: 0.00999999978
-    angular_speed_tolerance: 0.00999999978
+    control_period: 0.1
+    speed_tolerance: 0.01
+    angular_speed_tolerance: 0.01
     type: thymio
     color: &#34;&#34;
     id: 0

@@ -1,0 +1,1761 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Scenarios generate worlds &#8212; navground 0.8.0.dev documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=8f2a1f02" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=eba8b062" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../_static/tabs.css?v=a5c4661c" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="../_static/nbsphinx-code-cells.css?v=2aa19091" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script src="../_static/jquery.js?v=5d32c60e"></script>
+    <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+    <script src="../_static/documentation_options.js?v=a17d1565"></script>
+    <script src="../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=f281be69"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script src="../_static/design-tabs.js?v=f930bc37"></script>
+    <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@jupyter-widgets/html-manager@^1.0.1/dist/embed-amd.js"></script>
+    <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'tutorials/sampling';</script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Guides" href="../guides/index.html" />
+    <link rel="prev" title="World attributes" href="world_attributes.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search..."
+         aria-label="Search..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../index.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">navground 0.8.0.dev documentation</p>
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../introduction.html">Introduction</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../installation/index.html">Installation</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../installation/pip.html">PyPi</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../installation/github_release.html">Github release</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../installation/docker.html">Docker</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../installation/from_source.html">Building from source</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../installation/step_by_step.html">Step-by-step Instructions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../installation/setup_dev.html">Setup a development environment</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../installation/troubleshooting.html">Troubleshooting</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1"><a class="reference internal" href="../first_steps.html">First Steps</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cli.html">Command Line Interface</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tour.html">A tour of navground</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../packages/index.html">Packages</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../packages/navground_core.html">navground_core</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../packages/navground_core_py.html">navground_core_py</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../packages/navground_sim.html">navground_sim</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../packages/navground_sim_py.html">navground_sim_py</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../packages/navground_examples.html">navground_examples</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../packages/navground_examples_py.html">navground_examples_py</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../packages/navground_examples_yaml.html">navground_examples_yaml</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../packages/navground_demos.html">navground_demos</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../packages/navground_minimal_plugin_cpp.html">navground_minimal_plugin_cpp</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../packages/navground_minimal_plugin_py.html">navground_minimal_plugin_py</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="index.html">Tutorials</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="designing_an_experiment.html">Designing an experiment</a></li>
+<li class="toctree-l2"><a class="reference internal" href="running_an_experiment_no_hdf5.html">Running and analysing experiments (in memory)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="running_an_experiment.html">Running and analysing experiments (HFD5)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="display.html">Visualize a simulation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="playback.html">Load and playing back recorded experiments</a></li>
+<li class="toctree-l2"><a class="reference internal" href="deadlocks_and_collisions.html">Deadlocks and Collisions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="modulations.html">Behavior Modulations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sensors.html">Sensors</a></li>
+<li class="toctree-l2"><a class="reference internal" href="world_attributes.html">World attributes</a></li>
+<li class="toctree-l2 current active"><a class="current reference internal" href="#">Scenarios generate worlds</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../guides/index.html">Guides</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../guides/extend/index.html">How to extend navground</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../guides/extend/register_cpp.html">How to integrate a C++ component</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../guides/extend/register_py.html">How to integrate a Python component</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../guides/extend/behavior.html">Behaviors</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../guides/extend/behavior_group.html">Behavior groups</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../guides/extend/behavior_modulation.html">Behavior modulations</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../guides/extend/kinematics.html">Kinematics</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../guides/extend/state_estimation.html">State Estimations</a></li>
+
+<li class="toctree-l3"><a class="reference internal" href="../guides/extend/task.html">Tasks</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../guides/extend/scenario.html">Scenarios</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2"><a class="reference internal" href="../guides/parallelize.html">How to parallelize the execution of an experiment</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../guides/probes.html">How to record custom data in experiments</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../guides/install.html">How to build without the ROS build tools</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../guides/validate.html">How to validate code</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../components/index.html">Components</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../components/behaviors/index.html">Behaviors</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../components/behaviors/dummy.html">Dummy</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../components/behaviors/orca.html">Optimal Reciprocal Collision Avoidance (ORCA)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../components/behaviors/hrvo.html">Hybrid Velocity Obstacle (HRVO)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../components/behaviors/hl.html">Human-like (HL)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../components/behaviors/social_force.html">Social Force</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../components/behavior_modulations/index.html">Behavior Modulations</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../components/behavior_modulations/limit_acceleration.html">Limiting the acceleration</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../components/behavior_modulations/limit_twist.html">Limiting the twist</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../components/behavior_modulations/motor_pid.html">Motorized Wheels PID</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../components/behavior_modulations/relaxation.html">Relaxation</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../components/kinematics/index.html">Kinematics</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../components/kinematics/omni.html">Omni-directional</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../components/kinematics/ahead.html">Ahead</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../components/kinematics/2wdiff.html">Two-wheeled differential drive</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../components/kinematics/2wdiffdyn.html">Two-wheeled differential drive with limited torque</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../components/kinematics/4womni.html">Four-wheeled omnidirectional drive</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../components/kinematics/bicycle.html">Bicycle</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../components/state_estimations/index.html">State Estimations</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../components/state_estimations/bounded.html">Geometric with limited range</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../components/state_estimations/discs.html">Discs</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../components/state_estimations/odometry.html">Odometry</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../components/state_estimations/lidar.html">Lidar</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../components/state_estimations/boundary.html">Boundary</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../components/state_estimations/local_gridmap.html">Local GridMap</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../components/state_estimations/marker.html">Marker</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../components/tasks/index.html">Tasks</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../components/tasks/direction.html">Direction</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../components/tasks/waypoints.html">Waypoints</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../components/tasks/go_to_pose.html">GoToPose</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../components/tasks/path.html">Path</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../components/scenarios/index.html">Scenarios</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../components/scenarios/antipodal.html">Antipodal</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../components/scenarios/corridor.html">Corridor</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../components/scenarios/cross.html">Cross</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../components/scenarios/cross_torus.html">Cross Torus</a></li>
+</ul>
+</details></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../background/index.html">Background Information</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../background/two_wheeled_kinematics.html">Two-wheeled kinematics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../background/accessors.html">Accessors</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../background/attributes_and_properties.html">Attributes vs Properties</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../reference/index.html">Reference</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../reference/core/index.html">Core</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../reference/core/cpp/index.html">C++ API</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="../reference/core/cpp/types.html">Types</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../reference/core/cpp/common.html">Geometry</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../reference/core/cpp/auto_registration.html">Auto registration</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../reference/core/cpp/attribute.html">Attributes</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../reference/core/cpp/yaml.html">YAML</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../reference/core/cpp/kinematics/index.html">Kinematics</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../reference/core/cpp/target.html">Target</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../reference/core/cpp/behaviors/index.html">Behaviors</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../reference/core/cpp/state/index.html">Environment State</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../reference/core/cpp/collision_computation.html">Computing collisions</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../reference/core/cpp/social_margin.html">Social margin</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../reference/core/cpp/behavior_modulations/index.html">Behavior Modulations</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../reference/core/cpp/controller.html">Controller</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../reference/core/cpp/helper.html">Helpers</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../reference/core/cpp/build.html">Build info</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../reference/core/python/index.html">Python API</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="../reference/core/python/common.html">Geometry</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../reference/core/python/auto_registration.html">Auto registration</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../reference/core/python/attribute.html">Attributes</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../reference/core/python/yaml.html">YAML</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../reference/core/python/kinematics/index.html">Kinematics</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../reference/core/python/target.html">Target</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../reference/core/python/behaviors/index.html">Behaviors</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../reference/core/python/state/index.html">Environment State</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../reference/core/python/collision_computation.html">Computing collisions</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../reference/core/python/social_margin.html">Social margin</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../reference/core/python/behavior_modulations/index.html">Behavior Modulations</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../reference/core/python/controller.html">Controller</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../reference/core/python/build.html">Build info</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../reference/core/yaml/index.html">YAML Schemas</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="../reference/core/yaml/common.html">Geometry</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../reference/core/yaml/register.html">Registered components</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../reference/core/yaml/attributes.html">Attributes</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../reference/core/yaml/kinematics.html">Kinematics</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../reference/core/yaml/social_margin.html">Social margin</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../reference/core/yaml/behavior_modulation.html">Behavior Modulation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../reference/core/yaml/state.html">Environment State</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../reference/core/yaml/behavior.html">Behavior</a></li>
+</ul>
+</details></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../reference/sim/index.html">Simulation</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../reference/sim/cpp/index.html">C++ API</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="../reference/sim/cpp/world.html">World</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../reference/sim/cpp/agent.html">Agent</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../reference/sim/cpp/state_estimations/index.html">State estimations</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../reference/sim/cpp/tasks/index.html">Tasks</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../reference/sim/cpp/sampling.html">Sampling</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../reference/sim/cpp/scenarios/index.html">Scenarios</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../reference/sim/cpp/experiment/index.html">Experiments</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../reference/sim/cpp/yaml.html">YAML</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../reference/sim/python/index.html">Python API</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="../reference/sim/python/world.html">World</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../reference/sim/python/agent.html">Agent</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../reference/sim/python/state_estimations/index.html">State estimations</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../reference/sim/python/tasks/index.html">Tasks</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../reference/sim/python/sampling.html">Sampling</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../reference/sim/python/scenarios/index.html">Scenarios</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../reference/sim/python/experiment/index.html">Experiments</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../reference/sim/python/yaml.html">YAML</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../reference/sim/python/plugins.html">Plugins</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../reference/sim/python/helpers.html">Helpers</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../reference/sim/python/visualization/index.html">Visualization</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../reference/sim/yaml/index.html">YAML Schemas</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="../reference/sim/yaml/agent.html">Agent</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../reference/sim/yaml/task.html">Task</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../reference/sim/yaml/state_estimation.html">State estimation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../reference/sim/yaml/world.html">World</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../reference/sim/yaml/samplers.html">Sampling</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../reference/sim/yaml/scenario.html">Scenario</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../reference/sim/yaml/experiment.html">Experiment</a></li>
+</ul>
+</details></li>
+</ul>
+</details></li>
+</ul>
+</details></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-launch-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Launch interactive content">
+    <i class="fas fa-rocket"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://mybinder.org/v2/gh/idsia-robotics/navground/main?urlpath=tree/tutorials/sampling.ipynb" target="_blank"
+   class="btn btn-sm dropdown-item"
+   title="Launch on Binder"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  
+    <img alt="Binder logo" src="../_static/images/logo_binder.svg">
+  </span>
+<span class="btn__text-container">Binder</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../_sources/tutorials/sampling.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Scenarios generate worlds</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#Groups">Groups</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#Everything-is-a-sampler">Everything is a sampler</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#Sharing-the-sampler-within-the-group">Sharing the sampler within the group</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#Deterministic-samplers">Deterministic samplers</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#Pseudo-random-samplers">Pseudo-random samplers</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#Components-sampler">Components sampler</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#Global-attributes">Global attributes</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#Scenario-properties">Scenario properties</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#Extending-a-scenario">Extending a scenario</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#Add-an-initializer">Add an initializer</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#Add-a-(custom)-group">Add a (custom) group</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#Define-a-custom-scenario">Define a custom scenario</a></li>
+</ul>
+</li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section id="Scenarios-generate-worlds">
+<h1>Scenarios generate worlds<a class="headerlink" href="#Scenarios-generate-worlds" title="Link to this heading">#</a></h1>
+<p>In this tutorial we take a closer look at how scenarios generate world.</p>
+<section id="Groups">
+<h2>Groups<a class="headerlink" href="#Groups" title="Link to this heading">#</a></h2>
+<p>The YAML description of a scenario lists groups of agents. For example,</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">navground</span><span class="w"> </span><span class="kn">import</span> <span class="n">sim</span>
+
+<span class="n">scenario</span> <span class="o">=</span> <span class="n">sim</span><span class="o">.</span><span class="n">load_scenario</span><span class="p">(</span><span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">groups:</span>
+<span class="s2">  - number: 1</span>
+<span class="s2">    radius: 1</span>
+<span class="s2">&quot;&quot;&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<p>describes a single group composed of one agent of radius 1.</p>
+<p>scenario.groups</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">group</span> <span class="o">=</span> <span class="n">scenario</span><span class="o">.</span><span class="n">groups</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<p>Groups are generators of agents. Given a world, <code class="docutils literal notranslate"><span class="pre">sample</span></code> generates an agent with the specifics of the group</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">world</span> <span class="o">=</span> <span class="n">sim</span><span class="o">.</span><span class="n">World</span><span class="p">()</span>
+<span class="n">agent</span> <span class="o">=</span> <span class="n">group</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="n">world</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">agent</span><span class="o">.</span><span class="n">radius</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+1.0
+</pre></div></div>
+</div>
+<p>and <code class="docutils literal notranslate"><span class="pre">add_to_world</span></code> sample and add a <code class="docutils literal notranslate"><span class="pre">number</span></code> of agents from the group</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">group</span><span class="o">.</span><span class="n">add_to_world</span><span class="p">(</span><span class="n">world</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">([</span><span class="n">a</span><span class="o">.</span><span class="n">radius</span> <span class="k">for</span> <span class="n">a</span> <span class="ow">in</span> <span class="n">world</span><span class="o">.</span><span class="n">agents</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+[1.0]
+</pre></div></div>
+</div>
+<p>We generally do not use groups direcly like this. Instead, we let the scenario generate a world using its groups</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">world</span> <span class="o">=</span> <span class="n">scenario</span><span class="o">.</span><span class="n">make_world</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<p>which will contains a single agent of radius 1 in our case</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">([</span><span class="n">a</span><span class="o">.</span><span class="n">radius</span> <span class="k">for</span> <span class="n">a</span> <span class="ow">in</span> <span class="n">world</span><span class="o">.</span><span class="n">agents</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+[1.0]
+</pre></div></div>
+</div>
+<p>Groups can be loaded from YAML and added to the scenario manually. Let us add a second group with one larger agent.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">group</span> <span class="o">=</span> <span class="n">sim</span><span class="o">.</span><span class="n">AgentSampler</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">number: 1</span>
+<span class="s2">radius: 10</span>
+<span class="s2">&quot;&quot;&quot;</span><span class="p">)</span>
+<span class="n">scenario</span><span class="o">.</span><span class="n">add_group</span><span class="p">(</span><span class="n">group</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">world</span> <span class="o">=</span> <span class="n">scenario</span><span class="o">.</span><span class="n">make_world</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">([</span><span class="n">a</span><span class="o">.</span><span class="n">radius</span> <span class="k">for</span> <span class="n">a</span> <span class="ow">in</span> <span class="n">world</span><span class="o">.</span><span class="n">agents</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+[1.0, 10.0]
+</pre></div></div>
+</div>
+</section>
+<section id="Everything-is-a-sampler">
+<h2>Everything is a sampler<a class="headerlink" href="#Everything-is-a-sampler" title="Link to this heading">#</a></h2>
+<p>In a group, almost every attribute corresponds to a sampler. In the YAML, specifying radius of 1.0, does actually creates a sampler (for radius value) that generate 1 everytime.</p>
+<p>Let us be more specific and define a scenario with an explicit sampler.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">scenario</span> <span class="o">=</span> <span class="n">sim</span><span class="o">.</span><span class="n">load_scenario</span><span class="p">(</span><span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">groups:</span>
+<span class="s2">  - number: 1</span>
+<span class="s2">    radius:</span>
+<span class="s2">      sampler: constant</span>
+<span class="s2">      value: 1</span>
+<span class="s2">&quot;&quot;&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">world</span> <span class="o">=</span> <span class="n">scenario</span><span class="o">.</span><span class="n">make_world</span><span class="p">()</span>
+<span class="n">world</span><span class="o">.</span><span class="n">agents</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">radius</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+1.0
+</pre></div></div>
+</div>
+<p>Let us pick a more interesting sampler. For instance, we may want the radii of the agent to be uniformly distributed in [0.5, 1.5] instead:</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">scenario</span> <span class="o">=</span> <span class="n">sim</span><span class="o">.</span><span class="n">load_scenario</span><span class="p">(</span><span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">groups:</span>
+<span class="s2">  - number: 1</span>
+<span class="s2">    radius:</span>
+<span class="s2">      sampler: uniform</span>
+<span class="s2">      from: 0.5</span>
+<span class="s2">      to: 1.5</span>
+<span class="s2">&quot;&quot;&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<p>It is very important that experiments are reproducible. Therefore, samplers should be generate reproducible values too, which does happen if we speficy the same seed.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[12]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">5</span><span class="p">):</span>
+    <span class="n">world</span> <span class="o">=</span> <span class="n">scenario</span><span class="o">.</span><span class="n">make_world</span><span class="p">(</span><span class="n">seed</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">world</span><span class="o">.</span><span class="n">agents</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">radius</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+0.9170219898223877
+0.9170219898223877
+0.9170219898223877
+0.9170219898223877
+0.9170219898223877
+</pre></div></div>
+</div>
+</section>
+<section id="Sharing-the-sampler-within-the-group">
+<h2>Sharing the sampler within the group<a class="headerlink" href="#Sharing-the-sampler-within-the-group" title="Link to this heading">#</a></h2>
+<p>Let us more agents to the group.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[13]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">scenario</span> <span class="o">=</span> <span class="n">sim</span><span class="o">.</span><span class="n">load_scenario</span><span class="p">(</span><span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">groups:</span>
+<span class="s2">  - number: 5</span>
+<span class="s2">    radius:</span>
+<span class="s2">      sampler: uniform</span>
+<span class="s2">      from: 0.5</span>
+<span class="s2">      to: 1.5</span>
+<span class="s2">&quot;&quot;&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<p>The generated worlds will contains two agents, with radii sampled from the same sampler in sequence:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[14]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">world</span> <span class="o">=</span> <span class="n">scenario</span><span class="o">.</span><span class="n">make_world</span><span class="p">(</span><span class="n">seed</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">([</span><span class="n">agent</span><span class="o">.</span><span class="n">radius</span> <span class="k">for</span> <span class="n">agent</span> <span class="ow">in</span> <span class="n">world</span><span class="o">.</span><span class="n">agents</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+[0.9170219898223877, 1.4971847534179688, 1.2203245162963867, 1.4325573444366455, 0.500114381313324]
+</pre></div></div>
+</div>
+<p>We may want instead that the radii are still sampled uniformly from [0.5, 1.5] by shared by all agents in the same world. In this case, we specify that the sampled should sample only <code class="docutils literal notranslate"><span class="pre">once</span></code> per group.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[15]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">scenario</span> <span class="o">=</span> <span class="n">sim</span><span class="o">.</span><span class="n">load_scenario</span><span class="p">(</span><span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">groups:</span>
+<span class="s2">  - number: 5</span>
+<span class="s2">    radius:</span>
+<span class="s2">      sampler: uniform</span>
+<span class="s2">      from: 0.5</span>
+<span class="s2">      to: 1.5</span>
+<span class="s2">      once: true</span>
+<span class="s2">&quot;&quot;&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[16]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">world</span> <span class="o">=</span> <span class="n">scenario</span><span class="o">.</span><span class="n">make_world</span><span class="p">(</span><span class="n">seed</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">([</span><span class="n">agent</span><span class="o">.</span><span class="n">radius</span> <span class="k">for</span> <span class="n">agent</span> <span class="ow">in</span> <span class="n">world</span><span class="o">.</span><span class="n">agents</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+[0.9170219898223877, 0.9170219898223877, 0.9170219898223877, 0.9170219898223877, 0.9170219898223877]
+</pre></div></div>
+</div>
+<p>A different seed will still generate different values:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[17]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">world</span> <span class="o">=</span> <span class="n">scenario</span><span class="o">.</span><span class="n">make_world</span><span class="p">(</span><span class="n">seed</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">([</span><span class="n">agent</span><span class="o">.</span><span class="n">radius</span> <span class="k">for</span> <span class="n">agent</span> <span class="ow">in</span> <span class="n">world</span><span class="o">.</span><span class="n">agents</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+[0.9359948635101318, 0.9359948635101318, 0.9359948635101318, 0.9359948635101318, 0.9359948635101318]
+</pre></div></div>
+</div>
+</section>
+<section id="Deterministic-samplers">
+<h2>Deterministic samplers<a class="headerlink" href="#Deterministic-samplers" title="Link to this heading">#</a></h2>
+<p>The are two families of samplers in navground.</p>
+<p>Deterministic samplers use the seed as an index in a pre-determined sequence. For example, to generate a worlds where agents have an increasingly large radius of <code class="docutils literal notranslate"><span class="pre">1,</span> <span class="pre">1.5,</span> <span class="pre">2,</span> <span class="pre">2.5,</span> <span class="pre">...</span></code>, we specify a <code class="docutils literal notranslate"><span class="pre">regular</span></code> sampler</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[18]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">scenario</span> <span class="o">=</span> <span class="n">sim</span><span class="o">.</span><span class="n">load_scenario</span><span class="p">(</span><span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">groups:</span>
+<span class="s2">  - number: 3</span>
+<span class="s2">    radius:</span>
+<span class="s2">      sampler: regular</span>
+<span class="s2">      from: 1.0</span>
+<span class="s2">      step: 0.5</span>
+<span class="s2">      once: true</span>
+<span class="s2">&quot;&quot;&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[19]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">seed</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">5</span><span class="p">):</span>
+    <span class="n">world</span> <span class="o">=</span> <span class="n">scenario</span><span class="o">.</span><span class="n">make_world</span><span class="p">(</span><span class="n">seed</span><span class="o">=</span><span class="n">seed</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">([</span><span class="n">agent</span><span class="o">.</span><span class="n">radius</span> <span class="k">for</span> <span class="n">agent</span> <span class="ow">in</span> <span class="n">world</span><span class="o">.</span><span class="n">agents</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+[1.0, 1.0, 1.0]
+[1.5, 1.5, 1.5]
+[2.0, 2.0, 2.0]
+[2.5, 2.5, 2.5]
+[3.0, 3.0, 3.0]
+</pre></div></div>
+</div>
+<p>Deterministic samplers treat the seed differently depending if the are shared or not within the group.</p>
+<p>Let us verify what happens if the same sampler is <em>not</em> shared between the three agents</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[20]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">scenario</span> <span class="o">=</span> <span class="n">sim</span><span class="o">.</span><span class="n">load_scenario</span><span class="p">(</span><span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">groups:</span>
+<span class="s2">  - number: 3</span>
+<span class="s2">    radius:</span>
+<span class="s2">      sampler: regular</span>
+<span class="s2">      from: 1.0</span>
+<span class="s2">      step: 0.5</span>
+<span class="s2">      once: false</span>
+<span class="s2">&quot;&quot;&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[21]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">seed</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">5</span><span class="p">):</span>
+    <span class="n">world</span> <span class="o">=</span> <span class="n">scenario</span><span class="o">.</span><span class="n">make_world</span><span class="p">(</span><span class="n">seed</span><span class="o">=</span><span class="n">seed</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">([</span><span class="n">agent</span><span class="o">.</span><span class="n">radius</span> <span class="k">for</span> <span class="n">agent</span> <span class="ow">in</span> <span class="n">world</span><span class="o">.</span><span class="n">agents</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+[1.0, 1.5, 2.0]
+[1.0, 1.5, 2.0]
+[1.0, 1.5, 2.0]
+[1.0, 1.5, 2.0]
+[1.0, 1.5, 2.0]
+</pre></div></div>
+</div>
+<p>In this case, the agents have increasingly large radii <em>across</em> the group but the same values are repeated in different worlds.</p>
+</section>
+<section id="Pseudo-random-samplers">
+<h2>Pseudo-random samplers<a class="headerlink" href="#Pseudo-random-samplers" title="Link to this heading">#</a></h2>
+<p>Random samplers, like <code class="docutils literal notranslate"><span class="pre">uniform</span></code>, are a bit different. They sample a-priori unknown sequences, yet are completely determined by the seed. Therefore they are <em>not</em> repeated in worlds with different seeds. Let us pick another random sampler (a normal distribution) and verify</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[22]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">scenario</span> <span class="o">=</span> <span class="n">sim</span><span class="o">.</span><span class="n">load_scenario</span><span class="p">(</span><span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">groups:</span>
+<span class="s2">  - number: 3</span>
+<span class="s2">    radius:</span>
+<span class="s2">      sampler: normal</span>
+<span class="s2">      mean: 1.0</span>
+<span class="s2">      std_dev: 0.5</span>
+<span class="s2">      once: false</span>
+<span class="s2">&quot;&quot;&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[23]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">seed</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">5</span><span class="p">):</span>
+    <span class="n">world</span> <span class="o">=</span> <span class="n">scenario</span><span class="o">.</span><span class="n">make_world</span><span class="p">(</span><span class="n">seed</span><span class="o">=</span><span class="n">seed</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">([</span><span class="n">agent</span><span class="o">.</span><span class="n">radius</span> <span class="k">for</span> <span class="n">agent</span> <span class="ow">in</span> <span class="n">world</span><span class="o">.</span><span class="n">agents</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+[1.5815393924713135, 2.1061031818389893, 1.2419023513793945]
+[1.387001872062683, 1.0780328512191772, 1.1531997919082642]
+[0.8675759434700012, 0.34844720363616943, 1.0356043577194214]
+[1.3209900856018066, 1.0448338985443115, 0.6211239099502563]
+[1.0918337106704712, 0.36362123489379883, 1.7619856595993042]
+</pre></div></div>
+</div>
+</section>
+<section id="Components-sampler">
+<h2>Components sampler<a class="headerlink" href="#Components-sampler" title="Link to this heading">#</a></h2>
+<p>Component associated to an agent (i.e., behaviors, kinematics, behavior modulations, state estimations and tasks) are also sampled when generating a world. For instance, let us could vary the kinematics maximal speed</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[24]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">scenario</span> <span class="o">=</span> <span class="n">sim</span><span class="o">.</span><span class="n">load_scenario</span><span class="p">(</span><span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">groups:</span>
+<span class="s2">  - number: 3</span>
+<span class="s2">    radius: 1</span>
+<span class="s2">    kinematics:</span>
+<span class="s2">      type: Omni</span>
+<span class="s2">      max_speed:</span>
+<span class="s2">        sampler: uniform</span>
+<span class="s2">        from: 1</span>
+<span class="s2">        to: 2</span>
+<span class="s2">    state_estimation:</span>
+<span class="s2">      type: Bounded</span>
+<span class="s2">      range:</span>
+<span class="s2">        sampler: normal</span>
+<span class="s2">        mean: 2.0</span>
+<span class="s2">        std_dev: 1.0</span>
+<span class="s2">        min: 0.785</span>
+<span class="s2">        max: 3.142</span>
+<span class="s2">&quot;&quot;&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[25]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">world</span> <span class="o">=</span> <span class="n">scenario</span><span class="o">.</span><span class="n">make_world</span><span class="p">(</span><span class="n">seed</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Kinematics:</span><span class="se">\n\n</span><span class="s1">&#39;</span> <span class="o">+</span> <span class="n">world</span><span class="o">.</span><span class="n">agents</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">kinematics</span><span class="o">.</span><span class="n">dump</span><span class="p">())</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Kinematics:
+
+type: Omni
+max_speed: 1.7151893
+max_angular_speed: .inf
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[26]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="s1">&#39;State Estimation:</span><span class="se">\n\n</span><span class="s1">&#39;</span> <span class="o">+</span> <span class="n">world</span><span class="o">.</span><span class="n">agents</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">state_estimation</span><span class="o">.</span><span class="n">dump</span><span class="p">())</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+State Estimation:
+
+type: Bounded
+range: 3.142
+update_static_obstacles: false
+</pre></div></div>
+</div>
+<p>The only attribute that always constant (i.e., cannot be sampled), is <code class="docutils literal notranslate"><span class="pre">type</span></code> as it defines properties to be loaded from the YAML. To components of different <code class="docutils literal notranslate"><span class="pre">type</span></code>, we can define more groups. For example, to alternate between worlds where two agents use either <code class="docutils literal notranslate"><span class="pre">Omni</span></code> or <code class="docutils literal notranslate"><span class="pre">2WDiff</span></code> kinematics, we setup two groups:</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[27]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">scenario</span> <span class="o">=</span> <span class="n">sim</span><span class="o">.</span><span class="n">load_scenario</span><span class="p">(</span><span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">groups:</span>
+<span class="s2">  - number: [2, 0]</span>
+<span class="s2">    radius: 1</span>
+<span class="s2">    kinematics:</span>
+<span class="s2">      type: Omni</span>
+<span class="s2">  - number: [0, 2]</span>
+<span class="s2">    radius: 1</span>
+<span class="s2">    kinematics:</span>
+<span class="s2">      type: 2WDiff</span>
+<span class="s2">      axis: 2</span>
+<span class="s2">&quot;&quot;&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<p>When the first group has 0 agents, the second will have 2 agents and viceversa:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[28]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">seed</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">5</span><span class="p">):</span>
+    <span class="n">world</span> <span class="o">=</span> <span class="n">scenario</span><span class="o">.</span><span class="n">make_world</span><span class="p">(</span><span class="n">seed</span><span class="o">=</span><span class="n">seed</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">([</span><span class="n">agent</span><span class="o">.</span><span class="n">kinematics</span><span class="o">.</span><span class="n">type</span> <span class="k">for</span> <span class="n">agent</span> <span class="ow">in</span> <span class="n">world</span><span class="o">.</span><span class="n">agents</span><span class="p">])</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;...&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+[&#39;Omni&#39;, &#39;Omni&#39;]
+[&#39;2WDiff&#39;, &#39;2WDiff&#39;]
+[&#39;Omni&#39;, &#39;Omni&#39;]
+[&#39;2WDiff&#39;, &#39;2WDiff&#39;]
+[&#39;Omni&#39;, &#39;Omni&#39;]
+...
+</pre></div></div>
+</div>
+</section>
+<section id="Global-attributes">
+<h2>Global attributes<a class="headerlink" href="#Global-attributes" title="Link to this heading">#</a></h2>
+<p>As we have just seen, the <code class="docutils literal notranslate"><span class="pre">number</span></code> of agents is also sampled by a sampler. In this case, it is an attribute of the group itself, not of the agent that compose the groups, therefore <code class="docutils literal notranslate"><span class="pre">once</span></code> has a different meaning:</p>
+<p><code class="docutils literal notranslate"><span class="pre">once:</span> <span class="pre">false</span></code> (the default) generates different values depending on the seed</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[29]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">scenario</span> <span class="o">=</span> <span class="n">sim</span><span class="o">.</span><span class="n">load_scenario</span><span class="p">(</span><span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">groups:</span>
+<span class="s2">  - number:</span>
+<span class="s2">      sampler: uniform</span>
+<span class="s2">      from: 1</span>
+<span class="s2">      to: 10</span>
+<span class="s2">      once: false</span>
+<span class="s2">&quot;&quot;&quot;</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">seed</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">5</span><span class="p">):</span>
+    <span class="n">world</span> <span class="o">=</span> <span class="n">scenario</span><span class="o">.</span><span class="n">make_world</span><span class="p">(</span><span class="n">seed</span><span class="o">=</span><span class="n">seed</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">world</span><span class="o">.</span><span class="n">agents</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+6
+6
+9
+9
+8
+</pre></div></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">once:</span> <span class="pre">true</span></code> generates the same value <em>for each world</em></p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[30]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">scenario</span> <span class="o">=</span> <span class="n">sim</span><span class="o">.</span><span class="n">load_scenario</span><span class="p">(</span><span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">groups:</span>
+<span class="s2">  - number:</span>
+<span class="s2">      sampler: uniform</span>
+<span class="s2">      from: 1</span>
+<span class="s2">      to: 10</span>
+<span class="s2">      once: true</span>
+<span class="s2">&quot;&quot;&quot;</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">seed</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">5</span><span class="p">):</span>
+    <span class="n">world</span> <span class="o">=</span> <span class="n">scenario</span><span class="o">.</span><span class="n">make_world</span><span class="p">(</span><span class="n">seed</span><span class="o">=</span><span class="n">seed</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">world</span><span class="o">.</span><span class="n">agents</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+6
+6
+6
+6
+6
+</pre></div></div>
+</div>
+</section>
+<section id="Scenario-properties">
+<h2>Scenario properties<a class="headerlink" href="#Scenario-properties" title="Link to this heading">#</a></h2>
+<p>The same applies to scenarios’ properties. Intead of a an empty, vannilla world, let us generate worlds from the corridor scenario:</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[31]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">scenario</span> <span class="o">=</span> <span class="n">sim</span><span class="o">.</span><span class="n">load_scenario</span><span class="p">(</span><span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">type: Corridor</span>
+<span class="s2">agent_margin: 0.125</span>
+<span class="s2">length:</span>
+<span class="s2">  sampler: uniform</span>
+<span class="s2">  from: 5</span>
+<span class="s2">  to: 15</span>
+<span class="s2">groups:</span>
+<span class="s2">  - number: 2</span>
+<span class="s2">&quot;&quot;&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<p>This scenario defines properties</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[32]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">scenario</span><span class="o">.</span><span class="n">properties</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[32]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+{&#39;add_safety_to_agent_margin&#39;: &lt;Property: bool&gt;,
+ &#39;agent_margin&#39;: &lt;Property: float&gt;,
+ &#39;length&#39;: &lt;Property: float&gt;,
+ &#39;width&#39;: &lt;Property: float&gt;}
+</pre></div></div>
+</div>
+<p>that are sampled <em>once per world</em> (for <code class="docutils literal notranslate"><span class="pre">once:</span> <span class="pre">false</span></code>)</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[33]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">seed</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">5</span><span class="p">):</span>
+    <span class="n">world</span> <span class="o">=</span> <span class="n">scenario</span><span class="o">.</span><span class="n">make_world</span><span class="p">(</span><span class="n">seed</span><span class="o">=</span><span class="n">seed</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">scenario</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;length&#39;</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+10.48813533782959
+9.170219421386719
+9.359949111938477
+10.507978439331055
+14.670297622680664
+</pre></div></div>
+</div>
+<p>or <em>once per scenario</em> (for <code class="docutils literal notranslate"><span class="pre">once:</span> <span class="pre">true</span></code>)</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[34]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">scenario</span> <span class="o">=</span> <span class="n">sim</span><span class="o">.</span><span class="n">load_scenario</span><span class="p">(</span><span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">type: Corridor</span>
+<span class="s2">agent_margin: 0.125</span>
+<span class="s2">length:</span>
+<span class="s2">    sampler: uniform</span>
+<span class="s2">    from: 5</span>
+<span class="s2">    to: 15</span>
+<span class="s2">    once: true</span>
+<span class="s2">groups:</span>
+<span class="s2">  - number: 2</span>
+<span class="s2">&quot;&quot;&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[35]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">seed</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">5</span><span class="p">):</span>
+    <span class="n">world</span> <span class="o">=</span> <span class="n">scenario</span><span class="o">.</span><span class="n">make_world</span><span class="p">(</span><span class="n">seed</span><span class="o">=</span><span class="n">seed</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">scenario</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;length&#39;</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+10.48813533782959
+10.48813533782959
+10.48813533782959
+10.48813533782959
+10.48813533782959
+</pre></div></div>
+</div>
+<p>As these properties impact the generation of a whole world, we can store them as world attributes</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[36]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">world</span> <span class="o">=</span> <span class="n">scenario</span><span class="o">.</span><span class="n">make_world</span><span class="p">(</span><span class="n">seed</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">scenario</span><span class="o">.</span><span class="n">set_attributes</span><span class="p">(</span><span class="n">world</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">world</span><span class="o">.</span><span class="n">attributes</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+{&#39;add_safety_to_agent_margin&#39;: True, &#39;agent_margin&#39;: 0.125, &#39;length&#39;: 10.48813533782959, &#39;width&#39;: 1.0}
+</pre></div></div>
+</div>
+</section>
+<section id="Extending-a-scenario">
+<h2>Extending a scenario<a class="headerlink" href="#Extending-a-scenario" title="Link to this heading">#</a></h2>
+<p>Specifying samplers through YAML is not always enough. In particular, these sampler are indipendent of each other and cannot therefore generate more complex distribution of worlds.</p>
+<p>For instance, let us say that we world like to generate a random number of agents and pair them, so that one is positioned in front of the other (and color them the same, so we keep track of each pair)</p>
+<p>We can create a function that implements the pairing</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[37]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">navground</span><span class="w"> </span><span class="kn">import</span> <span class="n">core</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">navground.sim.ui</span><span class="w"> </span><span class="kn">import</span> <span class="n">svg_color</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">pair_agents</span><span class="p">(</span><span class="n">world</span><span class="p">:</span> <span class="n">sim</span><span class="o">.</span><span class="n">World</span><span class="p">,</span> <span class="n">distance</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="n">rng</span> <span class="o">=</span> <span class="n">world</span><span class="o">.</span><span class="n">random_generator</span>
+    <span class="k">for</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">world</span><span class="o">.</span><span class="n">agents</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">:</span><span class="mi">2</span><span class="p">],</span> <span class="n">world</span><span class="o">.</span><span class="n">agents</span><span class="p">[</span><span class="mi">1</span><span class="p">::</span><span class="mi">2</span><span class="p">],</span> <span class="n">strict</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+        <span class="n">p</span> <span class="o">=</span> <span class="n">a</span><span class="o">.</span><span class="n">position</span> <span class="o">-</span> <span class="n">core</span><span class="o">.</span><span class="n">unit</span><span class="p">(</span><span class="n">a</span><span class="o">.</span><span class="n">orientation</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="n">a</span><span class="o">.</span><span class="n">radius</span> <span class="o">+</span> <span class="n">b</span><span class="o">.</span><span class="n">radius</span> <span class="o">+</span> <span class="n">distance</span><span class="p">)</span>
+        <span class="n">b</span><span class="o">.</span><span class="n">pose</span> <span class="o">=</span> <span class="n">core</span><span class="o">.</span><span class="n">Pose2</span><span class="p">(</span><span class="n">p</span><span class="p">,</span> <span class="n">a</span><span class="o">.</span><span class="n">orientation</span> <span class="p">)</span>
+        <span class="n">rbg</span> <span class="o">=</span> <span class="n">world</span><span class="o">.</span><span class="n">random_generator</span><span class="o">.</span><span class="n">uniform</span><span class="p">(</span><span class="n">low</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">high</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+        <span class="n">a</span><span class="o">.</span><span class="n">color</span> <span class="o">=</span> <span class="n">b</span><span class="o">.</span><span class="n">color</span> <span class="o">=</span> <span class="n">svg_color</span><span class="p">(</span><span class="o">*</span><span class="n">rbg</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<p>and then apply it to any world</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[38]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">navground.sim.ui</span><span class="w"> </span><span class="kn">import</span> <span class="n">render_default_config</span>
+
+<span class="n">render_default_config</span><span class="o">.</span><span class="n">width</span> <span class="o">=</span> <span class="mi">200</span>
+
+<span class="n">scenario</span> <span class="o">=</span> <span class="n">sim</span><span class="o">.</span><span class="n">load_scenario</span><span class="p">(</span><span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">bounding_box:</span>
+<span class="s2">  min_x: -2</span>
+<span class="s2">  max_x: 12</span>
+<span class="s2">  min_y: -2</span>
+<span class="s2">  max_y: 12</span>
+<span class="s2">groups:</span>
+<span class="s2">  - number:</span>
+<span class="s2">      sampler: uniform</span>
+<span class="s2">      from: 10</span>
+<span class="s2">      to: 20</span>
+<span class="s2">    radius: 0.5</span>
+<span class="s2">    position:</span>
+<span class="s2">      sampler: uniform</span>
+<span class="s2">      from: [0, 0]</span>
+<span class="s2">      to: [10, 10]</span>
+<span class="s2">&quot;&quot;&quot;</span><span class="p">)</span>
+
+<span class="n">world</span> <span class="o">=</span> <span class="n">scenario</span><span class="o">.</span><span class="n">make_world</span><span class="p">(</span><span class="n">seed</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">world</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[38]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/tutorials_sampling_73_0.svg" src="../_images/tutorials_sampling_73_0.svg" />
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[39]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">pair_agents</span><span class="p">(</span><span class="n">world</span><span class="p">,</span> <span class="n">distance</span><span class="o">=</span><span class="mf">1.0</span><span class="p">)</span>
+<span class="n">world</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[39]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/tutorials_sampling_74_0.svg" src="../_images/tutorials_sampling_74_0.svg" />
+</div>
+</div>
+<section id="Add-an-initializer">
+<h3>Add an initializer<a class="headerlink" href="#Add-an-initializer" title="Link to this heading">#</a></h3>
+<p>We can let the scenario apply the pairing automatically too, by wrapping it in a world initializer, i.e. a function that takes as input a world and an optional seed</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[40]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">pairing_initializer</span><span class="p">(</span><span class="n">distance</span><span class="p">:</span> <span class="nb">float</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">init</span><span class="p">(</span><span class="n">world</span><span class="p">:</span> <span class="n">sim</span><span class="o">.</span><span class="n">World</span><span class="p">,</span> <span class="n">seed</span><span class="p">:</span> <span class="nb">int</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">pair_agents</span><span class="p">(</span><span class="n">world</span><span class="p">,</span> <span class="n">distance</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">init</span>
+
+<span class="n">scenario</span><span class="o">.</span><span class="n">set_init</span><span class="p">(</span><span class="s1">&#39;pair&#39;</span><span class="p">,</span> <span class="n">pairing_initializer</span><span class="p">(</span><span class="n">distance</span><span class="o">=</span><span class="mf">1.0</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[41]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">scenario</span><span class="o">.</span><span class="n">make_world</span><span class="p">(</span><span class="n">seed</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[41]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/tutorials_sampling_77_0.svg" src="../_images/tutorials_sampling_77_0.svg" />
+</div>
+</div>
+<p>As we see, this initialization may give overlapping pairs, which we may avoid by moving pairs apart from each other in the initializer.</p>
+</section>
+<section id="Add-a-(custom)-group">
+<h3>Add a (custom) group<a class="headerlink" href="#Add-a-(custom)-group" title="Link to this heading">#</a></h3>
+<p>In addition to groups loaded from YAML, we can define groups in Python, subclassing <code class="docutils literal notranslate"><span class="pre">sim.Scenario.Group</span></code>. Altough groups are designed to generate and add agents to a world, they can manupulate the world in any way.</p>
+<p>In this case, let us define a group that perform the same pairing as the initializer</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[42]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">PairingGroup</span><span class="p">(</span><span class="n">sim</span><span class="o">.</span><span class="n">Scenario</span><span class="o">.</span><span class="n">Group</span><span class="p">):</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">distance</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">1.0</span><span class="p">):</span>
+        <span class="n">sim</span><span class="o">.</span><span class="n">Scenario</span><span class="o">.</span><span class="n">Group</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_distance</span> <span class="o">=</span> <span class="n">distance</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">add_to_world</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">world</span><span class="p">:</span> <span class="n">sim</span><span class="o">.</span><span class="n">World</span><span class="p">,</span> <span class="n">seed</span><span class="p">:</span> <span class="nb">int</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+        <span class="c1"># Apply sampler defined in YAML</span>
+        <span class="n">pair_agents</span><span class="p">(</span><span class="n">world</span><span class="p">,</span> <span class="n">distance</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_distance</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<p>add it to the scenario, instead of the initializer,</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[43]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">scenario</span> <span class="o">=</span> <span class="n">sim</span><span class="o">.</span><span class="n">load_scenario</span><span class="p">(</span><span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">bounding_box:</span>
+<span class="s2">  min_x: -2</span>
+<span class="s2">  max_x: 12</span>
+<span class="s2">  min_y: -2</span>
+<span class="s2">  max_y: 12</span>
+<span class="s2">groups:</span>
+<span class="s2">  - number:</span>
+<span class="s2">      sampler: uniform</span>
+<span class="s2">      from: 10</span>
+<span class="s2">      to: 20</span>
+<span class="s2">    radius: 0.5</span>
+<span class="s2">    position:</span>
+<span class="s2">      sampler: uniform</span>
+<span class="s2">      from: [0, 0]</span>
+<span class="s2">      to: [10, 10]</span>
+<span class="s2">&quot;&quot;&quot;</span><span class="p">)</span>
+<span class="n">scenario</span><span class="o">.</span><span class="n">add_group</span><span class="p">(</span><span class="n">PairingGroup</span><span class="p">(</span><span class="n">distance</span><span class="o">=</span><span class="mi">1</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[44]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">scenario</span><span class="o">.</span><span class="n">groups</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[44]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+[&lt;navground.sim._navground_sim.AgentSampler at 0x10b6bef30&gt;,
+ &lt;__main__.PairingGroup at 0x10b65b4d0&gt;]
+</pre></div></div>
+</div>
+<p>and get the same results</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[45]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">world</span> <span class="o">=</span> <span class="n">scenario</span><span class="o">.</span><span class="n">make_world</span><span class="p">(</span><span class="n">seed</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">world</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[45]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/tutorials_sampling_85_0.svg" src="../_images/tutorials_sampling_85_0.svg" />
+</div>
+</div>
+</section>
+<section id="Define-a-custom-scenario">
+<h3>Define a custom scenario<a class="headerlink" href="#Define-a-custom-scenario" title="Link to this heading">#</a></h3>
+<p>Defining a new scenario that direcly applies the same initializer</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[46]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">PairedScenario</span><span class="p">(</span><span class="n">sim</span><span class="o">.</span><span class="n">Scenario</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;Paired&quot;</span><span class="p">):</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">distance</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">1.0</span><span class="p">):</span>
+        <span class="n">sim</span><span class="o">.</span><span class="n">Scenario</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_distance</span> <span class="o">=</span> <span class="n">distance</span>
+
+    <span class="nd">@property</span>
+    <span class="nd">@sim</span><span class="o">.</span><span class="n">register</span><span class="p">(</span><span class="mf">1.0</span><span class="p">,</span> <span class="s1">&#39;Distance between agents in a pair&#39;</span><span class="p">)</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">distance</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_distance</span>
+
+    <span class="nd">@distance</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">distance</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_distance</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">init_world</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">world</span><span class="p">:</span> <span class="n">sim</span><span class="o">.</span><span class="n">World</span><span class="p">,</span> <span class="n">seed</span><span class="p">:</span> <span class="nb">int</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+        <span class="c1"># Apply sampler defined in YAML</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">init_world</span><span class="p">(</span><span class="n">world</span><span class="p">,</span> <span class="n">seed</span><span class="o">=</span><span class="n">seed</span><span class="p">)</span>
+        <span class="n">pair_agents</span><span class="p">(</span><span class="n">world</span><span class="p">,</span> <span class="n">distance</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_distance</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<p>is a more powerfull alternative because it can be initialized from YAML</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[47]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">scenario</span> <span class="o">=</span> <span class="n">sim</span><span class="o">.</span><span class="n">load_scenario</span><span class="p">(</span><span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">type: Paired</span>
+<span class="s2">bounding_box:</span>
+<span class="s2">  min_x: -2</span>
+<span class="s2">  max_x: 12</span>
+<span class="s2">  min_y: -2</span>
+<span class="s2">  max_y: 12</span>
+<span class="s2">groups:</span>
+<span class="s2">  - number:</span>
+<span class="s2">      sampler: uniform</span>
+<span class="s2">      from: 10</span>
+<span class="s2">      to: 20</span>
+<span class="s2">    radius: 0.5</span>
+<span class="s2">    position:</span>
+<span class="s2">      sampler: uniform</span>
+<span class="s2">      from: [0, 0]</span>
+<span class="s2">      to: [10, 10]</span>
+<span class="s2">&quot;&quot;&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[48]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">scenario</span><span class="o">.</span><span class="n">make_world</span><span class="p">(</span><span class="n">seed</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[48]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/tutorials_sampling_91_0.svg" src="../_images/tutorials_sampling_91_0.svg" />
+</div>
+</div>
+<p>Properties like <code class="docutils literal notranslate"><span class="pre">distance</span></code> are now automatically assigned samplers too, i.e., we can vary them without any extra code:</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[49]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">scenario</span> <span class="o">=</span> <span class="n">sim</span><span class="o">.</span><span class="n">load_scenario</span><span class="p">(</span><span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">type: Paired</span>
+<span class="s2">bounding_box:</span>
+<span class="s2">  min_x: -2</span>
+<span class="s2">  max_x: 12</span>
+<span class="s2">  min_y: -2</span>
+<span class="s2">  max_y: 12</span>
+<span class="s2">distance:</span>
+<span class="s2">  sampler: uniform</span>
+<span class="s2">  from: 0</span>
+<span class="s2">  to: 2</span>
+<span class="s2">groups:</span>
+<span class="s2">  - number:</span>
+<span class="s2">      sampler: uniform</span>
+<span class="s2">      from: 10</span>
+<span class="s2">      to: 20</span>
+<span class="s2">    radius: 0.5</span>
+<span class="s2">    position:</span>
+<span class="s2">      sampler: uniform</span>
+<span class="s2">      from: [0, 0]</span>
+<span class="s2">      to: [10, 10]</span>
+<span class="s2">&quot;&quot;&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[50]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">scenario</span><span class="o">.</span><span class="n">make_world</span><span class="p">(</span><span class="n">seed</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[50]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/tutorials_sampling_94_0.svg" src="../_images/tutorials_sampling_94_0.svg" />
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[51]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">scenario</span><span class="o">.</span><span class="n">make_world</span><span class="p">(</span><span class="n">seed</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[51]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/tutorials_sampling_95_0.svg" src="../_images/tutorials_sampling_95_0.svg" />
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[52]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">scenario</span><span class="o">.</span><span class="n">make_world</span><span class="p">(</span><span class="n">seed</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[52]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/tutorials_sampling_96_0.svg" src="../_images/tutorials_sampling_96_0.svg" />
+</div>
+</div>
+<p>You find more details about extending scenarios in :doc:<code class="docutils literal notranslate"><span class="pre">../guides/extend/scenario</span></code>.</p>
+</section>
+</section>
+</section>
+
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="world_attributes.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">World attributes</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="../guides/index.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Guides</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#Groups">Groups</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#Everything-is-a-sampler">Everything is a sampler</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#Sharing-the-sampler-within-the-group">Sharing the sampler within the group</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#Deterministic-samplers">Deterministic samplers</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#Pseudo-random-samplers">Pseudo-random samplers</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#Components-sampler">Components sampler</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#Global-attributes">Global attributes</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#Scenario-properties">Scenario properties</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#Extending-a-scenario">Extending a scenario</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#Add-an-initializer">Add an initializer</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#Add-a-(custom)-group">Add a (custom) group</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#Define-a-custom-scenario">Define a custom scenario</a></li>
+</ul>
+</li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Jérôme Guzzi, IDSIA
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2023, Jérôme Guzzi, IDSIA.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

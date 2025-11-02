@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Experiment &#8212; navground 0.7.0.dev documentation</title>
+    <title>Experiment &#8212; navground 0.8.0.dev documentation</title>
   
   
   
@@ -41,7 +41,7 @@
 
     <script src="../../../../_static/jquery.js?v=5d32c60e"></script>
     <script src="../../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-    <script src="../../../../_static/documentation_options.js?v=176ebae1"></script>
+    <script src="../../../../_static/documentation_options.js?v=a17d1565"></script>
     <script src="../../../../_static/doctools.js?v=9bcbadda"></script>
     <script src="../../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -142,7 +142,7 @@
   
   
   
-    <p class="title logo__title">navground 0.7.0.dev documentation</p>
+    <p class="title logo__title">navground 0.8.0.dev documentation</p>
   
 </a></div>
         <div class="sidebar-primary-item">
@@ -680,7 +680,7 @@ document.write(`
 <dd><p>Perform several runs and optionally record the data in a HFD5 file. </p>
 <p>The number of runs is specified by the default <a class="reference internal" href="#structnavground_1_1sim_1_1_experiment_1a2e9a66df1b0ed1e26c7e6eed0c3e1bef"><span class="std std-ref">number_of_runs</span></a> if not specified.</p>
 <p>Runs will be indexed sequentially and their index used as a random seed.</p>
-<p>If <a class="reference internal" href="#structnavground_1_1sim_1_1_experiment_1a0be7940cc470316e68182a07670d601b"><span class="std std-ref">save_directory</span></a> not empty but points to an existing directory, it creates a HDF5 file <code class="docutils literal notranslate"><span class="pre">&lt;name&gt;_&lt;hash&gt;_&lt;timestamp&gt;/data.h5</span></code> with attributes</p>
+<p>If <a class="reference internal" href="#structnavground_1_1sim_1_1_experiment_1a0be7940cc470316e68182a07670d601b"><span class="std std-ref">save_directory</span></a> not empty but points to an existing directory, it creates a HDF5 file <code class="docutils literal notranslate"><span class="pre">&lt;</span><a class="reference internal" href="#structnavground_1_1sim_1_1_experiment_1a322c7dd899041f55e79646ade8bd4a99"><span class="std std-ref"><span class="pre">name</span></span></a><span class="pre">&gt;_&lt;hash&gt;_&lt;timestamp&gt;/data.h5</span></code> with attributes</p>
 <p><ul class="simple">
 <li><p><code class="docutils literal notranslate"><span class="pre">begin_time</span></code> [<code class="docutils literal notranslate"><span class="pre">string</span></code>], ISO 8601 formatted string of the time when the experiment is run, see <a class="reference internal" href="#structnavground_1_1sim_1_1_experiment_1ae527210c53cc9f8629ac53da9ba59c97"><span class="std std-ref">get_begin_time</span></a>;</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">duration_ns</span></code> [<code class="docutils literal notranslate"><span class="pre">unsigned</span></code>], total duration in nanoseconds, see <a class="reference internal" href="#structnavground_1_1sim_1_1_experiment_1ad5a4def55f6f03ceff1cf2e94dda77e7"><span class="std std-ref">get_duration</span></a>.</p></li>
@@ -724,7 +724,7 @@ document.write(`
 <li><p><strong>number_of_threads</strong> – <strong>[in]</strong> How many threads to use. When more than one, runs will be distributed in parallel over the threads. </p></li>
 <li><p><strong>start_index</strong> – <strong>[in]</strong> The index/seed of the first run. If unspecified, it will use the experiment’s <a class="reference internal" href="#structnavground_1_1sim_1_1_experiment_1a84558456fa6d1f33409b024b808a3881"><span class="std std-ref">run_index</span></a></p></li>
 <li><p><strong>number_of_runs</strong> – <strong>[in]</strong> The number of runs. If unspecified, it will use the experiment’s <a class="reference internal" href="#structnavground_1_1sim_1_1_experiment_1a2e9a66df1b0ed1e26c7e6eed0c3e1bef"><span class="std std-ref">number_of_runs</span></a></p></li>
-<li><p><strong>data_path</strong> – <strong>[in]</strong> A path to set optionally as <a class="reference internal" href="#structnavground_1_1sim_1_1_experiment_1a309e97cf97ba35374059c1814555460c"><span class="std std-ref">get_path</span></a>. If set, it will save an HDF5 file, but no <a class="reference internal" href="../../../core/cpp/yaml.html#namespace_y_a_m_l"><span class="std std-ref">YAML</span></a>, to this path. If not set, <a class="reference internal" href="#structnavground_1_1sim_1_1_experiment_1a309e97cf97ba35374059c1814555460c"><span class="std std-ref">get_path</span></a> will be automatically set to <code class="docutils literal notranslate"><span class="pre">&lt;save_directory&gt;/data.h5</span></code> if <a class="reference internal" href="#structnavground_1_1sim_1_1_experiment_1a0be7940cc470316e68182a07670d601b"><span class="std std-ref">save_directory</span></a> is set. </p></li>
+<li><p><strong>data_path</strong> – <strong>[in]</strong> A path to set optionally as <a class="reference internal" href="#structnavground_1_1sim_1_1_experiment_1a309e97cf97ba35374059c1814555460c"><span class="std std-ref">get_path</span></a>. If set, it will save an HDF5 file, but no <a class="reference internal" href="../../../core/cpp/yaml.html#namespace_y_a_m_l"><span class="std std-ref">YAML</span></a>, to this path. If not set, <a class="reference internal" href="#structnavground_1_1sim_1_1_experiment_1a309e97cf97ba35374059c1814555460c"><span class="std std-ref">get_path</span></a> will be automatically set to <code class="docutils literal notranslate"><span class="pre">&lt;</span><a class="reference internal" href="#structnavground_1_1sim_1_1_experiment_1a0be7940cc470316e68182a07670d601b"><span class="std std-ref"><span class="pre">save_directory</span></span></a><span class="pre">&gt;/data.h5</span></code> if <a class="reference internal" href="#structnavground_1_1sim_1_1_experiment_1a0be7940cc470316e68182a07670d601b"><span class="std std-ref">save_directory</span></a> is set. </p></li>
 </ul>
 </dd>
 </dl>
@@ -765,7 +765,7 @@ document.write(`
 <p>Calling <a class="reference internal" href="#structnavground_1_1sim_1_1_experiment_1a99d0c0e456087a2b55197c8f592c7417"><span class="std std-ref">start</span></a> is only effective once per experiment.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>path</strong> – <strong>[in]</strong> A path to set optionally as <a class="reference internal" href="#structnavground_1_1sim_1_1_experiment_1a309e97cf97ba35374059c1814555460c"><span class="std std-ref">get_path</span></a>. If set, it will save an HDF5 file, but no <a class="reference internal" href="../../../core/cpp/yaml.html#namespace_y_a_m_l"><span class="std std-ref">YAML</span></a>, to this path. If not set, <a class="reference internal" href="#structnavground_1_1sim_1_1_experiment_1a309e97cf97ba35374059c1814555460c"><span class="std std-ref">get_path</span></a> will be automatically set to <code class="docutils literal notranslate"><span class="pre">&lt;save_directory&gt;/data.h5</span></code> if <a class="reference internal" href="#structnavground_1_1sim_1_1_experiment_1a0be7940cc470316e68182a07670d601b"><span class="std std-ref">save_directory</span></a> is set. </p>
+<dd class="field-odd"><p><strong>path</strong> – <strong>[in]</strong> A path to set optionally as <a class="reference internal" href="#structnavground_1_1sim_1_1_experiment_1a309e97cf97ba35374059c1814555460c"><span class="std std-ref">get_path</span></a>. If set, it will save an HDF5 file, but no <a class="reference internal" href="../../../core/cpp/yaml.html#namespace_y_a_m_l"><span class="std std-ref">YAML</span></a>, to this path. If not set, <a class="reference internal" href="#structnavground_1_1sim_1_1_experiment_1a309e97cf97ba35374059c1814555460c"><span class="std std-ref">get_path</span></a> will be automatically set to <code class="docutils literal notranslate"><span class="pre">&lt;</span><a class="reference internal" href="#structnavground_1_1sim_1_1_experiment_1a0be7940cc470316e68182a07670d601b"><span class="std std-ref"><span class="pre">save_directory</span></span></a><span class="pre">&gt;/data.h5</span></code> if <a class="reference internal" href="#structnavground_1_1sim_1_1_experiment_1a0be7940cc470316e68182a07670d601b"><span class="std std-ref">save_directory</span></a> is set. </p>
 </dd>
 </dl>
 </dd></dl>
@@ -1058,7 +1058,7 @@ See <a class="reference internal" href="#structnavground_1_1sim_1_1_experiment_1
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>directory</strong> – <strong>[in]</strong> A path to set optionally as <a class="reference internal" href="#structnavground_1_1sim_1_1_experiment_1a0be7940cc470316e68182a07670d601b"><span class="std std-ref">save_directory</span></a> where to save <a class="reference internal" href="../../../core/cpp/yaml.html#namespace_y_a_m_l"><span class="std std-ref">YAML</span></a> and HDF5 file.</p></li>
-<li><p><strong>path</strong> – <strong>[in]</strong> A path to set optionally as <a class="reference internal" href="#structnavground_1_1sim_1_1_experiment_1a309e97cf97ba35374059c1814555460c"><span class="std std-ref">get_path</span></a>. If set, it will save an HDF5 file, but no <a class="reference internal" href="../../../core/cpp/yaml.html#namespace_y_a_m_l"><span class="std std-ref">YAML</span></a>, to this path. If not set, <a class="reference internal" href="#structnavground_1_1sim_1_1_experiment_1a309e97cf97ba35374059c1814555460c"><span class="std std-ref">get_path</span></a> will be automatically set to <code class="docutils literal notranslate"><span class="pre">&lt;save_directory&gt;/data.h5</span></code> if <a class="reference internal" href="#structnavground_1_1sim_1_1_experiment_1a0be7940cc470316e68182a07670d601b"><span class="std std-ref">save_directory</span></a> is set. </p></li>
+<li><p><strong>path</strong> – <strong>[in]</strong> A path to set optionally as <a class="reference internal" href="#structnavground_1_1sim_1_1_experiment_1a309e97cf97ba35374059c1814555460c"><span class="std std-ref">get_path</span></a>. If set, it will save an HDF5 file, but no <a class="reference internal" href="../../../core/cpp/yaml.html#namespace_y_a_m_l"><span class="std std-ref">YAML</span></a>, to this path. If not set, <a class="reference internal" href="#structnavground_1_1sim_1_1_experiment_1a309e97cf97ba35374059c1814555460c"><span class="std std-ref">get_path</span></a> will be automatically set to <code class="docutils literal notranslate"><span class="pre">&lt;</span><a class="reference internal" href="#structnavground_1_1sim_1_1_experiment_1a0be7940cc470316e68182a07670d601b"><span class="std std-ref"><span class="pre">save_directory</span></span></a><span class="pre">&gt;/data.h5</span></code> if <a class="reference internal" href="#structnavground_1_1sim_1_1_experiment_1a0be7940cc470316e68182a07670d601b"><span class="std std-ref">save_directory</span></a> is set. </p></li>
 </ul>
 </dd>
 </dl>

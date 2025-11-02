@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Behavior modulations &#8212; navground 0.7.0.dev documentation</title>
+    <title>Behavior modulations &#8212; navground 0.8.0.dev documentation</title>
   
   
   
@@ -41,7 +41,7 @@
 
     <script src="../../_static/jquery.js?v=5d32c60e"></script>
     <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-    <script src="../../_static/documentation_options.js?v=176ebae1"></script>
+    <script src="../../_static/documentation_options.js?v=a17d1565"></script>
     <script src="../../_static/doctools.js?v=9bcbadda"></script>
     <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -143,7 +143,7 @@
   
   
   
-    <p class="title logo__title">navground 0.7.0.dev documentation</p>
+    <p class="title logo__title">navground 0.8.0.dev documentation</p>
   
 </a></div>
         <div class="sidebar-primary-item">
@@ -593,17 +593,19 @@ You should also take into account that modulation are performed as a stack: when
 <span class="p">};</span>
 </pre></div>
 </div>
-</div><div aria-labelledby="tab-0-0-1" class="sphinx-tabs-panel" hidden="true" id="panel-0-0-1" name="0-1" role="tabpanel" tabindex="0"><div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">navground</span><span class="w"> </span><span class="kn">import</span> <span class="n">core</span>
+</div><div aria-labelledby="tab-0-0-1" class="sphinx-tabs-panel" hidden="true" id="panel-0-0-1" name="0-1" role="tabpanel" tabindex="0"><div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">SupportsFloat</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">navground</span><span class="w"> </span><span class="kn">import</span> <span class="n">core</span>
 
 <span class="k">class</span><span class="w"> </span><span class="nc">MyBehaviorModulation</span><span class="p">(</span><span class="n">core</span><span class="o">.</span><span class="n">BehaviorModulation</span><span class="p">):</span>
 
     <span class="c1"># CAN override</span>
     <span class="c1"># modulates the behavior by setting parameters while caching their original value</span>
-    <span class="c1"># def pre(self, behavior: core.Behavior, time_step: float) -&gt; None: ...</span>
+    <span class="c1"># def pre(self, behavior: core.Behavior, time_step: SupportsFloat) -&gt; None: ...</span>
 
     <span class="c1"># CAN override</span>
     <span class="c1"># modulates the cmd and resets parameters to their original values</span>
-    <span class="c1"># def post(self, behavior: core.Behavior, time_step: float, cmd: core.Twist2) -&gt; core.Twist2: ...</span>
+    <span class="c1"># def post(self, behavior: core.Behavior, time_step: SupportsFloat, cmd: core.Twist2) -&gt; core.Twist2: ...</span>
 
     <span class="k">pass</span>
 </pre></div>

@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Waypoints &#8212; navground 0.7.0.dev documentation</title>
+    <title>Waypoints &#8212; navground 0.8.0.dev documentation</title>
   
   
   
@@ -41,7 +41,7 @@
 
     <script src="../../../../_static/jquery.js?v=5d32c60e"></script>
     <script src="../../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-    <script src="../../../../_static/documentation_options.js?v=176ebae1"></script>
+    <script src="../../../../_static/documentation_options.js?v=a17d1565"></script>
     <script src="../../../../_static/doctools.js?v=9bcbadda"></script>
     <script src="../../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -142,7 +142,7 @@
   
   
   
-    <p class="title logo__title">navground 0.7.0.dev documentation</p>
+    <p class="title logo__title">navground 0.8.0.dev documentation</p>
   
 </a></div>
         <div class="sidebar-primary-item">
@@ -795,7 +795,7 @@ document.write(`
 <dt class="sig sig-object cpp" id="_CPPv4NK9navground3sim13WaypointsTask31get_effective_angular_toleranceEj">
 <span class="target" id="structnavground_1_1sim_1_1_waypoints_task_1affad6d32bb7d184a0773089b952917c8"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><a class="reference internal" href="../../../core/cpp/types.html#_CPPv410ng_float_t" title="ng_float_t"><span class="n"><span class="pre">ng_float_t</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">get_effective_angular_tolerance</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">unsigned</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">index</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK9navground3sim13WaypointsTask31get_effective_angular_toleranceEj" title="Link to this definition">#</a><br /></dt>
 <dd><p>Returns the angular tolerance applied to the waypoint at a given index. </p>
-<p>If a specific positive value is present at the same index in <a class="reference internal" href="#structnavground_1_1sim_1_1_waypoints_task_1a335dc5012c9790811cb44edffa1c2c20"><span class="std std-ref">get_angular_tolerances</span></a>, it returns it. Else it returns the default value from <a class="reference internal" href="#structnavground_1_1sim_1_1_waypoints_task_1a64a4fec1610ac824ce810bfc57c42ee8"><span class="std std-ref">get_angular_tolerance</span></a>.</p>
+<p>If a specific positive value is present at the same index in <a class="reference internal" href="#structnavground_1_1sim_1_1_waypoints_task_1a335dc5012c9790811cb44edffa1c2c20"><span class="std std-ref">get_angular_tolerances</span></a>, it returns it. Else it returns the default value from <a class="reference internal" href="#structnavground_1_1sim_1_1_waypoints_task_1a64a4fec1610ac824ce810bfc57c42ee8"><span class="std std-ref">WaypointsTask::get_angular_tolerance</span></a>.</p>
 <p>For example, if there are three waypoints, the specific angular tolerances are set to <code class="docutils literal notranslate"><span class="pre">-1,</span> <span class="pre">0.2</span></code>, and the default angular tolerance is set to <code class="docutils literal notranslate"><span class="pre">0.25</span></code>, the effective angular tolerances will be <code class="docutils literal notranslate"><span class="pre">0.25,</span> <span class="pre">0.2,</span> <span class="pre">0.25</span></code>.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>

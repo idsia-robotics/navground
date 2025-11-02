@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Behavior Group &#8212; navground 0.7.0.dev documentation</title>
+    <title>Behavior Group &#8212; navground 0.8.0.dev documentation</title>
   
   
   
@@ -41,7 +41,7 @@
 
     <script src="../../../../_static/jquery.js?v=5d32c60e"></script>
     <script src="../../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-    <script src="../../../../_static/documentation_options.js?v=176ebae1"></script>
+    <script src="../../../../_static/documentation_options.js?v=a17d1565"></script>
     <script src="../../../../_static/doctools.js?v=9bcbadda"></script>
     <script src="../../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -142,7 +142,7 @@
   
   
   
-    <p class="title logo__title">navground 0.7.0.dev documentation</p>
+    <p class="title logo__title">navground 0.8.0.dev documentation</p>
   
 </a></div>
         <div class="sidebar-primary-item">
@@ -524,6 +524,7 @@ document.write(`
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.core.BehaviorGroupMember.get_group_hash"><code class="docutils literal notranslate"><span class="pre">get_group_hash()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.core.BehaviorGroupMember.get_groups"><code class="docutils literal notranslate"><span class="pre">get_groups()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.core.BehaviorGroupMember.make_group"><code class="docutils literal notranslate"><span class="pre">make_group()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.core.BehaviorGroupMember.group"><code class="docutils literal notranslate"><span class="pre">group</span></code></a></li>
 </ul>
 </li>
 </ul>
@@ -546,7 +547,7 @@ document.write(`
 control commands at once.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="navground.core.BehaviorGroup.compute_cmds">
-<span class="sig-name descname"><span class="pre">compute_cmds</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">time_step</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><span class="pre">float</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.13)"><span class="pre">list</span></a><span class="p"><span class="pre">[</span></span><a class="reference internal" href="../common.html#navground.core.Twist2" title="navground.core.Twist2"><span class="pre">navground.core.Twist2</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#navground.core.BehaviorGroup.compute_cmds" title="Link to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">compute_cmds</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">time_step</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.SupportsFloat" title="(in Python v3.14)"><span class="pre">SupportsFloat</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.14)"><span class="pre">list</span></a><span class="p"><span class="pre">[</span></span><a class="reference internal" href="../common.html#navground.core.Twist2" title="navground.core.Twist2"><span class="pre">Twist2</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#navground.core.BehaviorGroup.compute_cmds" title="Link to this definition">#</a></dt>
 <dd><p>Calculates the commands for all behaviors at once.</p>
 <p>Commands should (but not strictly required) be feasible.</p>
 <p>This method is called each time the behavior at the first index
@@ -567,7 +568,7 @@ requires a command.</p>
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">members</span></span><a class="headerlink" href="#navground.core.BehaviorGroup.members" title="Link to this definition">#</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.13)">list</a>[<a class="reference internal" href="behavior.html#navground.core.Behavior" title="navground.core.Behavior">navground.core.Behavior</a>]</p>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.14)"><em>list</em></a>[<a class="reference internal" href="behavior.html#navground.core.Behavior" title="navground.core.Behavior"><em>Behavior</em></a>]</p>
 </dd>
 </dl>
 <p>The members of the group.</p>
@@ -578,7 +579,7 @@ requires a command.</p>
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">size</span></span><a class="headerlink" href="#navground.core.BehaviorGroup.size" title="Link to this definition">#</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)">int</a></p>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><em>int</em></a></p>
 </dd>
 </dl>
 <p>The size of the group</p>
@@ -589,7 +590,8 @@ requires a command.</p>
 <dl class="py class">
 <dt class="sig sig-object py" id="navground.core.BehaviorGroupMember">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">BehaviorGroupMember</span></span><a class="headerlink" href="#navground.core.BehaviorGroupMember" title="Link to this definition">#</a></dt>
-<dd><p>Members of a behavior group delegate the computation of their control
+<dd><p>Bases: <a class="reference internal" href="behavior.html#navground.core.Behavior" title="navground.core.Behavior"><code class="xref py py-class docutils literal notranslate"><span class="pre">Behavior</span></code></a></p>
+<p>Members of a behavior group delegate the computation of their control
 commands to the group.</p>
 <div class="admonition warning">
 <p class="admonition-title">Warning</p>
@@ -598,7 +600,7 @@ commands to the group.</p>
 </div>
 <dl class="py method">
 <dt class="sig sig-object py" id="navground.core.BehaviorGroupMember.get_group_hash">
-<span class="sig-name descname"><span class="pre">get_group_hash</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><span class="pre">int</span></a></span></span><a class="headerlink" href="#navground.core.BehaviorGroupMember.get_group_hash" title="Link to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">get_group_hash</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><span class="pre">int</span></a></span></span><a class="headerlink" href="#navground.core.BehaviorGroupMember.get_group_hash" title="Link to this definition">#</a></dt>
 <dd><p>Gets the key associated to the group.</p>
 <p>Users can specialize this method when defining a new group/member
 pair. The default implementation returns 0, i.e., it groups all
@@ -612,7 +614,7 @@ behaviors together.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="navground.core.BehaviorGroupMember.get_groups">
-<span class="sig-name descname"><span class="pre">get_groups</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.13)"><span class="pre">dict</span></a></span></span><a class="headerlink" href="#navground.core.BehaviorGroupMember.get_groups" title="Link to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">get_groups</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.14)"><span class="pre">dict</span></a></span></span><a class="headerlink" href="#navground.core.BehaviorGroupMember.get_groups" title="Link to this definition">#</a></dt>
 <dd><p>Returns all groups.</p>
 <p>Users must specialize this method when defining a new group/member
 pair.</p>
@@ -625,7 +627,7 @@ pair.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="navground.core.BehaviorGroupMember.make_group">
-<span class="sig-name descname"><span class="pre">make_group</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.13)"><span class="pre">object</span></a></span></span><a class="headerlink" href="#navground.core.BehaviorGroupMember.make_group" title="Link to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">make_group</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.14)"><span class="pre">object</span></a></span></span><a class="headerlink" href="#navground.core.BehaviorGroupMember.make_group" title="Link to this definition">#</a></dt>
 <dd><p>Makes a group.</p>
 <p>Users must specialize this method when defining a new group/member
 pair.</p>
@@ -634,6 +636,17 @@ pair.</p>
 <dd class="field-odd"><p>The new group</p>
 </dd>
 </dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="navground.core.BehaviorGroupMember.group">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">group</span></span><a class="headerlink" href="#navground.core.BehaviorGroupMember.group" title="Link to this definition">#</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="#navground.core.BehaviorGroup" title="navground.core.BehaviorGroup"><em>BehaviorGroup</em></a></p>
+</dd>
+</dl>
+<p>The group.</p>
 </dd></dl>
 
 </dd></dl>
@@ -695,6 +708,7 @@ pair.</p>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.core.BehaviorGroupMember.get_group_hash"><code class="docutils literal notranslate"><span class="pre">get_group_hash()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.core.BehaviorGroupMember.get_groups"><code class="docutils literal notranslate"><span class="pre">get_groups()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.core.BehaviorGroupMember.make_group"><code class="docutils literal notranslate"><span class="pre">make_group()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navground.core.BehaviorGroupMember.group"><code class="docutils literal notranslate"><span class="pre">group</span></code></a></li>
 </ul>
 </li>
 </ul>

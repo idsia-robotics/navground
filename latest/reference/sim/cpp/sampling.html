@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Sampling &#8212; navground 0.7.0.dev documentation</title>
+    <title>Sampling &#8212; navground 0.8.0.dev documentation</title>
   
   
   
@@ -41,7 +41,7 @@
 
     <script src="../../../_static/jquery.js?v=5d32c60e"></script>
     <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-    <script src="../../../_static/documentation_options.js?v=176ebae1"></script>
+    <script src="../../../_static/documentation_options.js?v=a17d1565"></script>
     <script src="../../../_static/doctools.js?v=9bcbadda"></script>
     <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -142,7 +142,7 @@
   
   
   
-    <p class="title logo__title">navground 0.7.0.dev documentation</p>
+    <p class="title logo__title">navground 0.8.0.dev documentation</p>
   
 </a></div>
         <div class="sidebar-primary-item">
@@ -569,7 +569,6 @@ document.write(`
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#numbers-and-2d-vectors">Numbers and 2D vectors</a><ul class="visible nav section-nav flex-column">
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4I0EN9navground3sim14RegularSamplerE"><code class="docutils literal notranslate"><span class="pre">navground::sim::RegularSampler</span></code></a><ul class="nav section-nav flex-column">
 <li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim14RegularSampler18make_with_intervalERK1TRK1Tj4Wrapb"><code class="docutils literal notranslate"><span class="pre">make_with_interval()</span></code></a></li>
-<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim14RegularSampler14make_with_stepERK1TRK1TNSt8optionalIjEE4Wrapb"><code class="docutils literal notranslate"><span class="pre">make_with_step()</span></code></a></li>
 </ul>
 </li>
 </ul>
@@ -674,6 +673,7 @@ document.write(`
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim12AgentSampler5colorE"><code class="docutils literal notranslate"><span class="pre">color</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim12AgentSampler6numberE"><code class="docutils literal notranslate"><span class="pre">number</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim12AgentSampler4tagsE"><code class="docutils literal notranslate"><span class="pre">tags</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim12AgentSampler17ignore_collisionsE"><code class="docutils literal notranslate"><span class="pre">ignore_collisions</span></code></a></li>
 </ul>
 </li>
 </ul>
@@ -947,7 +947,7 @@ For example, if there are 4 values and 2 weights <code class="docutils literal n
 <li><p><strong>min</strong> – <strong>[in]</strong> The minimum value </p></li>
 <li><p><strong>max</strong> – <strong>[in]</strong> The maximum value </p></li>
 <li><p><strong>once</strong> – <strong>[in]</strong> Whether to repeat the first sample (until reset) </p></li>
-<li><p><strong>clamp</strong> – <strong>[in]</strong> Whether to clamp the values in <code class="docutils literal notranslate"><span class="pre">[min,</span> <span class="pre">max]</span></code></p></li>
+<li><p><strong>clamp</strong> – <strong>[in]</strong> Whether to clamp the values in <code class="docutils literal notranslate"><span class="pre">[</span><span class="pre">min</span><span class="pre">,</span> <span class="pre">max</span><span class="pre">]</span></code></p></li>
 </ul>
 </dd>
 </dl>
@@ -1031,7 +1031,7 @@ For example, if there are 4 values and 2 weights <code class="docutils literal n
 <dt class="sig sig-object cpp" id="_CPPv4N9navground3sim14RegularSampler18make_with_intervalERK1TRK1Tj4Wrapb">
 <span class="target" id="structnavground_1_1sim_1_1_regular_sampler_1a7994ccdd3be3bcb5db437086d1a5fe40"></span><span class="k"><span class="pre">static</span></span><span class="w"> </span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv4I0EN9navground3sim14RegularSamplerE" title="navground::sim::RegularSampler"><span class="n"><span class="pre">RegularSampler</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">make_with_interval</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv4I0EN9navground3sim14RegularSamplerE" title="navground::sim::RegularSampler::T"><span class="n"><span class="pre">T</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">from</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv4I0EN9navground3sim14RegularSamplerE" title="navground::sim::RegularSampler::T"><span class="n"><span class="pre">T</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">to</span></span>, <span class="kt"><span class="pre">unsigned</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">number</span></span>, <a class="reference internal" href="#_CPPv4N9navground3sim4WrapE" title="navground::sim::Wrap"><span class="n"><span class="pre">Wrap</span></span></a><span class="w"> </span><span class="n sig-param"><span class="pre">wrap</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv4N9navground3sim4WrapE" title="navground::sim::Wrap"><span class="n"><span class="pre">Wrap</span></span></a><span class="p"><span class="pre">::</span></span><a class="reference internal" href="#_CPPv4N9navground3sim4Wrap4loopE" title="navground::sim::Wrap::loop"><span class="n"><span class="pre">loop</span></span></a>, <span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">once</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="k"><span class="pre">false</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N9navground3sim14RegularSampler18make_with_intervalERK1TRK1Tj4Wrapb" title="Link to this definition">#</a><br /></dt>
 <dd><p>Construct a sampler that will samples <code class="docutils literal notranslate"><span class="pre">number</span></code> points between <code class="docutils literal notranslate"><span class="pre">from</span></code> and <code class="docutils literal notranslate"><span class="pre">to</span></code>. </p>
-<p>For example, <code class="docutils literal notranslate"><span class="pre">number=3</span></code>, samples the following points: <code class="docutils literal notranslate"><span class="pre">from</span></code>, <code class="docutils literal notranslate"><span class="pre">(from</span> <span class="pre">+</span> <span class="pre">to)</span> <span class="pre">/</span> <span class="pre">2</span></code>, <code class="docutils literal notranslate"><span class="pre">to</span></code>.</p>
+<p>For example, <code class="docutils literal notranslate"><span class="pre">number</span><span class="pre">=3</span></code>, samples the following points: <code class="docutils literal notranslate"><span class="pre">from</span></code>, <code class="docutils literal notranslate"><span class="pre">(</span><span class="pre">from</span> <span class="pre">+</span> <span class="pre">to</span><span class="pre">)</span> <span class="pre">/</span> <span class="pre">2</span></code>, <code class="docutils literal notranslate"><span class="pre">to</span></code>.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -1044,24 +1044,6 @@ For example, if there are 4 values and 2 weights <code class="docutils literal n
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>The sampler. </p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="cpp function">
-<dt class="sig sig-object cpp" id="_CPPv4N9navground3sim14RegularSampler14make_with_stepERK1TRK1TNSt8optionalIjEE4Wrapb">
-<span class="target" id="structnavground_1_1sim_1_1_regular_sampler_1aaecbc0c42ff9c7b4bdb9ee54d6356235"></span><span class="k"><span class="pre">static</span></span><span class="w"> </span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv4I0EN9navground3sim14RegularSamplerE" title="navground::sim::RegularSampler"><span class="n"><span class="pre">RegularSampler</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">make_with_step</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv4I0EN9navground3sim14RegularSamplerE" title="navground::sim::RegularSampler::T"><span class="n"><span class="pre">T</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">from</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv4I0EN9navground3sim14RegularSamplerE" title="navground::sim::RegularSampler::T"><span class="n"><span class="pre">T</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">step</span></span>, <span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">optional</span></span><span class="p"><span class="pre">&lt;</span></span><span class="kt"><span class="pre">unsigned</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">number</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">nullopt</span></span>, <a class="reference internal" href="#_CPPv4N9navground3sim4WrapE" title="navground::sim::Wrap"><span class="n"><span class="pre">Wrap</span></span></a><span class="w"> </span><span class="n sig-param"><span class="pre">wrap</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv4N9navground3sim4WrapE" title="navground::sim::Wrap"><span class="n"><span class="pre">Wrap</span></span></a><span class="p"><span class="pre">::</span></span><a class="reference internal" href="#_CPPv4N9navground3sim4Wrap4loopE" title="navground::sim::Wrap::loop"><span class="n"><span class="pre">loop</span></span></a>, <span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">once</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="k"><span class="pre">false</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N9navground3sim14RegularSampler14make_with_stepERK1TRK1TNSt8optionalIjEE4Wrapb" title="Link to this definition">#</a><br /></dt>
-<dd><p>Construct a sampler that will samples points, iteratively adding <code class="docutils literal notranslate"><span class="pre">step</span></code>. </p>
-<p>For example, <code class="docutils literal notranslate"><span class="pre">step=1</span></code>, samples the following points: <code class="docutils literal notranslate"><span class="pre">from</span></code>, <code class="docutils literal notranslate"><span class="pre">from</span> <span class="pre">+</span> <span class="pre">1</span></code>, `<code class="docutils literal notranslate"><span class="pre">from</span> <span class="pre">+</span> <span class="pre">2</span></code>, …</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>from</strong> – <strong>[in]</strong> The first value </p></li>
-<li><p><strong>step</strong> – <strong>[in]</strong> The step </p></li>
-<li><p><strong>number</strong> – <strong>[in]</strong> The number of samples to draw </p></li>
-<li><p><strong>wrap</strong> – <strong>[in]</strong> How it should wrap at the end of the interval (i.e., after <code class="docutils literal notranslate"><span class="pre">number</span></code> samples have been drawn) </p></li>
-<li><p><strong>once</strong> – <strong>[in]</strong> Whether to repeat the first sample (until reset) </p></li>
-</ul>
 </dd>
 </dl>
 </dd></dl>
@@ -1606,6 +1588,11 @@ Defines the same fields as <a class="reference internal" href="../../core/cpp/ki
 <span class="target" id="structnavground_1_1sim_1_1_agent_sampler_1ab5875ca5c6b76a8721930877f7a90adb"></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">shared_ptr</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="#_CPPv4I0EN9navground3sim7SamplerE" title="navground::sim::Sampler"><span class="n"><span class="pre">Sampler</span></span></a><span class="p"><span class="pre">&lt;</span></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="p"><span class="pre">&gt;</span></span><span class="p"><span class="pre">&gt;</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">tags</span></span></span><a class="headerlink" href="#_CPPv4N9navground3sim12AgentSampler4tagsE" title="Link to this definition">#</a><br /></dt>
 <dd></dd></dl>
 
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N9navground3sim12AgentSampler17ignore_collisionsE">
+<span class="target" id="structnavground_1_1sim_1_1_agent_sampler_1aec17edcb66d4f47c0d2a145a50bbab41"></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">shared_ptr</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="#_CPPv4I0EN9navground3sim7SamplerE" title="navground::sim::Sampler"><span class="n"><span class="pre">Sampler</span></span></a><span class="p"><span class="pre">&lt;</span></span><span class="kt"><span class="pre">bool</span></span><span class="p"><span class="pre">&gt;</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">ignore_collisions</span></span></span><a class="headerlink" href="#_CPPv4N9navground3sim12AgentSampler17ignore_collisionsE" title="Link to this definition">#</a><br /></dt>
+<dd></dd></dl>
+
 </div>
 </dd></dl>
 
@@ -1744,7 +1731,6 @@ Defines the same fields as <a class="reference internal" href="../../core/cpp/ki
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#numbers-and-2d-vectors">Numbers and 2D vectors</a><ul class="visible nav section-nav flex-column">
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4I0EN9navground3sim14RegularSamplerE"><code class="docutils literal notranslate"><span class="pre">navground::sim::RegularSampler</span></code></a><ul class="nav section-nav flex-column">
 <li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim14RegularSampler18make_with_intervalERK1TRK1Tj4Wrapb"><code class="docutils literal notranslate"><span class="pre">make_with_interval()</span></code></a></li>
-<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim14RegularSampler14make_with_stepERK1TRK1TNSt8optionalIjEE4Wrapb"><code class="docutils literal notranslate"><span class="pre">make_with_step()</span></code></a></li>
 </ul>
 </li>
 </ul>
@@ -1849,6 +1835,7 @@ Defines the same fields as <a class="reference internal" href="../../core/cpp/ki
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim12AgentSampler5colorE"><code class="docutils literal notranslate"><span class="pre">color</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim12AgentSampler6numberE"><code class="docutils literal notranslate"><span class="pre">number</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim12AgentSampler4tagsE"><code class="docutils literal notranslate"><span class="pre">tags</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim12AgentSampler17ignore_collisionsE"><code class="docutils literal notranslate"><span class="pre">ignore_collisions</span></code></a></li>
 </ul>
 </li>
 </ul>

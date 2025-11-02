@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Behaviors &#8212; navground 0.7.0.dev documentation</title>
+    <title>Behaviors &#8212; navground 0.8.0.dev documentation</title>
   
   
   
@@ -41,7 +41,7 @@
 
     <script src="../../_static/jquery.js?v=5d32c60e"></script>
     <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-    <script src="../../_static/documentation_options.js?v=176ebae1"></script>
+    <script src="../../_static/documentation_options.js?v=a17d1565"></script>
     <script src="../../_static/doctools.js?v=9bcbadda"></script>
     <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -143,7 +143,7 @@
   
   
   
-    <p class="title logo__title">navground 0.7.0.dev documentation</p>
+    <p class="title logo__title">navground 0.8.0.dev documentation</p>
   
 </a></div>
         <div class="sidebar-primary-item">
@@ -715,7 +715,10 @@ any of the methods listed above.</p>
 <span class="p">};</span>
 </pre></div>
 </div>
-</div><div aria-labelledby="tab-1-1-1" class="sphinx-tabs-panel" hidden="true" id="panel-1-1-1" name="1-1" role="tabpanel" tabindex="0"><div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">navground</span><span class="w"> </span><span class="kn">import</span> <span class="n">core</span>
+</div><div aria-labelledby="tab-1-1-1" class="sphinx-tabs-panel" hidden="true" id="panel-1-1-1" name="1-1" role="tabpanel" tabindex="0"><div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">SupportsFloat</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">navground</span><span class="w"> </span><span class="kn">import</span> <span class="n">core</span>
+
 
 <span class="c1"># May use a custom environment state</span>
 <span class="k">class</span><span class="w"> </span><span class="nc">MyEnvironmentState</span><span class="p">(</span><span class="n">core</span><span class="o">.</span><span class="n">EnvironmentState</span><span class="p">):</span>
@@ -725,7 +728,7 @@ any of the methods listed above.</p>
 <span class="k">class</span><span class="w"> </span><span class="nc">MyBehavior</span><span class="p">(</span><span class="n">core</span><span class="o">.</span><span class="n">Behavior</span><span class="p">):</span>
 
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">kinematics</span><span class="p">:</span> <span class="n">core</span><span class="o">.</span><span class="n">Kinematics</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">radius</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mi">0</span><span class="p">):</span>
-        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">kinematics</span><span class="p">,</span> <span class="n">radius</span><span class="p">)</span>
+        <span class="n">core</span><span class="o">.</span><span class="n">Behavior</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">kinematics</span><span class="p">,</span> <span class="n">radius</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_env_state</span> <span class="o">=</span> <span class="n">MyEnvironmentState</span><span class="p">()</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">get_environment_state</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">core</span><span class="o">.</span><span class="n">EnvironmentState</span><span class="p">:</span>
@@ -740,34 +743,34 @@ any of the methods listed above.</p>
     <span class="c1"># def close(self) -&gt; None: ...</span>
 
     <span class="c1"># CAN override</span>
-    <span class="c1"># def compute_cmd_internal(self, time_step: float) -&gt; core.Twist2: ...</span>
+    <span class="c1"># def compute_cmd_internal(self, time_step: SupportsFloat) -&gt; core.Twist2: ...</span>
 
     <span class="c1"># CAN override</span>
-    <span class="c1"># def cmd_twist_along_path(self, path: core.Path, speed: float , time_step: float) -&gt; core.Twist2: ...</span>
+    <span class="c1"># def cmd_twist_along_path(self, path: core.Path, speed: SupportsFloat , time_step: SupportsFloat) -&gt; core.Twist2: ...</span>
 
     <span class="c1"># CAN override</span>
-    <span class="c1"># def cmd_twist_towards_pose(self, pose: core.Pose2, speed: float , angular_speed: float, time_step: float , frame: core.Frame ) -&gt; core.Twist2: ...</span>
+    <span class="c1"># def cmd_twist_towards_pose(self, pose: core.Pose2, speed: SupportsFloat , angular_speed: SupportsFloat, time_step: SupportsFloat , frame: core.Frame ) -&gt; core.Twist2: ...</span>
 
     <span class="c1"># CAN override</span>
-    <span class="c1"># def cmd_twist_towards_point(self, point: core.Vector2, speed: float , time_step: float) -&gt; core.Twist2: ...</span>
+    <span class="c1"># def cmd_twist_towards_point(self, point: core.Vector2Like, speed: SupportsFloat , time_step: SupportsFloat) -&gt; core.Twist2: ...</span>
 
     <span class="c1"># CAN override</span>
-    <span class="c1"># def  cmd_twist_towards_velocity(self, velocity: core.Vector2, time_step: float) -&gt; core.Twist2: ...</span>
+    <span class="c1"># def  cmd_twist_towards_velocity(self, velocity: core.Vector2Like, time_step: SupportsFloat) -&gt; core.Twist2: ...</span>
 
     <span class="c1"># CAN override</span>
-    <span class="c1"># def cmd_twist_towards_orientation(self, orientation: float, angular_speed: float, time_step: float ) -&gt; core.Twist2: ...</span>
+    <span class="c1"># def cmd_twist_towards_orientation(self, orientation: SupportsFloat, angular_speed: SupportsFloat, time_step: SupportsFloat ) -&gt; core.Twist2: ...</span>
 
     <span class="c1"># CAN override</span>
-    <span class="c1"># def cmd_twist_towards_angular_speed(self, angular_speed: float, time_step: float) -&gt; core.Twist2: ...</span>
+    <span class="c1"># def cmd_twist_towards_angular_speed(self, angular_speed: SupportsFloat, time_step: SupportsFloat) -&gt; core.Twist2: ...</span>
 
     <span class="c1"># CAN override</span>
-    <span class="c1"># def cmd_twist_towards_stopping(self, time_step: float) -&gt; core.Twist2: ...</span>
+    <span class="c1"># def cmd_twist_towards_stopping(self, time_step: SupportsFloat) -&gt; core.Twist2: ...</span>
 
     <span class="c1"># CAN override</span>
-    <span class="c1"># def desired_velocity_towards_point(self, point: core.Vector2, speed: float , time_step: float) -&gt; core.Vector2: ...</span>
+    <span class="c1"># def desired_velocity_towards_point(self, point: core.Vector2, speed: SupportsFloat , time_step: SupportsFloat) -&gt; core.Vector2: ...</span>
 
     <span class="c1"># CAN override</span>
-    <span class="c1"># def  desired_velocity_towards_velocity(self, velocity: core.Vector2, time_step: float) -&gt; core.Vector2: ...</span>
+    <span class="c1"># def  desired_velocity_towards_velocity(self, velocity: core.Vector2, time_step: SupportsFloat) -&gt; core.Vector2: ...</span>
 
     <span class="c1"># CAN override</span>
     <span class="c1"># def twist_towards_velocity(self, velocity: core.Vector2) -&gt; core.Twist2: ...</span>

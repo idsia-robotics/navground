@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Base class &#8212; navground 0.7.0.dev documentation</title>
+    <title>Base class &#8212; navground 0.8.0.dev documentation</title>
   
   
   
@@ -41,7 +41,7 @@
 
     <script src="../../../../_static/jquery.js?v=5d32c60e"></script>
     <script src="../../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-    <script src="../../../../_static/documentation_options.js?v=176ebae1"></script>
+    <script src="../../../../_static/documentation_options.js?v=a17d1565"></script>
     <script src="../../../../_static/doctools.js?v=9bcbadda"></script>
     <script src="../../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -142,7 +142,7 @@
   
   
   
-    <p class="title logo__title">navground 0.7.0.dev documentation</p>
+    <p class="title logo__title">navground 0.8.0.dev documentation</p>
   
 </a></div>
         <div class="sidebar-primary-item">
@@ -541,6 +541,8 @@ document.write(`
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim8Scenario23clear_property_samplersEv"><code class="docutils literal notranslate"><span class="pre">clear_property_samplers()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim8Scenario5resetENSt8optionalIjEE"><code class="docutils literal notranslate"><span class="pre">reset()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim8Scenario14set_attributesEP5World"><code class="docutils literal notranslate"><span class="pre">set_attributes()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground3sim8Scenario21get_ignore_collisionsEv"><code class="docutils literal notranslate"><span class="pre">get_ignore_collisions()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim8Scenario21set_ignore_collisionsEb"><code class="docutils literal notranslate"><span class="pre">set_ignore_collisions()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim8Scenario9obstaclesE"><code class="docutils literal notranslate"><span class="pre">obstacles</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim8Scenario5wallsE"><code class="docutils literal notranslate"><span class="pre">walls</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim8Scenario12bounding_boxE"><code class="docutils literal notranslate"><span class="pre">bounding_box</span></code></a></li>
@@ -836,18 +838,40 @@ document.write(`
 </dl>
 </dd></dl>
 
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK9navground3sim8Scenario21get_ignore_collisionsEv">
+<span class="target" id="structnavground_1_1sim_1_1_scenario_1a271b7d158619bbe053e6f0f10689a4b3"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">get_ignore_collisions</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK9navground3sim8Scenario21get_ignore_collisionsEv" title="Link to this definition">#</a><br /></dt>
+<dd><p>Gets whether to generate worlds where collisions between any entities are ignored. </p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>True if collisions are ignored </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N9navground3sim8Scenario21set_ignore_collisionsEb">
+<span class="target" id="structnavground_1_1sim_1_1_scenario_1a1e338d26978d590c0e25df8553a75c47"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">set_ignore_collisions</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">value</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N9navground3sim8Scenario21set_ignore_collisionsEb" title="Link to this definition">#</a><br /></dt>
+<dd><p>Sets whether to generate worlds where collisions between any entities are ignored. </p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>value</strong> – <strong>[in]</strong> True to ignore collisions. </p>
+</dd>
+</dl>
+</dd></dl>
+
 </div>
 <div class="breathe-sectiondef docutils container">
 <p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-members">Public Members</p>
 <dl class="cpp var">
 <dt class="sig sig-object cpp" id="_CPPv4N9navground3sim8Scenario9obstaclesE">
-<span class="target" id="structnavground_1_1sim_1_1_scenario_1a4af698e805e0ebb4e715898cb73df773"></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="../../../core/cpp/state/geometric.html#_CPPv4N9navground4core4DiscE" title="navground::core::Disc"><span class="n"><span class="pre">Disc</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">obstacles</span></span></span><a class="headerlink" href="#_CPPv4N9navground3sim8Scenario9obstaclesE" title="Link to this definition">#</a><br /></dt>
+<span class="target" id="structnavground_1_1sim_1_1_scenario_1ae3b3c13ed45eecef4ae70ebdee7e389e"></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="../world.html#_CPPv4N9navground3sim8ObstacleE" title="navground::sim::Obstacle"><span class="n"><span class="pre">Obstacle</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">obstacles</span></span></span><a class="headerlink" href="#_CPPv4N9navground3sim8Scenario9obstaclesE" title="Link to this definition">#</a><br /></dt>
 <dd><p>Obstacles </p>
 </dd></dl>
 
 <dl class="cpp var">
 <dt class="sig sig-object cpp" id="_CPPv4N9navground3sim8Scenario5wallsE">
-<span class="target" id="structnavground_1_1sim_1_1_scenario_1a6757d8a50b30245b5e1ab8b9ffaf0bc3"></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="../../../core/cpp/state/geometric.html#_CPPv4N9navground4core11LineSegmentE" title="navground::core::LineSegment"><span class="n"><span class="pre">LineSegment</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">walls</span></span></span><a class="headerlink" href="#_CPPv4N9navground3sim8Scenario5wallsE" title="Link to this definition">#</a><br /></dt>
+<span class="target" id="structnavground_1_1sim_1_1_scenario_1a9ad40dd172e60f3525a52bb6c7f5558e"></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="../world.html#_CPPv4N9navground3sim4WallE" title="navground::sim::Wall"><span class="n"><span class="pre">Wall</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">walls</span></span></span><a class="headerlink" href="#_CPPv4N9navground3sim8Scenario5wallsE" title="Link to this definition">#</a><br /></dt>
 <dd><p>Walls to add </p>
 </dd></dl>
 
@@ -963,6 +987,8 @@ document.write(`
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim8Scenario23clear_property_samplersEv"><code class="docutils literal notranslate"><span class="pre">clear_property_samplers()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim8Scenario5resetENSt8optionalIjEE"><code class="docutils literal notranslate"><span class="pre">reset()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim8Scenario14set_attributesEP5World"><code class="docutils literal notranslate"><span class="pre">set_attributes()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4NK9navground3sim8Scenario21get_ignore_collisionsEv"><code class="docutils literal notranslate"><span class="pre">get_ignore_collisions()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim8Scenario21set_ignore_collisionsEb"><code class="docutils literal notranslate"><span class="pre">set_ignore_collisions()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim8Scenario9obstaclesE"><code class="docutils literal notranslate"><span class="pre">obstacles</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim8Scenario5wallsE"><code class="docutils literal notranslate"><span class="pre">walls</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#_CPPv4N9navground3sim8Scenario12bounding_boxE"><code class="docutils literal notranslate"><span class="pre">bounding_box</span></code></a></li>

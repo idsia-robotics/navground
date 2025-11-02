@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Scenarios &#8212; navground 0.7.0.dev documentation</title>
+    <title>Scenarios &#8212; navground 0.8.0.dev documentation</title>
   
   
   
@@ -41,7 +41,7 @@
 
     <script src="../../_static/jquery.js?v=5d32c60e"></script>
     <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-    <script src="../../_static/documentation_options.js?v=176ebae1"></script>
+    <script src="../../_static/documentation_options.js?v=a17d1565"></script>
     <script src="../../_static/doctools.js?v=9bcbadda"></script>
     <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -143,7 +143,7 @@
   
   
   
-    <p class="title logo__title">navground 0.7.0.dev documentation</p>
+    <p class="title logo__title">navground 0.8.0.dev documentation</p>
   
 </a></div>
         <div class="sidebar-primary-item">
@@ -578,7 +578,9 @@ If you need to sample from random distribution, use the provided random generato
 <span class="p">};</span>
 </pre></div>
 </div>
-</div><div aria-labelledby="tab-0-0-1" class="sphinx-tabs-panel" hidden="true" id="panel-0-0-1" name="0-1" role="tabpanel" tabindex="0"><div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">navground</span><span class="w"> </span><span class="kn">import</span> <span class="n">sim</span>
+</div><div aria-labelledby="tab-0-0-1" class="sphinx-tabs-panel" hidden="true" id="panel-0-0-1" name="0-1" role="tabpanel" tabindex="0"><div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">SupportsInt</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">navground</span><span class="w"> </span><span class="kn">import</span> <span class="n">sim</span>
 
 
 <span class="k">class</span><span class="w"> </span><span class="nc">MyScenario</span><span class="p">(</span><span class="n">sim</span><span class="o">.</span><span class="n">Scenario</span><span class="p">):</span>
@@ -586,7 +588,7 @@ If you need to sample from random distribution, use the provided random generato
     <span class="c1"># SHOULD override</span>
     <span class="c1"># executed during the the simulation, should update the state</span>
     <span class="c1"># update the environment state according to the agent and world</span>
-    <span class="k">def</span><span class="w"> </span><span class="nf">init_world</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">world</span><span class="p">:</span> <span class="n">sim</span><span class="o">.</span><span class="n">World</span><span class="p">,</span> <span class="n">seed</span><span class="p">:</span> <span class="nb">int</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">init_world</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">world</span><span class="p">:</span> <span class="n">sim</span><span class="o">.</span><span class="n">World</span><span class="p">,</span> <span class="n">seed</span><span class="p">:</span> <span class="n">SupportsInt</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="c1"># call the super class: when the scenario is configured thought YAML,</span>
         <span class="c1"># it will add agents and obstacles as specified in the configuration.</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">init_world</span><span class="p">(</span><span class="n">world</span><span class="p">,</span> <span class="n">seed</span><span class="p">)</span>

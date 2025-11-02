@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Geometry &#8212; navground 0.7.0.dev documentation</title>
+    <title>Geometry &#8212; navground 0.8.0.dev documentation</title>
   
   
   
@@ -41,7 +41,7 @@
 
     <script src="../../../_static/jquery.js?v=5d32c60e"></script>
     <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-    <script src="../../../_static/documentation_options.js?v=176ebae1"></script>
+    <script src="../../../_static/documentation_options.js?v=a17d1565"></script>
     <script src="../../../_static/doctools.js?v=9bcbadda"></script>
     <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -144,7 +144,7 @@
   
   
   
-    <p class="title logo__title">navground 0.7.0.dev documentation</p>
+    <p class="title logo__title">navground 0.8.0.dev documentation</p>
   
 </a></div>
         <div class="sidebar-primary-item">
@@ -631,7 +631,8 @@ document.write(`
 <dl class="cpp enum-class">
 <dt class="sig sig-object cpp" id="_CPPv4N9navground4core5FrameE">
 <span class="target" id="namespacenavground_1_1core_1a5c9b7d38cd15729e0b012d9c315f1b82"></span><span class="k"><span class="pre">enum</span></span><span class="w"> </span><span class="k"><span class="pre">class</span></span><span class="w"> </span><span class="sig-prename descclassname"><span class="n"><span class="pre">navground</span></span><span class="p"><span class="pre">::</span></span><a class="reference internal" href="index.html#_CPPv4N9navground4coreE" title="navground::core"><span class="n"><span class="pre">core</span></span></a><span class="p"><span class="pre">::</span></span></span><span class="sig-name descname"><span class="n"><span class="pre">Frame</span></span></span><a class="headerlink" href="#_CPPv4N9navground4core5FrameE" title="Link to this definition">#</a><br /></dt>
-<dd><p><em>Values:</em></p>
+<dd><p>An enum for the frame of references for geometric informations, such as Pose2 and Twist2. </p>
+<p><em>Values:</em></p>
 <dl class="cpp enumerator">
 <dt class="sig sig-object cpp" id="_CPPv4N9navground4core5Frame8relativeE">
 <span class="target" id="namespacenavground_1_1core_1a5c9b7d38cd15729e0b012d9c315f1b82a99c483e1d11b1a279a2a1a3960528487"></span><span class="k"><span class="pre">enumerator</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">relative</span></span></span><a class="headerlink" href="#_CPPv4N9navground4core5Frame8relativeE" title="Link to this definition">#</a><br /></dt>
@@ -986,7 +987,7 @@ document.write(`
 <dd><p>Returns this transformation in the desired frame of reference. </p>
 <p>The returned transformation is defined as <code class="docutils literal notranslate"><span class="pre">frame.inverse()</span> <span class="pre">*</span> <span class="pre">self</span> <span class="pre">*</span> <span class="pre">frame</span></code>, so that, for any frame <code class="docutils literal notranslate"><span class="pre">f</span></code>, the following expressions are equivalent:</p>
 <p><ul class="simple">
-<li><p><code class="docutils literal notranslate"><span class="pre">pose.transform(other).</span><a class="reference internal" href="#namespacenavground_1_1core_1a5c9b7d38cd15729e0b012d9c315f1b82a99c483e1d11b1a279a2a1a3960528487"><span class="std std-ref"><span class="pre">relative(f)</span></span></a></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">pose.transform(other).relative(f)</span></code></p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">pose.get_transformation_in_frame(frame).transform(other.relative(f))</span></code></p></li>
 </ul>
 </p>

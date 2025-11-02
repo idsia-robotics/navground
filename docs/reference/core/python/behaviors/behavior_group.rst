@@ -11,3 +11,4 @@ Behavior Group
 .. autoclass:: navground.core.BehaviorGroupMember
    :members:
    :exclude-members: __new__, __init__
+   :show-inheritance:

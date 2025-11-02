@@ -22,11 +22,14 @@ using Waypoints = std::vector<core::Vector2>;
 
 /**
  * @brief      This class implement a task that makes the agent reach a sequence
- * of waypoints, calling \ref navground::core::Controller::go_to_pose or
- * \ref navground::core::Controller::go_to_position for
+ * of waypoints, calling
+ * \ref navground::core::Controller::go_to_pose
+ * or
+ * \ref navground::core::Controller::go_to_position
+ * for
  * the next waypoint after the current has been reached within a tolerance,
- * depending if a goal orientation has been specified using \ref set_orientations
- * or not.
+ * depending if a goal orientation has been specified using \ref
+ * set_orientations or not.
  *
  * The task notifies when a new waypoint is set by calling a callback.
  *
@@ -158,7 +161,7 @@ struct NAVGROUND_SIM_EXPORT WaypointsTask : Task {
    * the missing orientation are effectively filled with
    * the last orientation during control.
    *
-   * To ignore the orientation at a specific  waypoint index,
+   * To ignore the orientation at a specific waypoint index,
    * set the related angular tolerance above PI.
    *
    * @param[in]  values  The desired orientations (in radians)
@@ -217,8 +220,8 @@ struct NAVGROUND_SIM_EXPORT WaypointsTask : Task {
    * @brief      Returns the spatial tolerance applied to
    * the waypoint at a given index.
    *
-   * If a specific positive value is present at the same index in \ref
-   * get_tolerances, it returns it.
+   * If a specific positive value is present at the same index
+   * in \ref get_tolerances, it returns it.
    * Else it returns the default value from \ref get_tolerance.
    *
    * For example, if there are three waypoints,
@@ -239,9 +242,9 @@ struct NAVGROUND_SIM_EXPORT WaypointsTask : Task {
   /**
    * @brief      Gets the default goal spatial tolerance.
    *
-   * This value is used in \ref get_effective_tolerance to compute
-   * the effective tolerance applied to a selected waypoint:
-   * specific (positive) tolerances returned by
+   * This value is used in \ref get_effective_tolerance to
+   * compute the effective tolerance applied to a selected waypoint: specific
+   * (positive) tolerances returned by
    * \ref get_tolerances will overwrites this default value.
    *
    * @return     The default spatial tolerance in meters.
@@ -250,11 +253,12 @@ struct NAVGROUND_SIM_EXPORT WaypointsTask : Task {
   /**
    * @brief      Gets the specific goal spatial tolerances.
    *
-   * These values are used in \ref get_effective_tolerance to compute
-   * the effective tolerance applied to a selected waypoint:
-   * negative values are ignored and replaced by the default value
+   * These values are used in \ref get_effective_tolerance to
+   * compute the effective tolerance applied to a selected waypoint: negative
+   * values are ignored and replaced by the default value
    * \ref get_tolerance.
-   * Extra items (not paired to \ref get_waypoints) are also ignored.
+   * Extra items (not paired to \ref get_waypoints) are also
+   * ignored.
    *
    * @return     The spatial tolerances of waypoints at specific indices in
    * meters
@@ -263,9 +267,9 @@ struct NAVGROUND_SIM_EXPORT WaypointsTask : Task {
   /**
    * @brief      Sets the default goal spatial tolerance.
    *
-   * This value is used in \ref get_effective_tolerance to compute
-   * the effective tolerance applied to a selected waypoint:
-   * specific (positive) tolerances set by
+   * This value is used in \ref get_effective_tolerance to
+   * compute the effective tolerance applied to a selected waypoint: specific
+   * (positive) tolerances set by
    * \ref set_tolerances will overwrites this default value.
    *
    * @param[in]  value  The desired positive value in meters.
@@ -276,11 +280,12 @@ struct NAVGROUND_SIM_EXPORT WaypointsTask : Task {
   /**
    * @brief      Sets the specific goal spatial tolerances.
    *
-   * These values are used in \ref get_effective_tolerance to compute
-   * the effective tolerance applied to a selected waypoint:
-   * negative values are ignored and replaced by the default value set with
+   * These values are used in \ref get_effective_tolerance to
+   * compute the effective tolerance applied to a selected waypoint: negative
+   * values are ignored and replaced by the default value set with
    * \ref set_tolerance.
-   * Extra items (not paired to \ref get_waypoints) are also ignored.
+   * Extra items (not paired to \ref get_waypoints) are also
+   * ignored.
    *
    * @param[in]  values  The desired values at specific indices in
    * meters
@@ -292,9 +297,10 @@ struct NAVGROUND_SIM_EXPORT WaypointsTask : Task {
    * @brief      Returns the angular tolerance applied to
    * the waypoint at a given index.
    *
-   * If a specific positive value is present at the same index in \ref
-   * get_angular_tolerances, it returns it.
-   * Else it returns the default value from \ref get_angular_tolerance.
+   * If a specific positive value is present at the same index
+   * in \ref get_angular_tolerances, it returns it.
+   * Else it returns the default value from \ref
+   * WaypointsTask::get_angular_tolerance.
    *
    * For example, if there are three waypoints,
    * the specific angular tolerances are set to ``-1, 0.2``,
@@ -314,10 +320,11 @@ struct NAVGROUND_SIM_EXPORT WaypointsTask : Task {
   /**
    * @brief      Gets the default goal angular tolerance
    *
-   * This value is used in \ref get_effective_angular_tolerance to compute
-   * the effective angular tolerance applied to a selected waypoint:
+   * This value is used in \ref get_effective_angular_tolerance
+   * to compute the effective angular tolerance applied to a selected waypoint:
    * specific (positive) angular tolerances returned by
-   * \ref get_angular_tolerances will overwrites this default value.
+   * \ref get_angular_tolerances will overwrites this default
+   * value.
    *
    * @return     The default angular tolerances in meters
    */
@@ -325,11 +332,13 @@ struct NAVGROUND_SIM_EXPORT WaypointsTask : Task {
   /**
    * @brief      Gets the specific goal angular tolerances.
    *
-   * These values are used in \ref get_effective_angular_tolerance to compute
-   * the effective tolerance applied to a selected waypoint:
-   * negative values are ignored and replaced by the default value
+   * These values are used in 
+   * \ref get_effective_angular_tolerance to compute the effective
+   * tolerance applied to a selected waypoint: negative values are ignored and
+   * replaced by the default value
    * \ref get_angular_tolerance.
-   * Extra items (not paired to \ref get_waypoints) are also ignored.
+   * Extra items (not paired to \ref get_waypoints) are also
+   * ignored.
    *
    * @return     The specific waypoints angular tolerances.
    */
@@ -339,10 +348,11 @@ struct NAVGROUND_SIM_EXPORT WaypointsTask : Task {
   /**
    * @brief      Sets the goal angular tolerance applied to each waypoint.
    *
-   * This value is used in \ref get_effective_angular_tolerance to compute
-   * the effective angular tolerance applied to a selected waypoint:
+   * This value is used in \ref get_effective_angular_tolerance
+   * to compute the effective angular tolerance applied to a selected waypoint:
    * specific (positive) angular tolerances set by
-   * \ref set_angular_tolerances will overwrites this default value.
+   * \ref set_angular_tolerances will overwrites this default
+   * value.
    *
    * @param[in]  value  The desired positive value.
    */
@@ -352,11 +362,13 @@ struct NAVGROUND_SIM_EXPORT WaypointsTask : Task {
   /**
    * @brief      Sets the specific goal angular tolerances.
    *
-   * These values are used in \ref get_effective_angular_tolerance to compute
-   * the effective angular tolerance applied to a selected waypoint:
-   * negative values are ignored and replaced by the default value set with
+   * These values are used in 
+   * \ref get_effective_angular_tolerance to compute the effective
+   * angular tolerance applied to a selected waypoint: negative values are
+   * ignored and replaced by the default value set with
    * \ref set_angular_tolerance.
-   * Extra items (not paired to \ref get_waypoints) are also ignored.
+   * Extra items (not paired to \ref get_waypoints) are also
+   * ignored.
    *
    * @param[in]  values  The desired values at specific indices in
    * radians.
@@ -368,8 +380,8 @@ struct NAVGROUND_SIM_EXPORT WaypointsTask : Task {
    * @brief      Gets the effective wait time before moving towards the waypoint
    * at given index.
    *
-   * If a specific positive value is present at the same index in \ref
-   * get_wait_times, it returns it.
+   * If a specific positive value is present at the same index in
+   * \ref get_wait_times, it returns it.
    * Else it returns the default value from \ref get_wait_time.
    *
    * @param[in]  index  The index
@@ -385,9 +397,9 @@ struct NAVGROUND_SIM_EXPORT WaypointsTask : Task {
   /**
    * @brief      Gets the default wait time before moving towards a waypoint.
    *
-   * This value is used in \ref get_effective_wait_time to compute
-   * the effective wait time applied to a selected waypoint:
-   * specific (positive) wait times returned by
+   * This value is used in \ref get_effective_wait_time to
+   * compute the effective wait time applied to a selected waypoint: specific
+   * (positive) wait times returned by
    * \ref get_wait_times will overwrites this default value.
    * @return     The time in seconds.
    */
@@ -395,11 +407,13 @@ struct NAVGROUND_SIM_EXPORT WaypointsTask : Task {
   /**
    * @brief      Gets the wait times before moving towards specific waypoints.
    *
-   * These values are used in \ref get_effective_angular_tolerance to compute
-   * the effective tolerance applied to a selected waypoint:
-   * negative values are ignored and replaced by the default value
+   * These values are used in 
+   * \ref get_effective_angular_tolerance to compute the effective
+   * tolerance applied to a selected waypoint: negative values are ignored and
+   * replaced by the default value
    * \ref get_angular_tolerance.
-   * Extra items (not paired to \ref get_waypoints) are also ignored.
+   * Extra items (not paired to \ref get_waypoints) are also
+   * ignored.
    *
    * @return     The wait times.
    */
@@ -407,9 +421,9 @@ struct NAVGROUND_SIM_EXPORT WaypointsTask : Task {
   /**
    * @brief      Sets the default wait time before moving towards a waypoint.
    *
-   * This value is used in \ref get_effective_wait_time to compute
-   * the effective wait time applied to a selected waypoint:
-   * specific (positive) wait times returned by
+   * This value is used in \ref get_effective_wait_time to
+   * compute the effective wait time applied to a selected waypoint: specific
+   * (positive) wait times returned by
    * \ref get_wait_times will overwrites this default value.
    *
    * @param[in]  value  The desired positive value.
@@ -420,11 +434,13 @@ struct NAVGROUND_SIM_EXPORT WaypointsTask : Task {
   /**
    * @brief      Sets the wait times before moving towards specific waypoints.
    *
-   * These values are used in \ref get_effective_angular_tolerance to compute
-   * the effective tolerance applied to a selected waypoint:
-   * negative values are ignored and replaced by the default value
+   * These values are used in 
+   * \ref get_effective_angular_tolerance to compute the effective
+   * tolerance applied to a selected waypoint: negative values are ignored and
+   * replaced by the default value
    * \ref get_angular_tolerance.
-   * Extra items (not paired to \ref get_waypoints) are also ignored.
+   * Extra items (not paired to \ref get_waypoints) are also
+   * ignored.
    *
    * @param[in]  values  The values
    */

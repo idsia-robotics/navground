@@ -18,4 +18,5 @@ GridMap
    The two dimensional grey-scale map.
 
 .. autoclass:: navground.core.GridMap
-    :members:
+   :members:
+   :show-inheritance:

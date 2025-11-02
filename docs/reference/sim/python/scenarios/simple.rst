@@ -3,4 +3,5 @@ Simple
 ======
 
 .. autoclass:: navground.sim.scenarios.SimpleScenario
-    :members:
+   :members:
+   :show-inheritance:

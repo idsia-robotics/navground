@@ -1783,12 +1783,13 @@ The random generator.
                      DOC(navground, sim, LidarStateEstimation, Scan, fov))
       .def_readwrite("max_range", &LidarStateEstimation::Scan::max_range,
                      DOC(navground, sim, LidarStateEstimation, Scan, max_range))
+      .def_property("angular_increment",
+                    &LidarStateEstimation::Scan::get_angular_increment, nullptr,
+                    DOC(navground, sim, LidarStateEstimation, Scan, property,
+                        angular_increment))
       .def_property(
-          "angular_increment",
-          &LidarStateEstimation::Scan::get_angular_increment, nullptr,
-          DOC(navground, sim, LidarStateEstimation, Scan, angular_increment))
-      .def_property("angles", &LidarStateEstimation::Scan::get_angles, nullptr,
-                    DOC(navground, sim, LidarStateEstimation, Scan, angles));
+          "angles", &LidarStateEstimation::Scan::get_angles, nullptr,
+          DOC(navground, sim, LidarStateEstimation, Scan, property, angles));
 
   lse.def(
          py::init<ng_float_t, ng_float_t, ng_float_t, unsigned, const Vector2 &,
@@ -1918,17 +1919,17 @@ The random generator.
 
   py::native_enum<MarkerStateEstimation::ReferenceOrientation>(
       marker_se, "ReferenceOrientation", "enum.Enum",
-      DOC(navground, core, MarkerStateEstimation, ReferenceOrientation))
+      DOC(navground, sim, MarkerStateEstimation, ReferenceOrientation))
       .value("agent", MarkerStateEstimation::ReferenceOrientation::agent,
-             DOC(navground, core, MarkerStateEstimation, ReferenceOrientation,
-                 rectangular))
+             DOC(navground, sim, MarkerStateEstimation, ReferenceOrientation,
+                 agent))
       .value("world", MarkerStateEstimation::ReferenceOrientation::world,
-             DOC(navground, core, MarkerStateEstimation, ReferenceOrientation,
-                 circular))
+             DOC(navground, sim, MarkerStateEstimation, ReferenceOrientation,
+                 world))
       .value("target_direction",
              MarkerStateEstimation::ReferenceOrientation::target_direction,
-             DOC(navground, core, MarkerStateEstimation, ReferenceOrientation,
-                 none))
+             DOC(navground, sim, MarkerStateEstimation, ReferenceOrientation,
+                 target_direction))
       .export_values()
       .finalize();
 
@@ -2004,17 +2005,17 @@ The random generator.
 
   py::native_enum<LocalGridMapStateEstimation::FootprintType>(
       gmse, "FootprintType", "enum.Enum",
-      DOC(navground, core, LocalGridMapStateEstimation, FootprintType))
+      DOC(navground, sim, LocalGridMapStateEstimation, FootprintType))
       .value("rectangular",
              LocalGridMapStateEstimation::FootprintType::rectangular,
-             DOC(navground, core, LocalGridMapStateEstimation, FootprintType,
+             DOC(navground, sim, LocalGridMapStateEstimation, FootprintType,
                  rectangular))
       .value("circular", LocalGridMapStateEstimation::FootprintType::circular,
-             DOC(navground, core, LocalGridMapStateEstimation, FootprintType,
+             DOC(navground, sim, LocalGridMapStateEstimation, FootprintType,
                  circular))
-      .value("none", LocalGridMapStateEstimation::FootprintType::none,
-             DOC(navground, core, LocalGridMapStateEstimation, FootprintType,
-                 none))
+      .value(
+          "none", LocalGridMapStateEstimation::FootprintType::none,
+          DOC(navground, sim, LocalGridMapStateEstimation, FootprintType, none))
       .export_values()
       .finalize();
 
@@ -2433,7 +2434,6 @@ The random generator.
            py::arg("neighbors") = RecordNeighborsConfig{false, 0, false},
            py::arg("use_agent_uid_as_key") = true,
            py::arg("sensing") = std::vector<RecordSensingConfig>{})
-      // DOC(navground, sim, RecordConfig, RecordConfig)
       .def_readwrite("time", &RecordConfig::time,
                      DOC(navground, sim, RecordConfig, time))
       .def_readwrite("pose", &RecordConfig::pose,
@@ -3400,8 +3400,6 @@ The array is empty if efficacy has not been recorded in the run.
           DOC(navground, sim, Experiment, record_scenario_properties))
       .def_property("path", &Experiment::get_path, nullptr,
                     DOC(navground, sim, Experiment, property_path))
-      // .def("add_callback", &Experiment::add_callback, py::arg("callback"),
-      //      DOC(navground, sim, Experiment, add_callback))
       .def_property(
           "scenario_init_callback", &Experiment::get_scenario_init_callback,
           &Experiment::set_scenario_init_callback,
@@ -3414,10 +3412,6 @@ The array is empty if efficacy has not been recorded in the run.
       .def("add_run_callback", &PyExperiment::add_run_callback_py,
            py::arg("callback"), py::arg("at_init") = false,
            DOC(navground, sim, Experiment, add_run_callback))
-      // .def("add_run_callback", &Experiment::add_run_callback,
-      //      py::arg("callback"), py::arg("at_init") = false,
-      //      py::keep_alive<1, 2>(),
-      //      DOC(navground, sim, Experiment, add_run_callback))
       .def("run_once", &Experiment::run_once, py::arg("seed"),
            py::return_value_policy::reference,
            DOC(navground, sim, Experiment, run_once))
@@ -3540,6 +3534,9 @@ Register a probe to record a group of data to during all runs.
   py::class_<AgentSampler<PyWorld>, Scenario::Group,
              std::shared_ptr<AgentSampler<PyWorld>>>
       agent_sampler(m, "AgentSampler");
+
+  py::class_<PropertySampler, std::shared_ptr<PropertySampler>> sampler(
+      m, "Sampler", DOC(navground, sim, PropertySampler));
 
   agent_sampler
       .def("dump", &YAML::dump<AgentSampler<PyWorld>>, YAML::dump_doc())
@@ -3807,9 +3804,6 @@ Draws a sample using the world's random generator.
                     DOC(navground, sim, CrossTorusScenario,
                         property_add_safety_to_agent_margin));
 
-  py::class_<PropertySampler, std::shared_ptr<PropertySampler>> sampler(
-      m, "Sampler", DOC(navground, sim, PropertySampler));
-
   sampler.def("__repr__", &sampler_to_string)
       .def(
           "sample",
@@ -3898,9 +3892,9 @@ Returns the bundle json-schema
       "Returns whether navground has been compiled to use floats or doubles");
 
   m.def("get_build_info", &navground::sim_py::build_info,
-        DOC(navground, core, get_build_info));
+        DOC(navground, sim, get_build_info));
   m.def("get_build_dependencies", &build_dependencies_sim_py,
-        DOC(navground, core, get_build_dependencies));
+        DOC(navground, sim, get_build_dependencies));
   // m.def("load_plugins", &load_plugins, py::arg("plugins") = "",
   //       py::arg("env") = "", py::arg("directory") = py::none());
 }

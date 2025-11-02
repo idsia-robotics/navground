@@ -56,7 +56,7 @@ def load_sensor(value: str) -> Sensor | None:
     return Sensor.load(value)
 
 
-_copy_doc(load_state_estimation, StateEstimation)
+_copy_doc(load_sensor, Sensor)
 
 
 def load_task(value: str) -> Task | None:

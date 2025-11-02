@@ -2142,7 +2142,7 @@ Initializes a buffer.
           },
           DOC(navground, core, BehaviorGroupMember, get_group_hash))
       .def_property("group", &BehaviorGroupMember::get_group, nullptr,
-                    DOC(navground, core, BehaviorGroup, property_group));
+                    DOC(navground, core, BehaviorGroupMember, property, group));
 
   m.def("load_plugins", &load_plugins, py::arg("plugins") = py::set(),
         py::arg("directories") = py::dict(), py::arg("include_default") = true,

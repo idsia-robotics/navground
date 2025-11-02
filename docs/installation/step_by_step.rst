@@ -57,8 +57,8 @@ Dependencies
 
 The core library depends on ``eigen``, ``yaml-cpp``, and ``argparse``
 
-Eigen 3
-^^^^^^^
+Eigen
+^^^^^
 
 Installation from source
 """"""""""""""""""""""""

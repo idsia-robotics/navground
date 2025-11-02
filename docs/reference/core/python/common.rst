@@ -38,15 +38,7 @@ Two dimensional
 
    On the contrary, pybind11 functions documented to return :py:type:`Vector2` do return this type.
 
-.. autoclass:: Frame
-
-   .. autoattribute:: relative
-
-      agent-fixed frame
-
-   .. autoattribute:: absolute
-
-      world-fixed frame
+.. autoenum:: navground.core.Frame
 
 .. autoclass:: Pose2
    :members:

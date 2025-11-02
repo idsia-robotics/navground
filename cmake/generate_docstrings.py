@@ -76,6 +76,8 @@ def main():
             f.write('#define DOC(...) ""')
         return
 
+    header = header.replace("std::runtime_error", "RuntimeError")
+
     with open(python_src, 'r') as f:
         python = f.read()
 
@@ -83,13 +85,16 @@ def main():
         "NativeAgent": "Agent",
         "NativeWorld": "World",
         "Heading": "Behavior.Heading",
-        "Field": "PropertyField"
+        "Field": "PropertyField",
+        "Scan": "LidarStateEstimation.Scan",
+        "FootprintType": "LocalGridMapStateEstimation.FootprintType",
+        "ReferenceOrientation": "MarkerStateEstimation.ReferenceOrientation"
     }
 
     _methods = re.findall(r".def\(\"(\w+)\",", python)
     _properties = re.findall(r".def_property\(\"(\w+)\",", python)
 
-    header = re.sub(r"\\ref\s+(\w*::)*(\w+)", ref(_renamed_classes, _methods, {'max_angular_speed', 'max_speed'}), header)
+    header = re.sub(r"\\ref\s+(\w*::)*(\w+)", ref(_renamed_classes, _methods, {'max_angular_speed', 'max_speed', 'name'}), header)
     extras = ''
     exposed_properties = set()
 

@@ -46,7 +46,7 @@ struct NAVGROUND_SIM_EXPORT GoToPoseTask : WaypointsTask {
       std::numeric_limits<ng_float_t>::infinity();
 
   inline static const core::Vector2 default_point = core::Vector2::Zero();
-      
+
   /**
    * @brief      Constructs a new instance.
    *

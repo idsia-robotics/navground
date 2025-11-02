@@ -6,5 +6,4 @@ An alternative implementation to :py:class:`navground.sim.state_estimations.Lida
 
 .. autoclass:: navground.sim.state_estimations.PyLidarStateEstimation
    :members:
-   :undoc-members:
    :show-inheritance:

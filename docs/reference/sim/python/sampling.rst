@@ -6,12 +6,9 @@ Sampling
 
 We partially expose to Python the class :cpp:class:`navground::sim::PropertySampler`, which generates values of type :py:type:`navground.core.PropertyField`: booleans, integers, floating-point numbers, strings, 2D vectors, and list of these scalar types.
 
-
 .. autoclass:: navground.sim.Sampler
    :members:
    :exclude-members: __init__
-
-.. autofunction:: navground.sim.load_sampler
 
 Samplers cannot be introspected and modified from Python but can be loaded from YAML:
 
@@ -61,7 +58,6 @@ Agents
    :members:
    :exclude-members: __init__, __new__
 
-.. autofunction:: navground.sim.load_group
     
 
 

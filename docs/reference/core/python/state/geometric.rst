@@ -12,4 +12,5 @@ Geometric
     :members:
 
 .. autoclass:: navground.core.GeometricState
-    :members:
+   :members:
+   :show-inheritance:

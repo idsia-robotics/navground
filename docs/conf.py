@@ -25,22 +25,12 @@ release = '0.7.0.dev'
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#general-configuration
 
 extensions = [
-    'sphinx.ext.autodoc',
-    'sphinx.ext.todo',
-    'breathe',
-    'sphinx_rtd_theme',
-    'nbsphinx',
-    'sphinx_tabs.tabs',
-    'sphinxarg.ext',
-    'sphinx_design',
-    'sphinx_toolbox.collapse',
-    'sphinxcontrib.luadomain',
-    'sphinxcontrib.video',
-    'sphinx_copybutton',
-    'sphinxcontrib.tikz',
-    'sphinx.ext.intersphinx',
-    'sphinx-prompt',
-    'sphinxcontrib.programoutput'
+    'sphinx.ext.autodoc', 'sphinx.ext.todo', 'breathe', 'sphinx_rtd_theme',
+    'nbsphinx', 'sphinx_tabs.tabs', 'sphinxarg.ext', 'sphinx_design',
+    'sphinx_toolbox.collapse', 'sphinxcontrib.luadomain',
+    'sphinxcontrib.video', 'sphinx_copybutton', 'sphinxcontrib.tikz',
+    'sphinx.ext.intersphinx', 'sphinx-prompt', 'sphinxcontrib.programoutput',
+    'enum_tools.autoenum'
     # 'sphinx_autodoc_defaultargs'
 ]
 
@@ -56,8 +46,13 @@ intersphinx_mapping = {
 tikz_resolution = 600
 
 templates_path = ['_templates']
-exclude_patterns = ['_build', 'Thumbs.db', '.DS_Store']
-# + ['tutorials', 'packages', 'guides', 'installation', 'scenarios', 'background', 'first_steps.rst', 'cli.rst', 'introduction.rst']
+exclude_patterns = [
+    '_build', 'Thumbs.db', '.DS_Store', '**/sensor_combination.rst'
+]
+#  + [
+#     'tutorials', 'packages', 'guides', 'installation', 'scenarios',
+#     'background', 'first_steps.rst', 'cli.rst', 'introduction.rst'
+# ]
 
 language = 'en'
 
@@ -81,7 +76,6 @@ html_theme_options = {
     # C++ is working fine. So I just keep them open.
     "show_toc_level": 3
 }
-
 
 # -- Options for todo extension ----------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/extensions/todo.html#configuration
@@ -112,61 +106,112 @@ autodoc_type_aliases = {
     'TaskCallback': 'TaskCallback',
     'Vector2': 'Vector2',
     'core.Vector2': 'core.Vector2',
+    'navground.core.Vector2': 'navground.core.Vector2',
+    'Vector2Like': 'Vector2Like',
+    'core.Vector2Like': 'core.Vector2Like',
+    'navground.core.Vector2Like': 'navground.core.Vector2Like',
     'Cell': 'Cell',
     'CellLike': 'CellLike',
     'Map': 'Map',
-    'navground.core.Vector2': 'navground.core.Vector2',
     'T': 'T',
     'Rect': 'Rect',
     'Schema': 'Schema'
 }
 
 _replace = {
-    "dict[str, object]": "navground.core.schema.Schema",
-    "dict[str, typing.Any]": "navground.core.schema.Schema",
-    "tuple[Vector2, Vector2]": "Bounds",
-    "tuple[navground.core.Vector2, navground.core.Vector2]": "Bounds",
-    "tuple[core.Vector2, core.Vector2]": "Bounds",
-    "::core::Behavior": "",
-    "::core::BehaviorModulation": "",
-    "::core::Kinematics": "",
-    "::sim::Task": "",
-    "::sim::StateEstimation": "",
-    "::sim::Scenario": "",
-    "_navground.": "",
-    "_navground_sim.": "",
-    'NativeAgent': 'Agent',
-    'NativeWorld': 'World',
-    'Annotated[numpy.typing.NDArray[numpy.uint8], "[m, n]", "flags.writeable", "flags.c_contiguous"]': "Map",
-    'typing.Annotated[numpy.typing.NDArray[numpy.uint8], "[m, n]", "flags.writeable", "flags.c_contiguous"]': "Map",
-    'typing.Annotated[numpy.typing.NDArray[numpy.int32], "[2, 1]"]': "Cell",
-    'typing.Annotated[numpy.typing.ArrayLike, numpy.int32, "[2, 1]"]': "CellLike",
-    'Annotated[numpy.typing.NDArray[numpy.int32], "[2, 1]"]': "Cell",
-    'Annotated[numpy.typing.ArrayLike, numpy.int32, "[2, 1]"]': "CellLike",
-    "numpy.ndarray[numpy.uint8[m, n], flags.writeable, flags.c_contiguous]": "Map",
-    'typing.Annotated[numpy.typing.NDArray[numpy.float32], "[2, 1]"]': "Vector2",
-    'typing.Annotated[numpy.typing.ArrayLike, numpy.float32, "[2, 1]"]': "Vector2Like",
-    'typing.Annotated[numpy.typing.NDArray[numpy.float64], "[2, 1]"]': "Vector2",
-    'typing.Annotated[numpy.typing.ArrayLike, numpy.float64, "[2, 1]"]': "Vector2Like",
-    'Annotated[numpy.typing.NDArray[numpy.float32], "[2, 1]"]': "Vector2",
-    'Annotated[numpy.typing.ArrayLike, numpy.float32, "[2, 1]"]': "Vector2Like",
-    'Annotated[numpy.typing.NDArray[numpy.float64], "[2, 1]"]': "Vector2",
-    'Annotated[numpy.typing.ArrayLike, numpy.float64, "[2, 1]"]': "Vector2Like",
-    "bool | int | float | str | Vector2 | list[bool] | list[int] | list[float] | list[str] | list[Vector2]": "PropertyField",
-    "Union[bool, int, float, str, Vector2, List[bool], List[int], List[float], List[str], List[Vector2]]": "PropertyField",
-    "Callable[[List[float]], None]": "TaskCallback",
-    'collections.abc.Callable[[typing.Annotated[numpy.typing.ArrayLike, numpy.float32, "[2, 1]"], typing.SupportsFloat, typing.SupportsFloat], float]': "Projection",
-    'collections.abc.Callable[[Vector2Like, typing.SupportsFloat, typing.SupportsFloat], float]': "Projection",
-    'collections.abc.Callable[[typing.SupportsFloat], tuple[typing.Annotated[numpy.typing.NDArray[numpy.float32], "[2, 1]"], float, float]]': "Curve",
-    'collections.abc.Callable[[typing.SupportsFloat], tuple[Vector2, float, float]]': "Curve",
-    "navground.sim.MarkerStateEstimation.ReferenceOrientation": "ReferenceOrientation",
-    'navground.sim.LocalGridMapStateEstimation.FootprintType': 'FootprintType',
-    'collections.abc.Callable[[collections.abc.Sequence[typing.SupportsFloat]], None]': "TaskCallback",
-    'bool | typing.SupportsInt | typing.SupportsFloat | str | Vector2Like | collections.abc.Sequence[bool] | collections.abc.Sequence[typing.SupportsInt] | collections.abc.Sequence[typing.SupportsFloat] | collections.abc.Sequence[str] | collections.abc.Sequence[Vector2Like]': "PropertyFieldLike"
+    "Indices":
+    "list[int] | slice",
+    "np":
+    "numpy",
+    "dict[str, object]":
+    "navground.core.schema.Schema",
+    "dict[str, typing.Any]":
+    "navground.core.schema.Schema",
+    "tuple[Vector2, Vector2]":
+    "Bounds",
+    "tuple[navground.core.Vector2, navground.core.Vector2]":
+    "Bounds",
+    "tuple[core.Vector2, core.Vector2]":
+    "Bounds",
+    "::core::Behavior":
+    "",
+    "::core::BehaviorModulation":
+    "",
+    "::core::Kinematics":
+    "",
+    "::sim::Task":
+    "",
+    "::sim::StateEstimation":
+    "",
+    "::sim::Scenario":
+    "",
+    "_navground.":
+    "",
+    "_navground_sim.":
+    "",
+    'NativeAgent':
+    'Agent',
+    'NativeWorld':
+    'World',
+    'Annotated[numpy.typing.NDArray[numpy.uint8], "[m, n]", "flags.writeable", "flags.c_contiguous"]':
+    "Map",
+    'typing.Annotated[numpy.typing.NDArray[numpy.uint8], "[m, n]", "flags.writeable", "flags.c_contiguous"]':
+    "Map",
+    'typing.Annotated[numpy.typing.NDArray[numpy.int32], "[2, 1]"]':
+    "Cell",
+    'typing.Annotated[numpy.typing.ArrayLike, numpy.int32, "[2, 1]"]':
+    "CellLike",
+    'Annotated[numpy.typing.NDArray[numpy.int32], "[2, 1]"]':
+    "Cell",
+    'Annotated[numpy.typing.ArrayLike, numpy.int32, "[2, 1]"]':
+    "CellLike",
+    "numpy.ndarray[numpy.uint8[m, n], flags.writeable, flags.c_contiguous]":
+    "Map",
+    'typing.Annotated[numpy.typing.NDArray[numpy.float32], "[2, 1]"]':
+    "Vector2",
+    'typing.Annotated[numpy.typing.ArrayLike, numpy.float32, "[2, 1]"]':
+    "Vector2Like",
+    'typing.Annotated[numpy.typing.NDArray[numpy.float64], "[2, 1]"]':
+    "Vector2",
+    'typing.Annotated[numpy.typing.ArrayLike, numpy.float64, "[2, 1]"]':
+    "Vector2Like",
+    'Annotated[numpy.typing.NDArray[numpy.float32], "[2, 1]"]':
+    "Vector2",
+    'Annotated[numpy.typing.ArrayLike, numpy.float32, "[2, 1]"]':
+    "Vector2Like",
+    'Annotated[numpy.typing.NDArray[numpy.float64], "[2, 1]"]':
+    "Vector2",
+    'Annotated[numpy.typing.ArrayLike, numpy.float64, "[2, 1]"]':
+    "Vector2Like",
+    "bool | int | float | str | Vector2 | list[bool] | list[int] | list[float] | list[str] | list[Vector2]":
+    "PropertyField",
+    "Union[bool, int, float, str, Vector2, List[bool], List[int], List[float], List[str], List[Vector2]]":
+    "PropertyField",
+    "Callable[[List[float]], None]":
+    "TaskCallback",
+    'collections.abc.Callable[[typing.Annotated[numpy.typing.ArrayLike, numpy.float32, "[2, 1]"], typing.SupportsFloat, typing.SupportsFloat], float]':
+    "Projection",
+    'collections.abc.Callable[[Vector2Like, typing.SupportsFloat, typing.SupportsFloat], float]':
+    "Projection",
+    'collections.abc.Callable[[typing.SupportsFloat], tuple[typing.Annotated[numpy.typing.NDArray[numpy.float32], "[2, 1]"], float, float]]':
+    "Curve",
+    'collections.abc.Callable[[typing.SupportsFloat], tuple[Vector2, float, float]]':
+    "Curve",
+    "navground.sim.MarkerStateEstimation.ReferenceOrientation":
+    "ReferenceOrientation",
+    'navground.sim.LocalGridMapStateEstimation.FootprintType':
+    'FootprintType',
+    'collections.abc.Callable[[collections.abc.Sequence[typing.SupportsFloat]], None]':
+    "TaskCallback",
+    'bool | typing.SupportsInt | typing.SupportsFloat | str | Vector2Like | collections.abc.Sequence[bool] | collections.abc.Sequence[typing.SupportsInt] | collections.abc.Sequence[typing.SupportsFloat] | collections.abc.Sequence[str] | collections.abc.Sequence[Vector2Like]':
+    "PropertyFieldLike",
+    "TypeAliasForwardRef('core.Vector2')":
+    'navground.core.Vector2',
 }
 
+
 def f(app, what, name, obj, options, lines):
-    # print(f"F {what} {name} {obj}")
+    # print(f"F {what} {name} {obj} {lines}")
     if what == "property":
         if not hasattr(obj.fget, '__annotations__'):
             docs = obj.fget.__doc__
@@ -187,12 +232,15 @@ def f(app, what, name, obj, options, lines):
     for i, _ in enumerate(lines):
         if 'self' in lines[i]:
             lines[i] = re.sub(r"self: (\w+\.?)+,?\s*", "", lines[i])
-        # print(lines)
+        # print('L', lines)
         for k, v in _replace.items():
             if k in lines[i]:
                 lines[i] = lines[i].replace(k, v)
         if ':py:class:`Vector2`' in lines[i]:
-            lines[i] = lines[i].replace(':py:class:`Vector2`', ':py:class:`Vector2 <navground.core.Vector2>`')
+            lines[i] = lines[i].replace(
+                ':py:class:`Vector2`',
+                ':py:class:`Vector2 <navground.core.Vector2>`')
+
 
 def g(app, what, name, obj, options, signature, return_annotation):
     # print(f"G {name} {obj} {signature} {return_annotation}")
@@ -200,36 +248,49 @@ def g(app, what, name, obj, options, signature, return_annotation):
     # return (signature, return_annotation)
     if signature:
         signature = re.sub(r"self: (\w+\.?)+,?\s*", "", signature)
-        # print(signature)
         for k, v in _replace.items():
             if k in signature:
                 signature = signature.replace(k, v)
-        # print(signature)
     if return_annotation:
         for k, v in _replace.items():
             if k in return_annotation:
                 return_annotation = return_annotation.replace(k, v)
         # print(return_annotation)
     # if (what == 'property' and return_annotation is None):
-        # print('set sig of ', name)
-        # return_annotation = '-> int'
-        # signature = '()'
+    # print('set sig of ', name)
+    # return_annotation = '-> int'
+    # signature = '()'
     return (signature, return_annotation)
+
 
 def h(app, obj, bound_method):
     print('h', obj)
+
 
 def l(app, domain, objtype, contentnode):
     if objtype == 'property':
         print(app, domain, objtype, contentnode)
 
+
 reftarget_aliases = {}
 reftarget_aliases['py'] = {
-    'navground.sim.LocalGridMapStateEstimation.FootprintType': 'navground.sim.state_estimations.LocalGridMapStateEstimation.FootprintType',
-    'navground.sim.LocalGridMapStateEstimation': 'navground.sim.state_estimations.LocalGridMapStateEstimation',
-    'navground.sim.OdometryStateEstimation': 'navground.sim.state_estimations.OdometryStateEstimation',
-    'navground.sim.LidarStateEstimation': 'navground.sim.state_estimations.LidarStateEstimation',
-    'navground.sim.LidarStateEstimation.Scan': 'navground.sim.state_estimations.LidarStateEstimation.Scan',
+    "SVG": "IPython.display.SVG",
+    "HTML": "IPython.display.HTML",
+    "Axes": "matplotlib.axes.Axes",
+    "Affine2D": "matplotlib.transforms.Affine2D",
+    "Sensor": "navground.sim.Sensor",
+    "Sensor.name": "navground.sim.Sensor.name",
+    "Sensor.update": "navground.sim.Sensor.update",
+    'navground.sim.LocalGridMapStateEstimation.FootprintType':
+    'navground.sim.state_estimations.LocalGridMapStateEstimation.FootprintType',
+    'navground.sim.LocalGridMapStateEstimation':
+    'navground.sim.state_estimations.LocalGridMapStateEstimation',
+    'navground.sim.OdometryStateEstimation':
+    'navground.sim.state_estimations.OdometryStateEstimation',
+    'navground.sim.LidarStateEstimation':
+    'navground.sim.state_estimations.LidarStateEstimation',
+    'navground.sim.LidarStateEstimation.Scan':
+    'navground.sim.state_estimations.LidarStateEstimation.Scan',
     'navground.core._navground.Behavior': 'navground.core.Behavior',
     'navground.core._navground.Kinematics': 'navground.core.Kinematics',
     'Behavior': 'navground.core.Behavior',
@@ -237,6 +298,7 @@ reftarget_aliases['py'] = {
     'navground.sim._navground_sim.NativeAgent': 'navground.sim.Agent',
     'navground.sim._navground_sim.NativeWorld': 'navground.sim.World',
     'Controller.go_to_position': 'navground.core.Controller.go_to_position',
+    'Controller.go_to_pose': 'navground.core.Controller.go_to_pose',
     'navground.register': 'navground.core.register',
     'Vector2': 'navground.core.Vector2',
     'typing.Map': 'Map',
@@ -254,22 +316,25 @@ reftarget_aliases['py'] = {
     'GeometricState': 'navground.core.GeometricState',
     'ndarray[tuple[Literal[2]], dtype[float64]]': 'navground.core.Vector2',
     'HLBehavior': 'navground.core.behaviors.HLBehavior',
-    'DynamicTwoWheelsDifferentialDriveKinematics': 'navground.core.kinematics.DynamicTwoWheelsDifferentialDriveKinematics',
+    'DynamicTwoWheelsDifferentialDriveKinematics':
+    'navground.core.kinematics.DynamicTwoWheelsDifferentialDriveKinematics',
     'SensingState': 'navground.core.SensingState',
     'EnvironmentState': 'navground.core.EnvironmentState',
     'stateestimation.update': 'navground.sim.StateEstimation.update',
     'stateestimation.prepare': 'navground.sim.StateEstimation.prepare',
+    'Annotated[numpy.typing.ArrayLike, np.floating[Any], "[2, 2]"]': 'Rect',
     'Rect': 'navground.sim.ui.Rect',
     'Task': 'navground.sim.Task',
     'StateEstimation': 'navground.sim.StateEstimation',
     'WheeledKinematics': 'navground.core.kinematics.WheeledKinematics',
-    'twowheelsdifferentialdrivekinematics.wheel_axis': 'navground.core.kinematics.TwoWheelsDifferentialDriveKinematics.wheel_axis',
+    'twowheelsdifferentialdrivekinematics.wheel_axis':
+    'navground.core.kinematics.TwoWheelsDifferentialDriveKinematics.wheel_axis',
     'Task.add_callback': 'navground.sim.Task.add_callback',
     'StateEstimation.update': 'navground.sim.StateEstimation.update',
     'sim.Experiment.number_of_runs': 'navground.sim.Experiment.number_of_runs',
     'navground.core.ORCALine': 'navground.core.behaviors.ORCALine',
-    'SchemaModifier': 'navground.sim.schema.SchemaModifier',
-    'Schema': 'navground.sim.schema.Schema',
+    'SchemaModifier': 'navground.core.schema.SchemaModifier',
+    'Schema': 'navground.core.schema.Schema',
     # 'navground.sim.MarkerStateEstimation.ReferenceOrientation': 'ReferenceOrientation',
     # 'navground.sim.LidarStateEstimation.Scan': 'Scan',
     # 'navground.sim.state_estimations.LocalGridMapStateEstimation.FootprintType': 'FootprintType'
@@ -291,22 +356,60 @@ reftarget_aliases['cpp'] = {
     'Properties': 'navground::core::Properties',
 }
 
+_replace_ref = {
+    "TypeAliasForwardRef('core.Vector2')": 'navground.core.Vector2',
+}
+
 from docutils.nodes import Text, reference
 from sphinx.ext.intersphinx import missing_reference
 from sphinx.addnodes import pending_xref
 
-
 core_cpp_classes = [
-    'Behavior', 'Kinematics', 'Neighbor',
-    'Vector2', 'Twist2', 'Pose2', 'Controller',
-    'Disc', 'LineSegment', 'EnvironmentState',
-    'BehaviorModulation', 'Properties',
+    'Behavior',
+    'Kinematics',
+    'Neighbor',
+    'Vector2',
+    'Twist2',
+    'Pose2',
+    'Controller',
+    'Disc',
+    'LineSegment',
+    'EnvironmentState',
+    'BehaviorModulation',
+    'Properties',
 ]
 
-_types = ['navground.core.Vector2', 'core.Vector2', 'Vector2', 'Vector2Like', 'PropertyField',
-          'T', 'Curve', 'Map', 'Cell', 'CellLike', 'Schema', 'PropertyFieldLike',
-          'Projection', 'TaskCallback', 'Decorate', 'Rect', 'navground.core.schema.Schema']
-_attrs = ['numpy.float64', 'numpy.float32']
+_types = [
+    'navground.core.Vector2',
+    'core.Vector2',
+    'Vector2',
+    'Vector2Like',
+    'PropertyField',
+    'T',
+    'Curve',
+    'Map',
+    'Cell',
+    'CellLike',
+    'Schema',
+    'SchemaModifier',
+    'PropertyFieldLike',
+    'Projection',
+    'TaskCallback',
+    'Decorate',
+    'Rect',
+    'navground.core.schema.Schema',
+    'ScenarioInitCallback',
+]
+_attrs = [
+    'numpy.uint8', 'numpy.float64', 'numpy.float32', 'numpy.int64',
+    'numpy.int32'
+]
+
+_data = ['numpy.typing.NDArray', 'numpy.typing.ArrayLike']
+
+_meths = []
+
+
 def resolve_internal_aliases(app, doctree):
     pending_xrefs = doctree.traverse(condition=pending_xref)
     for node in pending_xrefs:
@@ -316,6 +419,10 @@ def resolve_internal_aliases(app, doctree):
                 node["reftype"] = "type"
             elif node['reftarget'] in _attrs:
                 node["reftype"] = "attr"
+            elif node['reftarget'] in _data:
+                node["reftype"] = "data"
+            elif node['reftarget'] in _meths:
+                node["reftype"] = "meth"
     for node in pending_xrefs:
         alias = node.get('reftarget', None)
         d = node.get('refdomain', '')
@@ -345,8 +452,8 @@ def missing_reference(app, env, node, contnode):
 
 
 def setup(app):
-    app.connect('autodoc-process-docstring', f);
-    app.connect('autodoc-process-signature', g);
+    app.connect('autodoc-process-docstring', f)
+    app.connect('autodoc-process-signature', g)
     # app.connect('missing-reference', missing_reference)
     app.connect('doctree-read', resolve_internal_aliases)
     app.add_directive('schema', SchemaDirective)

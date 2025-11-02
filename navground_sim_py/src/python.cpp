@@ -46,7 +46,9 @@
 #include "navground/sim/state_estimations/gridmap_state_estimation.h"
 #include "navground/sim/state_estimations/sensor.h"
 #include "navground/sim/state_estimations/sensor_boundary.h"
+#ifdef SENSOR_COMBINATION
 #include "navground/sim/state_estimations/sensor_combination.h"
+#endif
 #include "navground/sim/state_estimations/sensor_discs.h"
 #include "navground/sim/state_estimations/sensor_lidar.h"
 #include "navground/sim/state_estimations/sensor_marker.h"
@@ -2163,6 +2165,7 @@ The random generator.
                     &BoundarySensor::set_max_y,
                     DOC(navground, sim, BoundarySensor, property_max_y));
 
+#ifdef SENSOR_COMBINATION
   py::class_<SensorCombination, Sensor, StateEstimation,
              std::shared_ptr<SensorCombination>>
       cse(m, "SensorCombination", DOC(navground, sim, SensorCombination));
@@ -2172,6 +2175,7 @@ The random generator.
       .def_property("sensors", &SensorCombination::get_sensors,
                     &SensorCombination::set_sensors,
                     DOC(navground, sim, SensorCombination, property_sensors));
+#endif
 
   task.def(py::init<>())
       // .def("update", &Task::update)
@@ -3854,7 +3858,9 @@ Load a Sampler from a YAML string.
   pickle_via_yaml<PyStateEstimation>(lse);
   pickle_via_yaml<PyStateEstimation>(ose);
   pickle_via_yaml<PyStateEstimation>(dse);
+#ifdef SENSOR_COMBINATION
   pickle_via_yaml<PyStateEstimation>(cse);
+#endif
   pickle_via_yaml<PyStateEstimation>(sse);
   pickle_via_yaml<PyStateEstimation>(marker_se);
   pickle_via_yaml<PyStateEstimation>(gmse);

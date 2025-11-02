@@ -213,10 +213,12 @@ void World::add_wall(const LineSegment &wall) {
   static_strtree_is_updated = false;
 }
 
-void World::add_wall(const Wall &wall) {
-  if (entities.count(wall.uid) == 0) {
-    walls.push_back(std::make_shared<Wall>(wall));
-    add_entity(walls.back().get());
+void World::add_wall(const std::shared_ptr<Wall> &wall) {
+  if (!wall)
+    return;
+  if (entities.count(wall->uid) == 0) {
+    walls.push_back(wall);
+    add_entity(wall.get());
     ready = false;
     static_strtree_is_updated = false;
   } else {
@@ -231,10 +233,12 @@ void World::add_obstacle(const Disc &obstacle) {
   static_strtree_is_updated = false;
 }
 
-void World::add_obstacle(const Obstacle &obstacle) {
-  if (entities.count(obstacle.uid) == 0) {
-    obstacles.push_back(std::make_shared<Obstacle>(obstacle));
-    add_entity(obstacles.back().get());
+void World::add_obstacle(const std::shared_ptr<Obstacle> &obstacle) {
+  if (!obstacle)
+    return;
+  if (entities.count(obstacle->uid) == 0) {
+    obstacles.push_back(obstacle);
+    add_entity(obstacle.get());
     ready = false;
     static_strtree_is_updated = false;
   } else {
@@ -274,7 +278,6 @@ void World::set_walls(const std::vector<Wall> &values) {
   }
   static_strtree_is_updated = false;
 }
-
 
 void World::prepare() {
   // TODO(Jerome) Should only execute it once if not already prepared.
@@ -541,12 +544,14 @@ std::vector<Agent *> World::get_agents_in_deadlock(ng_float_t duration) const {
 // TODO(J): spare recomputing the envelops?
 void World::update_agent_collisions(Agent *a1) {
   // const BoundingBox &bb = agent_envelops[i];
-  if (a1->get_ignore_collisions()) return;
+  if (a1->get_ignore_collisions())
+    return;
   const BoundingBox bb = envelop(a1->pose.position, a1->radius);
   for (const auto &[d, lbb] : subdivide_bounding_box(bb)) {
     const Vector2 &delta = d;
     agent_index->query(lbb, [this, a1, &delta](Agent *a2) {
-      if (a2->get_ignore_collisions()) return;
+      if (a2->get_ignore_collisions())
+        return;
       if (a1->uid < a2->uid) {
         if (resolve_collision(a1, a2, delta)) {
           record_collision(a1, a2);
@@ -554,14 +559,16 @@ void World::update_agent_collisions(Agent *a1) {
       }
     });
     obstacles_index->query(lbb, [this, a1, &delta](Obstacle *o) {
-      if (o->get_ignore_collisions()) return;
+      if (o->get_ignore_collisions())
+        return;
       if (resolve_collision(a1, &(o->disc), delta)) {
         record_collision(a1, o);
       }
     });
   }
   walls_index->query(bb, [this, a1](Wall *w) {
-    if (w->get_ignore_collisions()) return;
+    if (w->get_ignore_collisions())
+      return;
     if (resolve_collision(a1, &(w->line))) {
       record_collision(a1, w);
     }

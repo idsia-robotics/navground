@@ -1,5 +1,7 @@
 # Changelog
 
+## [0.8.0] unreleased
+
 ## [0.7.0] 2025-11-02
 
 Maintenance releases with few fixes and changes.

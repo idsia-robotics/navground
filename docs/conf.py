@@ -19,7 +19,7 @@ from ng_command_output import NGCommandDirective
 project = 'navground'
 copyright = '2023, Jérôme Guzzi, IDSIA'
 author = 'Jérôme Guzzi, IDSIA'
-release = '0.7.0.dev'
+release = '0.8.0.dev'
 
 # -- General configuration ---------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#general-configuration

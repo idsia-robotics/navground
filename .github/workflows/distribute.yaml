@@ -4,8 +4,8 @@ on:
   push:
     tags:
       - '*'
-    branches:
-      - 'releases/**'
+    tags-ignore:
+      - '*-*'
 jobs:
   build_cpp:
     uses: ./.github/workflows/build_cpp.yaml
